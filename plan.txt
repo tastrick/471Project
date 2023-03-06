@@ -1,0 +1,30 @@
+ENTITIES:
+
+1. provinces
+2. cities 
+3. job
+4. house
+4. food
+5. community support (specific things going on in the city)
+6. transportation information
+7. cost rating (based on cost of living and average salary * percentage of jobs in the area with that or something)
+8. general stores (clothing/furniture)
+9. money information (federal / provincial taxes/ banking information for canada)
+10. health care (kids help phone in ukraine language)
+11. schooling for kids and adults
+
+RELATIONSHIPS:
+
+1. provinces contain cities 
+2. cities have available jobs
+3. cities contain houses
+4. cities have places available to get food
+5. cities have community support 
+6. cities have a cost rating 
+7. provinces have a cost rating
+8. cities have general stores 
+9. provinces have money information
+10. provinces have health care information
+11. cities have health care information
+12. cities have schooling for kids
+
