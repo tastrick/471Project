@@ -1,0 +1,57 @@
+.amenities-container{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:transparent;
+}
+.inner-cont{
+    position:relative;
+    left:5px;
+    top:5px;
+    width:calc(100% - 10px);
+    height: calc(100% - 280px);
+    border: 1px solid black;
+    border-radius:2px;
+}
+.city-selection{
+    position:relative;
+    width:25%;
+    height:100%;
+    background:transparent;
+    border-right:1px solid black;
+}
+.city-list-header{
+    position:relative;
+    width:90%;
+    height:100%;
+    text-align:center;
+     text-transform: uppercase;
+     font-family: serif;
+     font-size: calc(2.5vw - 10px);
+     letter-spacing: 3px;
+}
+.cities{
+    position:relative;
+    width:80%;
+    height:100%;
+    background:transparent;
+     overflow:hidden;
+    overflow-y:scroll;
+    list-style-type:none;
+}
+
+.cities li{
+    position:relative;
+    left:-10px;
+    width:90%;
+    height:30px;
+    background:transparent;
+    text-align:left;
+    text-transform: capitalize;
+    font-size: 15px;
+}
+.map{
+    position:relative;
+    width:100%;
+    height:100%;
+}

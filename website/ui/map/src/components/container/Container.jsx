@@ -1,9 +1,9 @@
 import React from "react";
 import {socket} from "./socket";
-import Map from "../map/Map"
+import Map from "../interactive-map/InteractiveMap"
 
 import './style.css'
-
+import signin from "../icons2/misc/account.png";
 //const socket = 
 
 class Container extends React.Component{
@@ -18,9 +18,7 @@ class Container extends React.Component{
         this.state = {
             
         }
-        //console.log('constructor socket', this.socket)
-        
-      // this.chatRef = React.createRef();
+
       
     }
     componentDidMount(){
@@ -30,36 +28,19 @@ class Container extends React.Component{
             this.id = this.idRef.current
             //console.log(this.id)
         });
-       // this.socket.on('recieve-users',this.recieveUsers)
-        //this.socket.on('r',this.handleMessageNotification);
-        
-        //this.socket.on('incomingCall',this.incomingCall)
-       // this.socket.on('callEnded',this.endingCall)
+
     }
     componentWillUnmount(){
-        //this.socket.removeAllListeners();
-        //this.handleExit()
+
         this.socket.off('recieve-users',this.recieveUsers)
-        //this.socket.off('recieve-id', this.handleID)
-        //console.log('unmount socket: ', this.socket)
-        // this.socket.off('r',this.handleMessageNotification);
-         //this.socket.off('incomingCall',this.incomingCall)
-        // this.socket.off('callEnded',this.endingCall)
-        //this.socket.off('recieve-users',()=>this.recieveUsers())
-        //this.socket.off('recieve-id', ()=>this.handleID())
-        //this.socket.disconnect()
-        //console.log('exiting page', this.id,this.menuRef,this.boardRef)
+    
     }
     incomingCall =(data) =>{
        
        
    }
     recieveUsers = (data) =>{
-          //if (this.id.current===null){
-              //console.log('posting',this.id)
-               //this.socketReady()
-       //}
-        //console.log(this.id)
+        
           this.users = data
          console.log(this.users)
          // console.log("recieved users: ",this.users,this.menuRef)
@@ -78,9 +59,21 @@ class Container extends React.Component{
     
     render(){
         return (
-            
+           
             <div className = "container" >
-            <Map socket = {this.socket}></Map>
+                 <div className = "home-bar-container">
+                    <div className = "home-container">
+                    </div>
+                    <div className = "sign-in-container">
+                    <div className = "icon-container">
+                    <img src= {signin}></img>
+                    </div>
+                    <div className = "text-container">
+                    Sign-in
+                    </div>
+                    </div>
+                </div>
+                <Map socket = {this.socket}></Map>
            
             </div>
          

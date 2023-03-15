@@ -5,4 +5,60 @@
     background:white;
 }
 
+.home-bar-container{
+    position:relative;
+    width:100%;
+    height:40px;
+    display:flex;
+}
+.home-container{
+    position:relative;
+    width:40px;
+    height:40px;
+    background:transparent;
+}
 
+.sign-in-container{
+    position:relative;
+    top:10px;
+    width:100px;
+    height:30px;
+    left: calc(100% - 150px);
+    background:white;
+    display:flex;
+    border-radius:60px;
+    border:1px solid black;
+    transition:filter 0.2s;
+    z-index:1000;
+}
+.sign-in-container:hover{
+    filter:invert(1);
+}
+.icon-container{
+    position:relative;
+    top:1px;
+    width:20px;
+    height:100%;
+    left:3px;
+    background:transparent;
+    
+}
+.icon-container img{
+    position:relative;
+    height:20px;
+    width:20px;
+    vertical-align:middle;
+}
+.text-container{
+    position:relative;
+    left:7px;
+    width:auto;
+    height:70%;
+    top:17%;
+    background: transparent;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    vertical-align:middle;
+}
