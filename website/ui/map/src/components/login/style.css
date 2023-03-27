@@ -1,0 +1,270 @@
+:root {
+  --color: lightgray;
+}
+.login-container{
+    position:fixed;
+    background-color:rgb(0,0,0,0.7);
+    width:100%;
+    height:100%;
+    
+    top:0px;
+    z-index:20000;
+    
+}
+.window-container{
+    position:relative;
+    width:400px;
+    height:300px;
+    background:white;
+    border-radius: 10px;
+    left:calc(50% - 200px);
+    top: calc(50% - 200px);
+    opacity:100%;
+    
+}
+
+.exit-container{
+    
+     position:relative;
+    width:35px;
+    height:35px;
+    top:-17px;
+    left: calc(100% - 35px - 5px);
+   background: url(../icons2/login/exit.png) no-repeat ;
+  background-position: 0px 0px;
+  background-size: 70% 60%;
+}
+
+.exit-container:hover{
+    
+     position:relative;
+    width:35px;
+    height:35px;
+    top:-17px;
+    left: calc(100% - 35px - 5px);
+   background: url(../icons2/login/exit.png) no-repeat ;
+  background-position: 0px 0px;
+  background-size: 70% 60%;
+   opacity:70%;
+}
+.logo-container{
+    position:relative;
+    background:transparent;
+    left:23%;
+    width:60%;
+    height:10%;
+    text-align:center;
+    font-size:32px;
+    letter-spacing: 20px; 
+    font-weight:bold;
+}
+.credentials-container{
+    position:relative;
+    background:transparent;
+    width:100%;
+    height:100px;
+    top: 20px;
+    
+}
+
+.username-container{
+    position:relative;
+    display:flex;
+    height:40%;
+    width: 60%;
+    left:20%;
+    background:transparent;
+    
+}
+.password-container{
+    position:relative;
+    display:flex;
+    height:40%;
+    width: 60%;
+    left:20%;
+    top:30%;
+    background:transparent;
+}
+input{
+    position:relative;
+    width:100%;
+    border-top-right-radius:4px;
+    border-bottom-right-radius:4px;
+    border: 2px solid gray;
+    border-left-style: hidden;
+    height:100%;
+    letter-spacing:4px;
+}
+input:focus { 
+    position:relative;
+    width:100%;
+    border-top-right-radius:4px;
+    border-bottom-right-radius:4px;
+    border: 2px solid gray;
+    border-left-style: hidden;
+    height:100%;
+    letter-spacing:4px;
+     outline: none !important;
+    border-color: var(--color);
+    box-shadow: 0 0 10px var(--color);
+ }
+.username-logo{
+    padding:0pc 3px;
+    position:relative;
+    width:20%;
+    height:106%;
+     background: url(../icons2/login/user.jpg) no-repeat ;
+     background-size: 100% 100%;
+     border: 2px solid gray;
+     border-top-left-radius:4px;
+    border-bottom-left-radius:4px;
+    border-style:groove;
+     
+}
+
+
+.password-logo{
+    padding:0pc 3px;
+    position:relative;
+    width:20%;
+    height:105%;
+     background: url(../icons2/login/password.jpg) no-repeat ;
+     background-size: 100% 100%;
+     border: 2px solid gray;
+     border-top-left-radius:4px;
+    border-bottom-left-radius:4px;
+    border-style:groove;
+     
+}
+
+.placeholder{
+    position:relative;
+    top:8px;
+    margin-left:-30px;
+    height:30px;
+    width:30px;
+}
+.openeye{
+    position:relative;
+    top:10px;
+    margin-left:-30px;
+    height:30px;
+    width:30px;
+    background:url(../icons2/login/visible.jpg) no-repeat ;
+    background-size: 80% 80%
+}
+.closedeye{
+    position:relative;
+    top:10px;
+    margin-left:-30px;
+    height:30px;
+    width:30px;
+    background:url(../icons2/login/invisible.jpg) no-repeat ;
+    background-size: 80% 80%
+}
+.enter-container{
+    position:relative;
+    background:transparent;
+    top:60px;
+}
+.submit{
+    position:relative;
+    width:61%;
+    height:30px;
+    left: 20%;
+    letter-spacing:4px;
+    font-weight:bold;
+    font-size:16px;
+    background:var(--color);
+    border: 2px solid gray;
+    border-radius:4px;
+    opacity:70%;
+}
+.submit:hover{
+    position:relative;
+    width:61%;
+    height:30px;
+    left: 20%;
+    letter-spacing:4px;
+    font-weight:bold;
+    font-size:16px;
+    background:darkgray;
+    border: 2px solid gray;
+    border-radius:4px;
+    opacity:80%;
+}
+.submit:active{
+    position:relative;
+    width:61%;
+    height:30px;
+    left: 20%;
+    letter-spacing:4px;
+    font-weight:bold;
+    font-size:16px;
+    background:gray;
+    border: 2px solid gray;
+    border-radius:4px;
+    opacity:100%;
+}
+.button-container{
+    position:relative;
+    top:20px;
+}
+.guest-submit{
+    position:relative;
+    width:61%;
+    height:30px;
+    left: 20%;
+    top:80px;
+    letter-spacing:4px;
+    font-weight:bold;
+    font-size:16px;
+    border: 2px solid gray;
+    border-radius:4px;
+    opacity:70%;
+}
+.guest-submit:hover{
+    position:relative;
+    width:61%;
+    height:30px;
+    left: 20%;
+    top:80px;
+    letter-spacing:4px;
+    font-weight:bold;
+    font-size:16px;
+    border: 2px solid gray;
+    border-radius:4px;
+    opacity:100%;
+}
+.or{
+    position:relative;
+    background:transparent;
+    top:70px;
+    text-align:center;
+    font-size:15px;
+    font-weight:bold;
+    letter-spacing:3px;
+}
+.sign-up-container{
+    position:relative;
+    width:120px;
+    height:20px;
+    background:transparent;
+    top:40px;
+    left:70%;
+    font-size:12px;
+    opacity:50%;
+    letter-spacing:1px;
+}
+
+.forgot-container{
+    position:relative;
+    width:120px;
+    height:20px;
+    background:transparent;
+    top:40px;
+    left:8%;
+    font-size:12px;
+    opacity:50%;
+    letter-spacing:1px;
+}

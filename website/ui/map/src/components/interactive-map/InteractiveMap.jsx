@@ -128,29 +128,29 @@ class InteractiveMap extends React.Component{
                 
                 <div className = "map-container">
                     
-                    {this.state.selectedIndex!=-1 ? 
-                        <div className = "placeholder">
+                {this.state.selectedIndex!=-1 ? 
+                    <div className = "place-holder">
                         <div className = "menu-container">
-                    <img src = {ham}></img>
-                    </div>
-                     <div className = "home-container">
-                    
-                    </div>
-                     <div className = "top-menu-options">
-                    {this.state. mapSelectedProvinceIcons.map((icon,i) => {
-                        return(
-                        <div className = "button-background">
-                            <div className = "icon-container-menu">
-                            <img src = {icon}></img>
-                            </div>
-                            <div className = "text-container-menu">
-                             {this.state. mapSelectedProvincelabels[i]}
-                            </div>
-                            
-                        </div>)
+                            <img src = {ham}></img>
+                        </div>
+                        <div className = "home-container">
                         
-                    })}
-                    </div>
+                        </div>
+                        <div className = "top-menu-options">
+                        {this.state. mapSelectedProvinceIcons.map((icon,i) => {
+                            return(
+                            <div className = "button-background">
+                                <div className = "icon-container-menu">
+                                <img src = {icon}></img>
+                                </div>
+                                <div className = "text-container-menu">
+                                {this.state. mapSelectedProvincelabels[i]}
+                                </div>
+                                
+                            </div>)
+                            
+                        })}
+                        </div>
                         <div className = "provinceName">
                             
                             <div className = "sProvinceCont">

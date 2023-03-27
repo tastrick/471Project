@@ -134,11 +134,12 @@ path{
     width:32px;
     height:32px;
     left: 10px;
-    background:transparent;
     z-index:7000;
     border-radius:50%;
-   
     transition:filter 0.2s;
+}
+.menu-container:hover{
+    filter:invert(0.5);
 }
 .menu-container img{
     position:relative;
@@ -146,30 +147,24 @@ path{
     height:70%;
     top:15%;
     left:15%;
+    
 }
-.place-holder{
-    position:relative;
-    height:0;
-    margin:0;
-    background:red;
-}
-.menu-container:hover{
-    filter:invert(0.5);
-}
+
+
 .provinceName{
     position:relative;
     height:200px;
     width:100%;
     top:40px;
     text-align: center;
-    
+    background:transparent;
 }
 .sProvinceCont{
     position:relative;
     height:90%;
     top:-12%;
-    left:10%;
-    width:80%;
+    width:100%;
+    background:transparent;
     
 }
 
@@ -209,8 +204,7 @@ path{
     height:35px;
     z-index:8000;
     top:52px;
-    left:50px;
-    background:transparent;
+    left:70px;
     display:flex;
 }
 .button-background{

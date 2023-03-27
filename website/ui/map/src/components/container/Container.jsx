@@ -1,7 +1,7 @@
 import React from "react";
 import {socket} from "./socket";
-import Map from "../interactive-map/InteractiveMap"
-
+import Map from "../interactive-map/InteractiveMap";
+import LogIn from "../login/LogIn";
 import './style.css'
 import signin from "../icons2/misc/account.png";
 //const socket = 
@@ -16,7 +16,7 @@ class Container extends React.Component{
         this.users = React.createRef();
         this.onlineState = false;
         this.state = {
-            
+            login:false
         }
 
       
@@ -55,16 +55,24 @@ class Container extends React.Component{
            
             
     }
-   
+    handleLogin = () =>{
+        this.setState({login:true});
+        //console.log("inside login");
+        
+    }
+    handleExitLogin = () =>{
+        this.setState({login:false});
+        //console.log("inside login");
+        
+    }
     
     render(){
         return (
-           
             <div className = "container" >
                  <div className = "home-bar-container">
                     <div className = "home-container">
                     </div>
-                    <div className = "sign-in-container">
+                    <div className ={ this.state.login ? "sign-in-container-clicked" : "sign-in-container"}  onClick = {this.handleLogin}>
                     <div className = "icon-container">
                     <img src= {signin}></img>
                     </div>
@@ -73,8 +81,12 @@ class Container extends React.Component{
                     </div>
                     </div>
                 </div>
+                {this.state.login ? 
+                    <LogIn exitOnClick = {this.handleExitLogin}></LogIn>
+               
+                    :  <div className = "noLogin"></div>
+                }
                 <Map socket = {this.socket}></Map>
-           
             </div>
          
         )
