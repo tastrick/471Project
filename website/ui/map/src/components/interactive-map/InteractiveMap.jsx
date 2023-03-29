@@ -46,6 +46,7 @@ import jobs from "../icons2/misc/jobs.png";
 import schools from "../icons2/misc/schools.png";
 import comsups from "../icons2/misc/comsups.png";
 import cities from "../icons2/misc/cities.png";
+import cityloc from "../icons2/misc/cityloc.png";
 import favs from "../icons2/misc/fav.png";
 
 import fs from "../icons2/misc/fullScreen.png";
@@ -85,7 +86,8 @@ class InteractiveMap extends React.Component{
             displayedCities:[],
             cityLocations: [],
             bounds:[],
-            offsets: []
+            offsets: [],
+            hoverCityIndex:-1
         }
         this.socket.on('sendingCities', this.handleCitiesInProvince);
         this.socket.on('sendingBound', this.handleBounds);
@@ -190,6 +192,7 @@ class InteractiveMap extends React.Component{
         this.setState({selectedIndex:i});
         this.socket.emit('getBounds',i)
         this.socket.emit('getCities',i)
+        this.setState({hoverCityIndex:-1});
     }
     render(){
         return (
@@ -233,7 +236,10 @@ class InteractiveMap extends React.Component{
                                  <div className = "sPopHolder">
                                  {this.state.provincialInfo[this.state.selectedIndex].pop}
                                  </div>
-            
+                                 
+                                 <div className = "sCityInfo">
+                                {this.state.hoverCityIndex!=-1 ? this.state.displayedCities[this.state.hoverCityIndex].Name : ""}
+                                 </div>
                             </div>
                         </div>
                     
@@ -297,13 +303,23 @@ class InteractiveMap extends React.Component{
                       </div>: <div></div>}   
                       
                       
-                       {this.state.cityLocations.map((loc,i) => {return(
-                           <div style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000}}>
-                            <img src = {cities} style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000, filter: 'invert(1)'}} ></img>
+                       {this.state.cityLocations.map((loc,i) => {
+                           if (i == this.state.hoverCityIndex){
+                                return(
+                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000, background:"crimson", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => this.setState({hoverCityIndex:i})} title = {this.state.displayedCities[i].Name}>
+                            <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:100000, filter: 'invert(1)'}} ></img>
                            </div>
                           
                            
-                        )})}
+                            )
+                            }else{
+                                return(
+                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000, background:"gray", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => this.setState({hoverCityIndex:i})}  title = {this.state.displayedCities[i].Name}>
+                            <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:100000, filter: 'invert(1)'}} ></img>
+                           </div>)
+                            }
+                            
+                          })}
                       
                 </div>: 
                 

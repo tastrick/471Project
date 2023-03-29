@@ -32,27 +32,36 @@
 .province{
     position:absolute;
     left:5%;
-    top:180px;
-    width:90%;
-    height:90%;
+    top:200px;
+    width:89%;
+    height:89%;
     
+}
+.citiesContainer:hover{
+    background:gray;
 }
 
 .province-selected{
     position:absolute;
-    top:180px;
+    top:200px;
     left:5%;
-    width:90%;
-    height:90%;
+    width:89%;
+    height:89%;
     
 }
-
+.sCityInfo{
+    position:relative;
+    height:20px;
+    width:auto;
+    top:10px;
+    letter-spacing: 10px;
+}
 .province-hover{
     position:absolute;
-    top:180px;
+   top:200px;
     left:5%;
-    width:90%;
-    height:90%;
+    width:89%;
+    height:89%;
 }
 
 .province-selected path{
