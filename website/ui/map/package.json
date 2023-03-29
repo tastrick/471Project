@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "mathjs": "^11.1.0",
     "mini-css-extract-plugin": "2.4.7",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.19",
     "process": "^0.11.10",
     "react": "^18.2.0",

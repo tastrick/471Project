@@ -81,9 +81,75 @@ class InteractiveMap extends React.Component{
             changeMenu:true,
             canadaOrmap:true,
             hoverStyle:{position:'absolute',top:0,left:100,width:100,height:100,backgroundColor:"red"},
-            mouseLoc: [0,0]
+            mouseLoc: [0,0],
+            displayedCities:[],
+            cityLocations: [],
+            bounds:[],
+            offsets: []
+        }
+        this.socket.on('sendingCities', this.handleCitiesInProvince);
+        this.socket.on('sendingBound', this.handleBounds);
+    }
+    componentDidMount() {
+      window.addEventListener("resize", this.handleResize);
+    }
+    componentWillUnmount() {
+      window.addEventListener("resize", null);
+    }
+    handleResize = (WindowSize, event) => {
+        if (this.state.selectedIndex!=-1){
+            this.socket.emit('getBounds',this.state.selectedIndex)
+            this.socket.emit('getCities',this.state.selectedIndex)
         }
         
+    }
+    handleBounds = (data) =>{
+        var b = [data[0].longmin,data[0].longmax,data[0].latmin,data[0].latmax]
+        var off = [data[0].xoffset, data[0].yoffset]
+        this.setState({bounds:b});
+        this.setState({offsets:off});
+        console.log("recieving bounds: ", b)
+    }
+    handleCitiesInProvince = (data) =>{
+        console.log("recieved cities: ", data);
+        this.setState({displayedCities:data});
+        console.log("province info: ", this.state.selectedIndex)
+        if (this.state.selectedIndex != -1){
+            var div = document.getElementById(this.state.provincialInfo[this.state.selectedIndex].name);
+            var bounding = div.childNodes[0].getBoundingClientRect();
+            console.log("bounding box for prov: ",bounding);
+            var xmin = bounding.x;
+            var ymin = bounding.y;
+            var xmax = bounding.x+bounding.width;
+            var ymax = bounding.y+bounding.height;
+            
+            var xrange = bounding.width;
+            var yrange = bounding.height;
+            
+            var longrange = Math.abs(this.state.bounds[1]-this.state.bounds[0]);
+            var latrange = Math.abs(this.state.bounds[3]-this.state.bounds[2]);
+            
+            var pixperlong = xrange/longrange;
+            var pixperlat = yrange/latrange;
+            var tempcitylocations = [];
+            console.log("testing bounds: ", this.state.bounds)
+            for (var cnt = 0; cnt< data.length; cnt++){
+                //console.log("testing:", data[cnt])
+                var deltalong = Math.abs(data[cnt].Longitude - this.state.bounds[0]);
+                var deltalat = Math.abs(data[cnt].Latitude - this.state.bounds[3]);
+                console.log("delt long and lat: ", deltalong, deltalat)
+                var cityx = xmin + deltalong*pixperlong;
+                var cityy = ymin + deltalat*pixperlat;
+                console.log(cityx,cityy);
+                tempcitylocations.push([cityx-this.state.offsets[0],cityy-this.state.offsets[1]]);
+                
+            }
+            this.setState({cityLocations:tempcitylocations});
+            
+            
+        }
+       // var testdiv = document.getElementById();
+        //console.log(testdiv.childNodes[0].getBoundingClientRect())
     }
     changeMenu = (e,next) =>{
         //console.log(next);
@@ -119,6 +185,11 @@ class InteractiveMap extends React.Component{
     updateMouse = (e) =>{
         
          this.setState({mouseLoc: [ e.clientX+5,e.clientY+5 ]});
+    }
+    handleMouseClickOnProvince = (e,i) => {
+        this.setState({selectedIndex:i});
+        this.socket.emit('getBounds',i)
+        this.socket.emit('getCities',i)
     }
     render(){
         return (
@@ -178,36 +249,36 @@ class InteractiveMap extends React.Component{
                
                 
                 
-                 <Ab id = "ab" className = {this.get_province_name(0)} onClick={() => {this.setState({selectedIndex:0})}}
+                 <Ab id = "alberta" className = {this.get_province_name(0)} onClick={(e) => this.handleMouseClickOnProvince(e,0)}
                        onMouseEnter = {() => {this.setState({hoverIndex:0})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}}
                       onMouseMove = { (e) => this.updateMouse(e)}>
                       
                      
                 </Ab>
                 
-                <Sk id = "sk" className =  {this.get_province_name(1)} onClick={() => {this.setState({selectedIndex:1})}}
+                <Sk id = "saskatchewan" className =  {this.get_province_name(1)} onClick={(e) => this.handleMouseClickOnProvince(e,1)}
                        onMouseEnter = {() => {this.setState({hoverIndex:1})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}> </Sk>
-                    <Mn id = "mn" className = {this.get_province_name(2)} onClick={() => {this.setState({selectedIndex:2})}}
+                    <Mn id = "manitoba" className = {this.get_province_name(2)} onClick={(e) => this.handleMouseClickOnProvince(e,2)}
                         onMouseEnter = {() => {this.setState({hoverIndex:2})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <On id = "on" className = {this.get_province_name(3)} onClick={() => {this.setState({selectedIndex:3})}}
+                    <On id = "ontario" className = {this.get_province_name(3)} onClick={(e) => this.handleMouseClickOnProvince(e,3)}
                          onMouseEnter = {() => {this.setState({hoverIndex:3})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Qu id = "qu" className = {this.get_province_name(4)} onClick={() => {this.setState({selectedIndex:4})}}
+                    <Qu id = "quebec" className = {this.get_province_name(4)} onClick={(e) => this.handleMouseClickOnProvince(e,4)}
                          onMouseEnter = {() => {this.setState({hoverIndex:4})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Nb id = "nb" className = {this.get_province_name(5)} onClick={() => {this.setState({selectedIndex:5})}}
+                    <Nb id = "new brunswick" className = {this.get_province_name(5)} onClick={(e) => this.handleMouseClickOnProvince(e,5)}
                         onMouseEnter = {() => {this.setState({hoverIndex:5})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Ns id = "ns" className = {this.get_province_name(6)} onClick={() => {this.setState({selectedIndex:6})}}
+                    <Ns id = "nova scotia" className = {this.get_province_name(6)} onClick={(e) => this.handleMouseClickOnProvince(e,6)}
                        onMouseEnter = {() => {this.setState({hoverIndex:6})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Nl id = "nl" className = {this.get_province_name(7)} onClick={() => {this.setState({selectedIndex:7})}}
+                    <Nl id = "newfoundland & labrador" className = {this.get_province_name(7)} onClick={(e) => this.handleMouseClickOnProvince(e,7)}
                        onMouseEnter = {() => {this.setState({hoverIndex:7})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Pei id = "pei" className = {this.get_province_name(8)} onClick={() => {this.setState({selectedIndex:8})}}
+                    <Pei id = "prince edward island" className = {this.get_province_name(8)} onClick={(e) => this.handleMouseClickOnProvince(e,8)}
                       onMouseEnter = {() => {this.setState({hoverIndex:8})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Bc id = "bc" className = {this.get_province_name(9)} onClick={() => {this.setState({selectedIndex:9})}}
+                    <Bc id = "british columbia" className = {this.get_province_name(9)} onClick={(e) => this.handleMouseClickOnProvince(e,9)}
                         onMouseEnter = {() => {this.setState({hoverIndex:9})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Nu id = "nu" className = {this.get_province_name(10)} onClick={() => {this.setState({selectedIndex:10})}}
+                    <Nu id = "nunavut" className = {this.get_province_name(10)} onClick={(e) => this.handleMouseClickOnProvince(e,10)}
                        onMouseEnter = {() => {this.setState({hoverIndex:10})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Yk id = "yk" className = {this.get_province_name(11)} onClick={() => {this.setState({selectedIndex:11})}}
+                    <Yk id = "yukon" className = {this.get_province_name(11)} onClick={(e) => this.handleMouseClickOnProvince(e,11)}
                         onMouseEnter = {() => {this.setState({hoverIndex:11})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
-                    <Nwt id = "nwt" className = {this.get_province_name(12)} onClick={() => {this.setState({selectedIndex:12})}}
+                    <Nwt id = "northwest territories" className = {this.get_province_name(12)} onClick={(e) => this.handleMouseClickOnProvince(e,12)}
                         onMouseEnter = {() => {this.setState({hoverIndex:12})}} onMouseLeave = {() => {this.setState({hoverIndex:-1})}} onMouseMove = { (e) => this.updateMouse(e)}/>
                 
                 
@@ -226,8 +297,13 @@ class InteractiveMap extends React.Component{
                       </div>: <div></div>}   
                       
                       
-                      
-                      
+                       {this.state.cityLocations.map((loc,i) => {return(
+                           <div style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000}}>
+                            <img src = {cities} style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000, filter: 'invert(1)'}} ></img>
+                           </div>
+                          
+                           
+                        )})}
                       
                 </div>: 
                 

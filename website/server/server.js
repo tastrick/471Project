@@ -5,9 +5,10 @@ var cors = require("cors");
 
 var {Server} = require("socket.io"); 
 app.use(cors());
+var mysql = require('mysql2');
 
 
-
+let provs = ["Alberta", "saskatchewan","manitoba","ontario","quebec","new brunswick", "nova scotia", "newfoundland & labrador", "prince edward island", "british columbia", "nunavut", "yukon", "northwest territories"];
 
 var connectCounter = 0;
 
@@ -18,8 +19,30 @@ var io = new Server(server, {
     }
     
 })
+
 var users = [];
 //start server for whiteboard
+const con = mysql.createConnection({
+    host:'localhost',
+    user: 'root',
+    password: '1012',
+    database: 'CanadianAmmenities'
+});
+con.connect((err) => {
+
+  if (err) {
+      console.log("Database Connection Failed !!!", err);
+    } else {
+      console.log("connected to Database");
+    }
+  //console.log("MySql Connected");
+
+});
+//let sqlcommand = "SELECT * FROM city"
+//con.query(sqlcommand, (err,result) => {
+//        if (err) throw err;
+//        console.log('All cities:',result);
+//});
 io.on('connection',(socket)=>{
     //socket.emit('recieve-id',socket.id)
     
@@ -31,9 +54,32 @@ io.on('connection',(socket)=>{
     //socket.emit('recieve-id',socket.id
     //console.log('sending data frm server')
     //console.log('User Online# '+connectCounter);
-    socket.on('sendMessage',  (data)=> {
-        socket.broadcast.emit('r',data);
-        //console.log(data)
+    socket.on('getBounds', (data) => {
+        let strProv = provs[data];
+        let sqlquery2 = 'SELECT * FROM bounds AS b WHERE b.name = '+'\''+strProv+'\'';
+        con.query(sqlquery2, (err,result) => {
+            if (err) throw err;
+            console.log(result);
+            socket.emit('sendingBound', result);
+             
+        });
+        
+    })
+    socket.on('getCities', (data) =>{
+        let strProv = provs[data];
+        
+        console.log('returning cities for: ', data);
+        
+        console.log(strProv)
+        let sqlquery = 'SELECT * FROM city AS c WHERE c.PTname = '+'\''+strProv+'\'';
+        con.query(sqlquery, (err,result) => {
+            if (err) throw err;
+            console.log(result);
+             socket.emit('sendingCities', result);
+             
+        });
+        
+       
     })
     
     socket.on('getUsers',() =>{
