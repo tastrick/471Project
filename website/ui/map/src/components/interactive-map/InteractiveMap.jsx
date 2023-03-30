@@ -87,10 +87,17 @@ class InteractiveMap extends React.Component{
             cityLocations: [],
             bounds:[],
             offsets: [],
-            hoverCityIndex:-1
+            hoverCityIndex:-1,
+            selectedTopIndex:-1,
+            menuColapsed:true,
+            cityNums:[],
+            cityPops:[],
+            mapInfo:[]
         }
         this.socket.on('sendingCities', this.handleCitiesInProvince);
         this.socket.on('sendingBound', this.handleBounds);
+        this.socket.on('sendingCityNums', this.handleNums);
+        this.socket.on('sendingPops', this.handlePops);
     }
     componentDidMount() {
       window.addEventListener("resize", this.handleResize);
@@ -104,6 +111,26 @@ class InteractiveMap extends React.Component{
             this.socket.emit('getCities',this.state.selectedIndex)
         }
         
+    }
+    handlePops = (data) =>{
+        var tr = this.state.cityPops
+        tr.push(data[0].population);
+        console.log("recieved pops: ",data[0].population)
+        this.setState({cityPops:tr});
+    }
+    handleNums = (data) =>{
+        //console.log("recieved nums: ", data)
+        //var keys = Object.keys(data);
+       let t = []
+        for (let k in data[0]) {
+            t.push(data[0][k]);
+        }
+        
+       // console.log("recieved nums: ",data);
+        var temp = this.state.cityNums;
+        temp.push(t);
+        console.log("length: ",temp.length);
+        this.setState({cityNums:temp});
     }
     handleBounds = (data) =>{
         var b = [data[0].longmin,data[0].longmax,data[0].latmin,data[0].latmax]
@@ -144,6 +171,8 @@ class InteractiveMap extends React.Component{
                 var cityy = ymin + deltalat*pixperlat;
                 console.log(cityx,cityy);
                 tempcitylocations.push([cityx-this.state.offsets[0],cityy-this.state.offsets[1]]);
+                this.socket.emit('getCityNumsfromCity',data[cnt].Name);
+                this.socket.emit('getpops',data[cnt].Name);
                 
             }
             this.setState({cityLocations:tempcitylocations});
@@ -193,6 +222,23 @@ class InteractiveMap extends React.Component{
         this.socket.emit('getBounds',i)
         this.socket.emit('getCities',i)
         this.setState({hoverCityIndex:-1});
+        this.setState({selectedTopIndex:2});
+        this.setState({menuColapsed:false});
+        this.setState({cityNums:[]});
+        this.setState({cityPops:[]});
+        //this.setState({selectedTopIndex:-1});
+    }
+    handleExploreClick = (e,i) =>{
+        var mapStuff = [];
+        mapStuff.push(this.state.displayedCities[i].Longitude);
+        mapStuff.push(this.state.displayedCities[i].Latitude);
+        this.setState({mapInfo:mapStuff});
+        this.setState({canadaOrmap:false});
+        
+    }
+    handleHomeClick = (e) =>{
+        this.setState({mapInfo:[]});
+        this.setState({canadaOrmap:true});
     }
     render(){
         return (
@@ -204,16 +250,36 @@ class InteractiveMap extends React.Component{
                     
                 {this.state.selectedIndex!=-1 ? 
                     <div className = "place-holder">
-                        <div className = "menu-container">
+                        {this.state.selectedTopIndex!=-1 && !this.state.menuColapsed ? 
+                            <div className = "menu-container-selected" onClick = {(e) =>{if (this.state.menuColapsed){ this.setState({menuColapsed:false})}else{
+                                this.setState({menuColapsed:true})
+                            }}}>
+                            <img src = {ham} ></img>
+                        </div>: <div className = "menu-container" onClick = {(e) =>{if (this.state.menuColapsed){ this.setState({menuColapsed:false})}else{
+                                this.setState({menuColapsed:true})
+                            }}}>
                             <img src = {ham}></img>
                         </div>
+                        }
+                        
                         <div className = "home-container">
                         
                         </div>
                         <div className = "top-menu-options">
                         {this.state. mapSelectedProvinceIcons.map((icon,i) => {
+                            if (i == this.state.selectedTopIndex){
+                                return(
+                                <div className = "button-background-selected">
+                                    <div className = "icon-container-menu">
+                                    <img src = {icon}></img>
+                                    </div>
+                                    <div className = "text-container-menu">
+                                {this.state. mapSelectedProvincelabels[i]}
+                                </div>
+                                </div>)
+                            }else{
                             return(
-                            <div className = "button-background">
+                            <div className = "button-background" onClick = {(e) =>{this.setState({selectedTopIndex:i}); console.log("here")}}>
                                 <div className = "icon-container-menu">
                                 <img src = {icon}></img>
                                 </div>
@@ -221,7 +287,7 @@ class InteractiveMap extends React.Component{
                                 {this.state. mapSelectedProvincelabels[i]}
                                 </div>
                                 
-                            </div>)
+                            </div>)}
                             
                         })}
                         </div>
@@ -237,13 +303,158 @@ class InteractiveMap extends React.Component{
                                  {this.state.provincialInfo[this.state.selectedIndex].pop}
                                  </div>
                                  
-                                 <div className = "sCityInfo">
-                                {this.state.hoverCityIndex!=-1 ? this.state.displayedCities[this.state.hoverCityIndex].Name : ""}
-                                 </div>
+                                 
                             </div>
                         </div>
                     
-                        </div>:<div></div>
+                        {this.state.selectedIndex!=-1&& !this.state.menuColapsed? 
+                            <div className = "side-menu-container-open">
+                                <div className = "side-menu-header">
+                                <div className = 'title'>
+                                 {this.state.mapSelectedProvincelabels[this.state.selectedTopIndex]}
+                                </div>
+                                
+                               
+                                </div>
+                                {this.state.selectedTopIndex==2 ? this.state.displayedCities.map((cityInfo,cn) => {
+                                    if (cn == this.state.hoverCityIndex){
+                                         return(
+                                        <div className="cityInfoContainer-selected">
+                                            <div className = "cityNameContainer">
+                                                <div className = "cityname">
+                                                {this.state.displayedCities[cn].Name}
+                                                </div>
+                                                <div className = "citypop">
+                                                { this.state.cityPops.length!=0 && this.state.cityPops.length>cn ? this.state.cityPops[cn]: ""}
+                                                </div>
+                                            </div>
+                                            <div className = "cityExtraInfo">
+                                                <div className = "cityHouseCount" title = "houses">
+                                                    <div className = "cityIconContainer">
+                                                        <img src = {houses}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                    {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][0]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "cityJobCount" title = "jobs">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {jobs}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                    {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][1]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "citySchoolCount" title = "schools">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {schools}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                   {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][3]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "cityStoreCount" title = "stores">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {stores}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                    {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][2]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "cityComSupportCount" title = "community supports">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {comsups}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                   {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][4]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                <div className = "cityExploreButton" onClick ={(e) => this.handleExploreClick(e,cn)}> <div className = 'buttonTextContainer'>Explore City</div></div>
+                                            
+                                            </div>
+                                        </div>
+                                        
+                                    )
+                                    }else{
+                                        return(
+                                            <div className="cityInfoContainer-unselected">
+                                                <div className = "cityNameContainer">
+                                                    <div className = "cityname">
+                                                    {this.state.displayedCities[cn].Name}
+                                                    </div>
+                                                    <div className = "citypop">
+                                                    { this.state.cityPops.length!=0 && this.state.cityPops.length>cn ? this.state.cityPops[cn]: ""}
+                                                    </div>
+                                                </div>
+                                            <div className = "cityExtraInfo">
+                                                <div className = "cityHouseCount" title = "houses">
+                                                    <div className = "cityIconContainer">
+                                                        <img src = {houses}></img>
+                                                    
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                    {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][0]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "cityJobCount" title = "jobs">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {jobs}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                    {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][1]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "citySchoolCount" title = "schools">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {schools}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                   {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][3]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "cityStoreCount" title = "stores">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {stores}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                    {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][2]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                 <div className = "cityComSupportCount" title = "community supports">
+                                                    <div className = "cityIconContainer">
+                                                    <img src = {comsups}></img>
+                                                    </div>
+                                                    <div className = "cityNumberContainer">
+                                                   {this.state.cityNums.length!=0 && cn < this.state.cityNums.length ? this.state.cityNums[cn][4]: ""}
+                                                    </div>
+                                                
+                                                </div>
+                                                <div className = "cityExploreButton" onClick ={(e) => this.handleExploreClick(e,cn)}> <div className = 'buttonTextContainer'>Explore City</div></div>
+                                            
+                                            </div>
+                                            </div>
+                                        )
+                                    }
+                                   
+                                   
+                                }
+                                ): null}
+                            </div>:<div className = "side-menu-container-closed"></div>
+                            
+                        }
+                    
+                        </div>
+                        
+                        :<div></div>
                         
                         
                     }
@@ -306,16 +517,16 @@ class InteractiveMap extends React.Component{
                        {this.state.cityLocations.map((loc,i) => {
                            if (i == this.state.hoverCityIndex){
                                 return(
-                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000, background:"crimson", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => this.setState({hoverCityIndex:i})} title = {this.state.displayedCities[i].Name}>
-                            <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:100000, filter: 'invert(1)'}} ></img>
+                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:1000, background:"crimson", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => {this.setState({hoverCityIndex:i})}} title = {this.state.displayedCities[i].Name}>
+                            <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:1000, filter: 'invert(1)'}} ></img>
                            </div>
                           
                            
                             )
                             }else{
                                 return(
-                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:100000, background:"gray", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => this.setState({hoverCityIndex:i})}  title = {this.state.displayedCities[i].Name}>
-                            <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:100000, filter: 'invert(1)'}} ></img>
+                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:1000, background:"gray", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => {this.setState({hoverCityIndex:i}); this.setState({selectedTopIndex:2}); this.setState({menuColapsed:false})}}  title = {this.state.displayedCities[i].Name}>
+                            <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:1000, filter: 'invert(1)'}} ></img>
                            </div>)
                             }
                             
@@ -327,7 +538,7 @@ class InteractiveMap extends React.Component{
                     <div className = "menu-container">
                     <img src = {ham}></img>
                     </div>
-                     <div className = "home-container">
+                     <div className = "home-container" onClick = {(e) => this.handleHomeClick(e)}>
                     <img src = {home}></img>
                     </div>
                     <div className = "top-menu-options">
@@ -345,8 +556,8 @@ class InteractiveMap extends React.Component{
                     })}
                     </div>
                          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
-                    <MapContainer className = "map" center={[ 51.509865,  -0.118092]} zoom={13}
-                        attributionControl = {false} zoomControl = {false}>
+                    <MapContainer className = "map" center={[this.state.mapInfo[1],this.state.mapInfo[0]]} zoom={13}
+                        attributionControl = {false} zoomControl={ false} >
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

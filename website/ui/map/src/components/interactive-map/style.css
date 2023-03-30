@@ -26,7 +26,7 @@
 .map{
     position:fixed;
     width:100%;
-    height:100%;
+    height:110%;
 }
 
 .province{
@@ -159,6 +159,225 @@ path{
     
 }
 
+.side-menu-container-open{
+    position:absolute;
+    width: 300px;
+    height: 670px;
+    left:0px;
+    top:167px;
+    background:white;
+    border-radius:10px;
+    border:1px solid black;
+    z-index:100000;
+    transition: width 0.2s;
+    overflow:hidden;
+    overflow-y:scroll
+}
+
+.side-menu-header{
+    position:relative;
+    width:100%;
+    height:35px;
+    background:transparent;
+    border-bottom:1px solid black;
+}
+
+.side-menu-header .title{
+position:relative;
+height:auto;
+top:calc(50% - 15px);
+width:auto;
+text-align: center;
+background:transparent;
+    font-size:20px;
+     font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+     text-transform:capitalize;
+     letter-spacing:10px;
+     vertical-align: middle;
+     color:gray;
+     font-weight:bold;
+}
+
+.side-menu-container-closed{
+    position:absolute;
+    width: 0px;
+    height: 670px;
+    left:-2px;
+    top:167px;
+    background:white;
+    border-radius:10px;
+    border:1px solid black;
+    transition: width 0.2s;
+    
+}
+.menu-container-selected{
+    position:relative;
+    top:calc(114px + 10px);
+    width:32px;
+    height:32px;
+    left: 10px;
+    z-index:7000;
+    border-radius:50%;
+    transition:filter 0.2s;
+    filter:invert(0.5);
+}
+.cityInfoContainer-unselected{
+    position:relative;
+    width:calc(100% - 11px);
+    left:5px;
+    height:20%;
+    margin-top:5px;
+    background:lightgray;
+    border-radius:10px;
+    overflow:hidden;
+    transition:width 0.2s;
+}
+
+.cityInfoContainer-selected{
+    position:relative;
+    width:calc(100% - 11px);
+    left:5px;
+    height:20%;
+    margin-top:5px;
+    background:rgb(245,105,145);
+    border-radius:10px;
+    overflow:hidden;
+    transition:width 0.2s;
+}
+.cityNameContainer{
+    position:relative;
+    width:100%;
+    height:auto;
+    background:transparent;
+     font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+     letter-spacing:5px;
+     left:10px;
+     top:10px;
+    font-size:14px;
+     text-transform:uppercase;
+     font-weight:bold;
+    border-bottom:1px solid black;
+    display:flex;
+}
+.cityname{
+    position:relative;
+    height:100%;
+    width:60%;
+    background:transparent;
+}
+.citypop{
+    position:relative;
+    height:100%;
+    width:50%;
+    left:20px;
+    background:transparent;
+    font-weight: normal;
+    font-size:13px;
+    top:3px;
+}
+.cityExtraInfo{
+    position:relative;
+    width:90%;
+    left:10px;
+    height:75%;
+    background:transparent;
+    top:10px;
+}
+
+.cityHouseCount{
+    position:relative;
+    height:30px;
+    width:50%;
+    background:transparent;
+    display:flex;
+}
+.cityJobCount{
+    position:relative;
+    height:30px;
+    width:50%;
+    top:5px;
+    background:transparent;
+    display:flex;
+}
+.citySchoolCount{
+    position:relative;
+    height:30px;
+    width:50%;
+    top:10px;
+    background:transparent;
+    display:flex;
+}
+
+.cityStoreCount{
+    position:relative;
+    height:30px;
+    width:50%;
+    left:50%;
+    top:-90px;
+    background:transparent;
+    display:flex;
+}
+
+.cityComSupportCount{
+    position:relative;
+    height:30px;
+    width:50%;
+    left:50%;
+    top:-85px;
+    background:transparent;
+    display:flex;
+}
+.cityExploreButton{
+    position:relative;
+    height:20px;
+    width:50%;
+    left:50%;
+    top:-77px;
+    background:white;
+    border-radius:30px;
+    text-align:center;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+     letter-spacing:3px;
+     font-size:13px;
+     border: 1px solid black;
+     font-weight:bold;
+     transition:background 0.2s;
+}
+.cityExploreButton:hover{
+    background:black;
+    color:white;
+    border: 1px solid white;
+}
+
+.buttonTextContainer{
+    position:relative;
+    width:100%;
+    height:calc(100% - 20px);
+    top:2px;
+    left:2px;
+}
+
+.cityIconContainer{
+    position:relative;
+    height: 100%;
+    width:25%;
+    background:transparent;
+}
+.cityIconContainer img{
+    top:5px;
+    position:relative;
+    height: 13px;
+    width:13px;
+}
+.menu-container-selected img{
+    position:relative;
+    width:70%;
+    height:70%;
+    top:15%;
+    left:15%;
+    
+}
+
 
 .provinceName{
     position:relative;
@@ -232,7 +451,20 @@ path{
 .button-background:hover{
     filter:invert(1);
 }
-
+.button-background-selected{
+    position:relative;
+    left:-7px;
+    margin-left:4px;
+    width:auto;
+    height:18px;
+    top:20%;
+    background:white;
+    border-radius:60px;
+    border:1px solid black;
+    display:flex;
+   transition:filter 0.2s;
+   filter: invert(1);
+}
 .icon-container-menu{
     position:relative;
     left:5px;

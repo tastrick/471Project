@@ -65,6 +65,26 @@ io.on('connection',(socket)=>{
         });
         
     })
+    socket.on('getpops', (data) => {
+        //this will need to be changed if names are not unique
+        let sql = 'SELECT gl.population FROM generallocation AS gl WHERE gl.name = '+'\''+data+'\''
+        con.query(sql, (err,result) => {
+            if (err) throw err;
+            console.log(result);
+            socket.emit('sendingPops', result);
+             
+        });
+    })
+    socket.on('getCityNumsfromCity', (data) => {
+        //let strProv = provs[data];
+        let sql = 'SELECT COUNT(h.idnumber), COUNT(j.idnumber), COUNT(s.idnumber),COUNT(sc.idnumber),COUNT(c.idnumber) FROM house AS h, job AS j, store AS s, school AS sc,  communitysupport AS c WHERE h.cname=j.cname AND h.cname = s.cname AND h.cname = sc.cname AND h.cname = c.cname AND h.cname = '+'\''+data+'\''
+        con.query(sql, (err,result) => {
+            if (err) throw err;
+            console.log("sending numbers back: ",result);
+            socket.emit('sendingCityNums', result);
+             
+        });
+    } )
     socket.on('getCities', (data) =>{
         let strProv = provs[data];
         
