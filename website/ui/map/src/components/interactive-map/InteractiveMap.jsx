@@ -74,11 +74,11 @@ class InteractiveMap extends React.Component{
             selectedMenuIcon:-1,
             isMapFullScreen:false,
             isMapMenuExpanded:false,
-            mapSideIcons: [houses,stores,jobs,schools,comsups,cities,favs,add],
+            mapSideIcons: [houses,stores,jobs,schools,comsups,favs,add],
             mapSelectedProvinceIcons:[popu,tax,cities],
             mapSelectedProvincelabels:['population','taxes','cities'],
             mapProvinceSelected: [Ab,Sk,Mn,On,Qu,Nb,Ns,Nl,Pei,Bc,Nu,Yk,Nwt],
-            sideIcons: ['houses','stores','jobs','schools','community supports','cities', 'favorites','filter'],
+            sideIcons: ['houses','stores','jobs','schools','community supports', 'favorites','filter'],
             hasAccount:false,
             currentMenuHover:-1,
             changeMenu:true,
@@ -262,12 +262,16 @@ class InteractiveMap extends React.Component{
         mapStuff.push(this.state.displayedCities[i].Latitude);
         this.setState({mapInfo:mapStuff});
         this.setState({canadaOrmap:false});
-        
+       // this.setState({selectedIndex:-1});
+        this.setState({selectedTopIndex:-1});
+        this.setState({menuColapsed:true})
         
     }
     handleHomeClick = (e) =>{
         this.setState({mapInfo:[]});
         this.setState({canadaOrmap:true});
+       // this.setState({selectedIndex:-1});
+        this.setState({selectedTopIndex:2});
     }
     render(){
        const ho = new L.Icon({
@@ -370,10 +374,10 @@ class InteractiveMap extends React.Component{
                         {this.state.selectedIndex!=-1&& !this.state.menuColapsed? 
                             <div className = "side-menu-container-open">
                                 <div className = "side-menu-header">
-                                <div className = 'title'>
+                                <div className = 'title2'>
                                  {this.state.mapSelectedProvincelabels[this.state.selectedTopIndex]}
                                 </div>
-                                
+                                 <div className = 'add-container'></div>
                                
                                 </div>
                                 {this.state.selectedTopIndex==2 ? this.state.displayedCities.map((cityInfo,cn) => {
@@ -595,26 +599,46 @@ class InteractiveMap extends React.Component{
                 </div>: 
                 
                 <div className = "map-container">
-                    <div className = "menu-container">
-                    <img src = {ham}></img>
-                    </div>
+                    {this.state.selectedTopIndex!=-1 && !this.state.menuColapsed ? 
+                            <div className = "menu-container-selected" onClick = {(e) =>{if (this.state.menuColapsed){ this.setState({menuColapsed:false})}else{
+                                this.setState({menuColapsed:true})
+                            }}}>
+                            <img src = {ham} ></img>
+                        </div>: <div className = "menu-container" onClick = {(e) =>{if (this.state.menuColapsed){ this.setState({menuColapsed:false})}else{
+                                this.setState({menuColapsed:true})
+                            }}}>
+                            <img src = {ham}></img>
+                        </div>
+                        }
                      <div className = "home-container" onClick = {(e) => this.handleHomeClick(e)}>
                     <img src = {home}></img>
                     </div>
-                    <div className = "top-menu-options">
-                    {this.state.mapSideIcons.map((icon,i) => {return(
-                        <div className = "button-background">
-                            <div className = "icon-container-menu">
-                            <img src = {icon}></img>
-                            </div>
-                            <div className = "text-container-menu">
-                             {this.state.sideIcons[i]}
-                            </div>
+                  <div className = "top-menu-options">
+                        {this.state.mapSideIcons.map((icon,i) => {
+                            if (i == this.state.selectedTopIndex){
+                                return(
+                                <div className = "button-background-selected">
+                                    <div className = "icon-container-menu">
+                                    <img src = {icon}></img>
+                                    </div>
+                                    <div className = "text-container-menu">
+                                {this.state.sideIcons[i]}
+                                </div>
+                                </div>)
+                            }else{
+                            return(
+                            <div className = "button-background" onClick = {(e) =>{this.setState({selectedTopIndex:i}); console.log("here"); this.setState({menuColapsed:false})}}>
+                                <div className = "icon-container-menu">
+                                <img src = {icon}></img>
+                                </div>
+                                <div className = "text-container-menu">
+                                {this.state.sideIcons[i]}
+                                </div>
+                                
+                            </div>)}
                             
-                        </div>)
-                        
-                    })}
-                    </div>
+                        })}
+                        </div>
                          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
                     <MapContainer className = "map" center={[this.state.mapInfo[1],this.state.mapInfo[0]]} zoom={13}
                          zoomControl={ false} >
@@ -666,6 +690,21 @@ class InteractiveMap extends React.Component{
                         
                     
                     </MapContainer>
+                    {this.state.selectedIndex!=-1&& !this.state.menuColapsed? 
+                            <div className = "side-menu-container-open">
+                                <div className = "side-menu-header">
+                                <div className = 'title2'>
+                                 {this.state.sideIcons[this.state.selectedTopIndex]}
+                                </div>
+                                <div className = 'add-container' title = {'add '+this.state.sideIcons[this.state.selectedTopIndex]}>
+                                <img src = {add}></img>
+                                </div>
+                               
+                                </div>
+                                
+                            </div>:<div className = "side-menu-container-closed"></div>
+                            
+                        }
                 </div>
                 
                     
