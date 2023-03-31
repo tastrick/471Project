@@ -75,6 +75,49 @@ io.on('connection',(socket)=>{
              
         });
     })
+    socket.on('getAllAmmenities', (data) => {
+        
+        var res = [];
+        let sql = 'SELECT * FROM house AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         con.query(sql, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            res.push(result);
+            //console.log('after adding: ', res)
+             
+        });
+         sql = 'SELECT * FROM job AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         con.query(sql, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            res.push(result);
+             
+        });
+         sql = 'SELECT * FROM school AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         con.query(sql, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            res.push(result);
+             
+        });
+         sql = 'SELECT * FROM store AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         con.query(sql, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            res.push(result);
+             
+        });
+         sql = 'SELECT * FROM communitysupport AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         con.query(sql, (err,result) => {
+            if (err) throw err;
+        
+            res.push(result);
+             console.log("sending amenities: ",res);
+            socket.emit('sendingAllAmmenities', res);
+        });
+//          //console.log('sending ammenities: ', res, data)
+         
+    })
     socket.on('getCityNumsfromCity', (data) => {
         //let strProv = provs[data];
         let sql = 'SELECT COUNT(h.idnumber), COUNT(j.idnumber), COUNT(s.idnumber),COUNT(sc.idnumber),COUNT(c.idnumber) FROM house AS h, job AS j, store AS s, school AS sc,  communitysupport AS c WHERE h.cname=j.cname AND h.cname = s.cname AND h.cname = sc.cname AND h.cname = c.cname AND h.cname = '+'\''+data+'\''

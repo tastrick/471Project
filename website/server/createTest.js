@@ -37,7 +37,7 @@ let commands = ['CREATE TABLE User (ID varchar(255),Username varchar(255) NOT NU
 'CREATE TABLE Job (IDNumber varchar(255), Industry  varchar(255), Hours varchar(255) , PostingDate varchar(255), RemoteInPerson int,JobDescription varchar(255), Salary varchar(255), ApplicationDeadline varchar(255),Employer varchar(255) ,UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY (IDNumber) REFERENCES CityLocation (IDNumber), FOREIGN KEY (CName, CLongitude,CLatitude) REFERENCES City (Name, Longitude, Latitude), FOREIGN KEY (UtilityID) REFERENCES Utility (UtilityID))',
 
 
-'CREATE TABLE CommunitySupport (IDNumber varchar(255), Organizers varchar(255), Offering varchar(255) ,UtilityID int NOT NULL, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY (IDNumber) REFERENCES CityLocation (IDNumber), FOREIGN KEY (CName, CLongitude, CLatitude) REFERENCES City (Name, Longitude, Latitude),  FOREIGN KEY (UtilityID) REFERENCES Utility (UtilityID))',
+'CREATE TABLE CommunitySupport (IDNumber varchar(255), Organizers varchar(255), Offering varchar(255) ,UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY (IDNumber) REFERENCES CityLocation (IDNumber), FOREIGN KEY (CName, CLongitude, CLatitude) REFERENCES City (Name, Longitude, Latitude),  FOREIGN KEY (UtilityID) REFERENCES Utility (UtilityID))',
 
 'CREATE TABLE CloseTo (UtilityID int, HouseIDNumber varchar(255),distance float ,PRIMARY KEY (UtilityID, HouseIDNumber), FOREIGN KEY (UtilityID) REFERENCES Utility (UtilityID), FOREIGN KEY (HouseIDNumber) REFERENCES House (IDNumber))',
 
@@ -76,11 +76,16 @@ con.connect((err) => {
  //   });
 //}
 
-let c = 'CREATE TABLE Bounds(Name varchar(255), longmin float, longmax float, latmin float, latmax float, xoffset int, yoffset int, PRIMARY KEY(Name), FOREIGN KEY (Name)  REFERENCES ProvinceTerritory(Name))'
+//let c = 'CREATE TABLE Bounds(Name varchar(255), longmin float, longmax float, latmin float, latmax float, xoffset int, yoffset int, PRIMARY KEY(Name), FOREIGN KEY (Name)  REFERENCES ProvinceTerritory(Name))'
 
+//let c = 'INSERT INTO Utility (UtilityID) VALUES (0)'
+//let c = 'DELETE FROM city WHERE city.name = \'Moose Jaw \''
+
+//let c = ''
+let c = 'INSERT INTO city(Name, Longitude, Latitude, HealthCareInfo , CostRating,PTName, PTLongitude,PTLatitude) VALUES (\'Moose Jaw\', -105.551941, 50.393333, null, null, \'Saskatchewan\', -106,55)'
 con.query(c, (err,result) => {
         if (err) throw err;
-        console.log('creating table bounding');
+        console.log('creating table bounding',result);
 });
 
 //let sql2 = 'CREATE TABLE CITIES (Name varchar(255), Latitude float, Longitude float)'

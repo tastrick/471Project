@@ -16,12 +16,14 @@ import {ReactComponent as Nl} from '../icons2/province_outlines/newfoundland_lab
 import {ReactComponent as Pei} from '../icons2/province_outlines/prince_edward_island.svg'
 import {ReactComponent as Ab} from '../icons2/province_outlines/alberta.svg'  
 
-import { MapContainer, TileLayer,Marker, Popup   } from 'react-leaflet'
+import { DivIcon } from 'leaflet';
+import { MapContainer, TileLayer,Marker, Popup} from 'react-leaflet'
 //import AmenitiesSearcher from "../amenities/Amenities"
 //import {ReactComponent as Alberta} from '../icons/north_west_terretories.svg';
 
+//import Leaflet from 'leaflet'
 
-
+import L from 'leaflet';
 
 import ab_flag from '../icons2/flags/ab.png';
 import sk_flag from "../icons2/flags/sk.png";
@@ -92,18 +94,42 @@ class InteractiveMap extends React.Component{
             menuColapsed:true,
             cityNums:[],
             cityPops:[],
-            mapInfo:[]
+            mapInfo:[],
+            allCityAmmenities:[],//houses,jobs,schools,stores,comsups
+           hs:[],
+           js:[],
+           schs:[],
+           strs:[],
+           comsu:[]
+          
+           
+             
+           
         }
+        this.test = [];
         this.socket.on('sendingCities', this.handleCitiesInProvince);
         this.socket.on('sendingBound', this.handleBounds);
         this.socket.on('sendingCityNums', this.handleNums);
         this.socket.on('sendingPops', this.handlePops);
+        this.socket.on('sendingAllAmmenities', this.handleAmmenities);
     }
     componentDidMount() {
       window.addEventListener("resize", this.handleResize);
     }
     componentWillUnmount() {
       window.addEventListener("resize", null);
+    }
+    handleAmmenities = (data) =>{
+        console.log('recieving stuff :', data)
+        this.setState({hs:data[0]});
+        this.setState({js:data[1]});
+        this.setState({schs:data[2]});
+        this.setState({strs:data[3]});
+        this.setState({comsu:data[4]});
+        console.log(data[0][0])
+        this.setState({allCityAmmenities:data});
+        console.log("all of it :",this.state.allCityAmmenities)
+        this.test = data;
     }
     handleResize = (WindowSize, event) => {
         if (this.state.selectedIndex!=-1){
@@ -140,6 +166,7 @@ class InteractiveMap extends React.Component{
         console.log("recieving bounds: ", b)
     }
     handleCitiesInProvince = (data) =>{
+        
         console.log("recieved cities: ", data);
         this.setState({displayedCities:data});
         console.log("province info: ", this.state.selectedIndex)
@@ -229,11 +256,13 @@ class InteractiveMap extends React.Component{
         //this.setState({selectedTopIndex:-1});
     }
     handleExploreClick = (e,i) =>{
+        this.socket.emit('getAllAmmenities',this.state.displayedCities[i].Name);
         var mapStuff = [];
         mapStuff.push(this.state.displayedCities[i].Longitude);
         mapStuff.push(this.state.displayedCities[i].Latitude);
         this.setState({mapInfo:mapStuff});
         this.setState({canadaOrmap:false});
+        
         
     }
     handleHomeClick = (e) =>{
@@ -241,6 +270,37 @@ class InteractiveMap extends React.Component{
         this.setState({canadaOrmap:true});
     }
     render(){
+       const ho = new L.Icon({
+            iconUrl: houses,
+            iconRetinaUrl: houses,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const jo = new L.Icon({
+            iconUrl: jobs,
+            iconRetinaUrl: jobs,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const sto = new L.Icon({
+            iconUrl: stores,
+            iconRetinaUrl: stores,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const scho = new L.Icon({
+            iconUrl: schools,
+            iconRetinaUrl: schools,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const coms = new L.Icon({
+            iconUrl: comsups,
+            iconRetinaUrl: comsups,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const all = [ho,jo,scho,sto,coms];
         return (
             <div className = "mcontainer">
                
@@ -557,11 +617,54 @@ class InteractiveMap extends React.Component{
                     </div>
                          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
                     <MapContainer className = "map" center={[this.state.mapInfo[1],this.state.mapInfo[0]]} zoom={13}
-                        attributionControl = {false} zoomControl={ false} >
+                         zoomControl={ false} >
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
+                        
+                        
+                               
+                               {this.state.hs.map((thing) =>{
+                                    return(
+                                     <Marker icon={ho}  position={[thing.Longitude,thing.Latitude]}/>
+                                    )
+                                    
+                                })}
+                                
+                                {this.state.js.map((thing) =>{
+                                    return(
+                                     <Marker icon={jo}  position={[thing.Longitude,thing.Latitude]}/>
+                                    )
+                                    
+                                })}
+                                {this.state.schs.map((thing) =>{
+                                    return(
+                                     <Marker icon={scho}  position={[thing.Longitude,thing.Latitude]}/>
+                                    )
+                                    
+                                })}
+                                {this.state.strs.map((thing) =>{
+                                    return(
+                                     <Marker icon={sto}  position={[thing.Longitude,thing.Latitude]}/>
+                                    )
+                                    
+                                })}
+                                {this.state.comsu.map((thing) =>{
+                                    return(
+                                     <Marker icon={coms}  position={[thing.Longitude,thing.Latitude]}/>
+                                    )
+                                    
+                                })}
+                               
+                         
+                       
+                        
+                        
+                       
+                        
+                        
+                    
                     </MapContainer>
                 </div>
                 
