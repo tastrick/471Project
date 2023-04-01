@@ -16,12 +16,20 @@ import {ReactComponent as Nl} from '../icons2/province_outlines/newfoundland_lab
 import {ReactComponent as Pei} from '../icons2/province_outlines/prince_edward_island.svg'
 import {ReactComponent as Ab} from '../icons2/province_outlines/alberta.svg'  
 
+
 import { DivIcon } from 'leaflet';
 import { MapContainer, TileLayer,Marker, Popup} from 'react-leaflet'
 //import AmenitiesSearcher from "../amenities/Amenities"
 //import {ReactComponent as Alberta} from '../icons/north_west_terretories.svg';
 
 //import Leaflet from 'leaflet'
+
+//import listings for map view when we need it
+import HouseListing from "../houseListing/HouseListing";
+import JobListing from "../jobListing/JobListing";
+import SchoolListing from "../schoolListing/SchoolListing";
+import StoreListing from "../storeListing/StoreListing";
+import CsListing from "../csListing/CsListing";
 
 import L from 'leaflet';
 
@@ -74,11 +82,11 @@ class InteractiveMap extends React.Component{
             selectedMenuIcon:-1,
             isMapFullScreen:false,
             isMapMenuExpanded:false,
-            mapSideIcons: [houses,stores,jobs,schools,comsups,favs,add],
+            mapSideIcons: [houses,jobs,schools,stores, comsups,favs,add],
             mapSelectedProvinceIcons:[popu,tax,cities],
             mapSelectedProvincelabels:['population','taxes','cities'],
             mapProvinceSelected: [Ab,Sk,Mn,On,Qu,Nb,Ns,Nl,Pei,Bc,Nu,Yk,Nwt],
-            sideIcons: ['houses','stores','jobs','schools','community supports', 'favorites','filter'],
+            sideIcons: ['homes','jobs','schools','stores','community supports', 'favorites','filter'],
             hasAccount:false,
             currentMenuHover:-1,
             changeMenu:true,
@@ -100,8 +108,9 @@ class InteractiveMap extends React.Component{
            js:[],
            schs:[],
            strs:[],
-           comsu:[]
-          
+           comsu:[],
+           userType:'guest',// this can be guest, user, or admin, guests wont be allowed to favorite or add, users wont be allowed to add and admin have all capabilities
+          selectedAmmenity:[]
            
              
            
@@ -627,7 +636,7 @@ class InteractiveMap extends React.Component{
                                 </div>)
                             }else{
                             return(
-                            <div className = "button-background" onClick = {(e) =>{this.setState({selectedTopIndex:i}); console.log("here"); this.setState({menuColapsed:false})}}>
+                            <div className = "button-background" onClick = {(e) =>{console.log('switching top to: ',i); this.setState({selectedTopIndex:i}); console.log("here"); this.setState({menuColapsed:false})}}>
                                 <div className = "icon-container-menu">
                                 <img src = {icon}></img>
                                 </div>
@@ -699,12 +708,51 @@ class InteractiveMap extends React.Component{
                                 <div className = 'add-container' title = {'add '+this.state.sideIcons[this.state.selectedTopIndex]}>
                                 <img src = {add}></img>
                                 </div>
-                               
+                                
+                                
                                 </div>
+                                { !this.state.menuColapsed && this.state.selectedTopIndex==0 ? this.state.hs.map((thing,i) =>{
+                                    return(
+                                     <HouseListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></HouseListing>
+                                    )
+                                    
+                                }): null}
+                                   
+                                { !this.state.menuColapsed && this.state.selectedTopIndex==1 ? this.state.js.map((thing,i) =>{
+                                    return(
+                                     <JobListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==1 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></JobListing>
+                                    )
+                                    
+                                }): null}
+                                    
+                               
+                               { !this.state.menuColapsed && this.state.selectedTopIndex==2 ? this.state.hs.map((thing,i) =>{
+                                    return(
+                                     <SchoolListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing}></SchoolListing>
+                                    )
+                                    
+                                }): null}
+                                
+                                { !this.state.menuColapsed && this.state.selectedTopIndex==3 ? this.state.hs.map((thing,i) =>{
+                                    return(
+                                     <StoreListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing}></StoreListing>
+                                    )
+                                    
+                                }): null}
+                                
+                                { !this.state.menuColapsed && this.state.selectedTopIndex==4 ? this.state.hs.map((thing,i) =>{
+                                    return(
+                                     <CsListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing}></CsListing>
+                                    )
+                                    
+                                }): null}
+                               
+                                
+                                
                                 
                             </div>:<div className = "side-menu-container-closed"></div>
                             
-                        }
+                    }
                 </div>
                 
                     

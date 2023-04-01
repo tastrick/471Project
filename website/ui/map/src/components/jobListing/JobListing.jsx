@@ -1,0 +1,76 @@
+import React from "react";
+import "./style.css";
+import favs from "../icons2/misc/fav.png";
+import pay from "../icons2/misc/pay.png";
+import clock from "../icons2/misc/clock.png";
+class JobListing extends React.Component{
+    constructor(props){
+        super(props);
+        this.socket = props.socket;
+        this.state = {
+            selected: props.selected,
+            info:props.info,
+            canFavorite: props.canFavorite,
+            isFavorited: props.isFavorited
+        }
+    }
+    
+    render(){
+        return(
+            <div className = {this.state.selected ? 'joblisting-selected':'joblisting-unselected'}>
+            <div className = 'total-header-container'>
+                <div className = "joblisting-header" >
+                    <div className = 'type-container'>
+                        {this.state.info.Industry}
+                    </div>
+                    
+                    
+                    
+                </div>
+                 <div className =  {this.state.canFavorite && this.state.isFavorited ? 'jfavorited-container': this.state.canFavorite ? 'jfavorite-container': 'jcantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {(e) => {
+                         if (this.state.canFavorite){
+                             this.setState({isFavorited:true});
+                             
+                             //user add to favorites
+                        }
+                    }}>
+                                <img className = 'favs-im' src = {favs}></img>
+                    </div>
+                </div>
+                 <div className = 'joblisting-body'>
+                    <div className = 'pay-container'>
+                        <div className = 'jicon-container'>
+                            <img src = {pay}></img>
+                        </div>
+                        <div className = 'jinfo-container'>
+                        {this.state.info.Salary}
+                        </div>
+                    </div>
+                    <div className = 'time-container'>
+                         <div className = 'jicon-container'>
+                            <img src = {clock}></img>
+                        </div>
+                        <div className = 'jinfo-container'>
+                         {this.state.info.Hours}
+                        </div>
+                    </div>
+                    <div className = 'employer-container'>
+                        <div ClassName = 'em'>
+                            {this.state.info.Employer}
+                        </div>
+                        <div className = 'remote'>
+                            {this.state.info.RemoteInPerson == 0 ? '- in person':'- remote'}
+                        </div>
+                    </div>
+                    
+                    <div className = 'jamenities-container'>
+                    {this.state.info.JobDescription}
+                    </div>
+                    
+                </div>
+            </div>
+        )
+    }
+}
+
+export default JobListing

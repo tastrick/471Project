@@ -1,0 +1,163 @@
+.joblisting-unselected{
+    position:relative;
+    height:auto;
+    width: calc(100% - 11px);
+    left:5px;
+    margin-top: 5px;
+    background:lightgrey;
+    border-radius:10px;
+    overflow:hidden;
+    
+}
+.joblisting-selected{
+    position:relative;
+    height:auto;
+    width: calc(100% - 11px);
+    left:5px;
+    margin-top: 5px;
+    background:lightgrey;
+    border-radius:10px;
+    overflow:hidden;
+    
+}
+.total-header-container{
+    position:relative;
+    width:100%;
+    height:auto;
+    background:transparent;
+     font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+     letter-spacing:5px;
+     left:10px;
+     top:10px;
+    font-size:14px;
+     text-transform:uppercase;
+     font-weight:bold;
+    border-bottom:1px solid black;
+    display:flex;
+}
+.joblisting-header{
+    position:relative;
+    width:calc(100% - 40px);
+    height:auto;
+    background:transparent;
+    display:flex;
+    
+}
+
+.jfavorite-container{
+    position:relative;
+    width:15px;
+    height:15px;
+    left: 2px;
+    transition:filter 0.2s;
+}
+
+.jfavorite-container:hover{
+    filter: invert(0.5);
+}
+.jfavorited-container{
+    position:relative;
+    width:15px;
+    height:15px;
+    left: 2px;
+    filter:brightness(0.8) invert(.7) sepia(.9) hue-rotate(-50deg) saturate(1000%); 
+}
+
+
+.jcantfavorite-container{
+    position:relative;
+    width:15px;
+    height:15px;
+    left: 2px;
+    filter:invert(50%);
+}
+
+.favs-im{
+    position:relative;
+    width:15px;
+    height:15px;
+}
+
+.joblisting-body{
+    position:relative;
+    height:100%;
+    top:10px;
+    width:100%;
+    background:transparent;
+}
+
+.pay-container{
+    position:relative;
+    height:20px;
+    width:50%;
+    top:5px;
+    background:transparent;
+}
+
+.time-container{
+    position:relative;
+    height:20px;
+    width:30%;
+    margin-top:10px;
+    left:50%;
+    top:-25px;
+    background:transparent;
+    
+}
+.jicon-container{
+    position:relative;
+    height:20px;
+    width:20px;
+    background:transparent;
+    left:10px;
+}
+
+img{
+    height:100%;;
+    width:100%;
+}
+
+.jinfo-container{
+    position:relative;
+    height:20px;
+    width:100%;
+    top:-20px;
+    left:40px;
+    background:transparent;
+}
+
+.jamenities-container{
+    position:relative;
+    width:100%;
+    height:33px;
+    
+    background:transparent;
+    top:-28px;
+    top:-12px;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    letter-spacing:3px;
+    left:10px;
+}
+.employer-container{
+    position:relative;
+    width:100%;
+    height:20px;
+    background:transparent;
+    top:-16px;
+    left:10px;
+     font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+     letter-spacing:3px;
+     font-weight:bold;
+     font-size:13px;
+     display:flex;
+}
+.remote{
+    position:relative;
+    background:transparent;
+    left:9px;
+    
+    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    text-transform:UPPERCASE;
+    font-size:12px;
+    font-weight:normal;
+}

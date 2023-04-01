@@ -1,43 +1,42 @@
-'CREATE TABLE User (ID int,Username varchar(255) NOT NULL,Password varchar(255) NOT NULL, PRIMARY KEY (ID))'
+'CREATE TABLE User (ID int,Username varchar(255) NOT NULL,Password varchar(255) NOT NULL, PRIMARY KEY (ID))',
 
-'CREATE TABLE Admin (ID int, PRIMARY KEY (ID), FOREIGN KEY (ID) REFERENCES User(ID))'
+'CREATE TABLE Admin (ID int, PRIMARY KEY (ID), FOREIGN KEY (ID) REFERENCES User(ID))',
 
-'CREATE TABLE GeneralLocation (Name varchar(255), Logitude float, Latitude float, Population int, AccessabilityRating int, PRIMARY KEY (Name, Longitude, Latitude))'
-
-
-'CREATE TABLE ProvinceTerritory (Name varchar(255), Logitude float, Latitude float, HealthCareInfo carchar(255), CostRating int, PRIMARY KEY (Name),PRIMARY KEY (Longitude),PRIMARY KEY (Latitude), FOREIGN KEY (Name) REFERENCES GeneralLocation(Name),FOREIGN KEY (Longitude) REFERENCES GeneralLocation (Longitude), FOREIGN KEY (Latitude) REFERENCES GeneralLocation(Latitude))'
-
-'CREATE TABLE City (Name varchar(255), Logitude float, Latitude float, HealthCareInfo carchar(255), CostRating int,PTName varchar(255), PTLogitude float, PTLatitude float PRIMARY KEY (Name),PRIMARY KEY (Longitude),PRIMARY KEY (Latitude), FOREIGN KEY (Name) REFERENCES GeneralLocation(Name),FOREIGN KEY (Longitude) REFERENCES GeneralLocation (Longitude), FOREIGN KEY (Latitude) REFERENCES GeneralLocation(Latitude),FOREIGN KEY (PTName) REFERENCES ProvinceTerritory(Name),FOREIGN KEY (Longitude) REFERENCES ProvinceTerritory(Longitude), FOREIGN KEY (Latitude) REFERENCES ProvinceTerritory(Latitude))'
+'CREATE TABLE GeneralLocation (Name varchar(255), Longitude float, Latitude float, Population int, AccessabilityRating int, PRIMARY KEY (Name, Longitude, Latitude))',
 
 
-'CREATE TABLE CityLocation (IDNumber varchar(255), ClosestBusStop float, ClosestTrainStop float, Name varchar(255), Latitude (float) NOT NULL, Longitude (float) NOT NULL,Street varchar(255),Number varchar(255),Link varchar(255) ,PRIMARY KEY (IDNumber))'
+'CREATE TABLE ProvinceTerritory (Name varchar(255), Longitude float, Latitude float, HealthCareInfo varchar(255), CostRating int, PRIMARY KEY (Name, Longitude, Latitude), FOREIGN KEY (Name) REFERENCES GeneralLocation(Name),FOREIGN KEY (Longitude) REFERENCES GeneralLocation (Longitude), FOREIGN KEY (Latitude) REFERENCES GeneralLocation(Latitude))',
+
+'CREATE TABLE City (Name varchar(255), Logitude float, Latitude float, HealthCareInfo carchar(255), CostRating int,PTName varchar(255), PTLogitude float, PTLatitude float PRIMARY KEY (Name, Longitude, Latitude), FOREIGN KEY (Name) REFERENCES GeneralLocation(Name),FOREIGN KEY (Longitude) REFERENCES GeneralLocation (Longitude), FOREIGN KEY (Latitude) REFERENCES GeneralLocation(Latitude),FOREIGN KEY (PTName) REFERENCES ProvinceTerritory(Name),FOREIGN KEY (Longitude) REFERENCES ProvinceTerritory(Longitude), FOREIGN KEY (Latitude) REFERENCES ProvinceTerritory(Latitude))',
 
 
-'CREATE TABLE House (IDNumber varchar(255), SquareFootage int, AmenitiesOffered varchar(255), HouseType varchar(255), NBedroom int, NBathroom int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude))'
-
-'CREATE TABLE Utility (UtilityID, PRIMARY KEY (UtilityID))'
-
-'CREATE TABLE Store (IDNumber varchar(255), Type varchar(255),UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))'
-
-'CREATE TABLE School (IDNumber varchar(255), MinimumGrade varchar(255), MaximumGrade varchar(255),UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))'
+'CREATE TABLE CityLocation (IDNumber varchar(255), ClosestBusStop float, ClosestTrainStop float, Name varchar(255), Latitude (float) NOT NULL, Longitude (float) NOT NULL,Street varchar(255),Number varchar(255),Link varchar(255) ,PRIMARY KEY (IDNumber))',
 
 
-'CREATE TABLE Job (IDNumber varchar(255), Industry  varchar(255), Hours varchar(255) , PostingDate varchar(255), RemoteInPerson int,JobDescription varchar(255), Salary varchar(255), ApplicationDeadline varchar(255),Employer varchar(255) ,UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))'
+'CREATE TABLE House (IDNumber varchar(255), SquareFootage int, AmenitiesOffered varchar(255), HouseType varchar(255), NBedroom int, NBathroom int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude))',
+
+'CREATE TABLE Utility (UtilityID, PRIMARY KEY (UtilityID))',
+'CREATE TABLE Store (IDNumber varchar(255), Type varchar(255),UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))',
+
+'CREATE TABLE School (IDNumber varchar(255), MinimumGrade varchar(255), MaximumGrade varchar(255),UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))',
 
 
-'CREATE TABLE CommunitySupport (IDNumber varchar(255), Organizers varchar(255), Offering varchar(255) ,UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))'
-
-'CREATE TABLE CloseTo (UtilityID int, HouseIDNumber varchar(255),distance float ,PRIMARY KEY (UtilityID),PRIMARY KEY (HouseIDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID), FOREIGN KEY HouseIDNumber REFERENCES House (IDNumber))'
+'CREATE TABLE Job (IDNumber varchar(255), Industry  varchar(255), Hours varchar(255) , PostingDate varchar(255), RemoteInPerson int,JobDescription varchar(255), Salary varchar(255), ApplicationDeadline varchar(255),Employer varchar(255) ,UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))',
 
 
-'CREATE TABLE CreatesDeletesGL (ID varchar(255), Name varchar(255) NOT NULL, Longitude float NOT NULL, Latitude float NOT NULL ,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY Name REFERENCES GeneralLocation (Name), FOREIGN KEY Longitude REFERENCES  GeneralLocation (Longitude), FOREIGN KEY Latitude REFERENCES  GeneralLocation (Latitude))'
+'CREATE TABLE CommunitySupport (IDNumber varchar(255), Organizers varchar(255), Offering varchar(255) ,UtilityID int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY CName REFERENCES City (Name), FOREIGN KEY CLongitude REFERENCES City (Longitude), FOREIGN KEY CLatitude REFERENCES City (Latitude), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID))',
 
-'CREATE TABLE TransportationPath (TransportationNumber int, Name varchar(255) , Longitude float, Latitude float ,PRIMARY KEY (TransportationNumber), PRIMARY KEY (Name), PRIMARY KEY (Longitude), PRIMARY KEY (Latitude), FOREIGN KEY Name REFERENCES City (Name), FOREIGN KEY Longitude REFERENCES  City (Longitude), FOREIGN KEY Latitude REFERENCES  City (Latitude))'
+'CREATE TABLE CloseTo (UtilityID int, HouseIDNumber varchar(255),distance float ,PRIMARY KEY (UtilityID),PRIMARY KEY (HouseIDNumber), FOREIGN KEY IDNumber CityLocation (IDNumber), FOREIGN KEY UtilityID REFERENCES Utility (UtilityID), FOREIGN KEY HouseIDNumber REFERENCES House (IDNumber))',
 
-'CREATE TABLE CreatesDeletesCL (ID varchar(255), IDNumber varchar(255) ,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY IDNumber REFERENCES CityLocation (IDNumber))'
 
-'CREATE TABLE FavoritesGL (ID varchar(255), Name varchar(255) NOT NULL, Longitude float NOT NULL, Latitude float NOT NULL,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY Name REFERENCES GeneralLocation (Name), FOREIGN KEY Longitude REFERENCES  GeneralLocation (Longitude), FOREIGN KEY Latitude REFERENCES  GeneralLocation (Latitude))'
+'CREATE TABLE CreatesDeletesGL (ID varchar(255), Name varchar(255) NOT NULL, Longitude float NOT NULL, Latitude float NOT NULL ,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY Name REFERENCES GeneralLocation (Name), FOREIGN KEY Longitude REFERENCES  GeneralLocation (Longitude), FOREIGN KEY Latitude REFERENCES  GeneralLocation (Latitude))',
 
-'CREATE TABLE FavoritesCL (ID varchar(255), IDNumber varchar(255) ,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY IDNumber REFERENCES CityLocation (IDNumber))'
+'CREATE TABLE TransportationPath (TransportationNumber int, Name varchar(255) , Longitude float, Latitude float ,PRIMARY KEY (TransportationNumber), PRIMARY KEY (Name, Longitude, Latitude), FOREIGN KEY Name REFERENCES City (Name), FOREIGN KEY Longitude REFERENCES  City (Longitude), FOREIGN KEY Latitude REFERENCES  City (Latitude))',
 
-'CREATE TABLE Route (TransportationNumber int, Name varchar(255) , Longitude float, Latitude float ,PRIMARY KEY (TransportationNumber), PRIMARY KEY (Name), PRIMARY KEY (Longitude), PRIMARY KEY (Latitude),FOREIGN KEY TransportationNumber TransportationPath (TransportationNumber), FOREIGN KEY Name REFERENCES TransportationPath (Name), FOREIGN KEY Longitude REFERENCES  TransportationPath (Longitude), FOREIGN KEY Latitude REFERENCES  TransportationPath (Latitude))'
+'CREATE TABLE CreatesDeletesCL (ID varchar(255), IDNumber varchar(255) ,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY IDNumber REFERENCES CityLocation (IDNumber))',
+
+'CREATE TABLE FavoritesGL (ID varchar(255), Name varchar(255) NOT NULL, Longitude float NOT NULL, Latitude float NOT NULL,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY Name REFERENCES GeneralLocation (Name), FOREIGN KEY Longitude REFERENCES  GeneralLocation (Longitude), FOREIGN KEY Latitude REFERENCES  GeneralLocation (Latitude))',
+
+'CREATE TABLE FavoritesCL (ID varchar(255), IDNumber varchar(255) ,PRIMARY KEY (ID), FOREIGN KEY ID User (ID), FOREIGN KEY IDNumber REFERENCES CityLocation (IDNumber))',
+
+'CREATE TABLE Route (TransportationNumber int, Name varchar(255) , Longitude float, Latitude float ,PRIMARY KEY (TransportationNumber, Name, Longitude,Latitude), FOREIGN KEY TransportationNumber TransportationPath (TransportationNumber), FOREIGN KEY Name REFERENCES TransportationPath (Name), FOREIGN KEY Longitude REFERENCES  TransportationPath (Longitude), FOREIGN KEY Latitude REFERENCES  TransportationPath (Latitude))'

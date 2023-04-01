@@ -82,7 +82,14 @@ con.connect((err) => {
 //let c = 'DELETE FROM city WHERE city.name = \'Moose Jaw \''
 
 //let c = ''
-let c = 'INSERT INTO city(Name, Longitude, Latitude, HealthCareInfo , CostRating,PTName, PTLongitude,PTLatitude) VALUES (\'Moose Jaw\', -105.551941, 50.393333, null, null, \'Saskatchewan\', -106,55)'
+//let c = 'INSERT INTO city(Name, Longitude, Latitude, HealthCareInfo , CostRating,PTName, PTLongitude,PTLatitude) VALUES (\'Moose Jaw\', -105.551941, 50.393333, null, null, \'Saskatchewan\', -106,55)'
+
+//let c = 'CREATE TABLE House (IDNumber varchar(255), SquareFootage int, AmenitiesOffered varchar(255),Rent int, HouseType varchar(255), NBedroom int, NBathroom int, CName varchar(255) NOT NULL, CLongitude float NOT NULL, CLatitude float NOT NULL,PRIMARY KEY (IDNumber), FOREIGN KEY (IDNumber) REFERENCES CityLocation (IDNumber), FOREIGN KEY (CName,CLongitude, CLatitude) REFERENCES City (Name,Longitude,Latitude))'
+
+//let c = 'ALTER TABLE house ADD COLUMN Rent int AFTER HouseType'
+
+
+let c = 'UPDATE job SET Hours = \'full-time\''
 con.query(c, (err,result) => {
         if (err) throw err;
         console.log('creating table bounding',result);
