@@ -60,6 +60,7 @@ class HouseListing extends React.Component{
                          {this.state.info.SquareFootage} ft<sup>2</sup>
                         </div>
                     </div>
+                    
                     <div className = 'amenities-container'>
                     {this.state.info.AmenitiesOffered}
                     </div>

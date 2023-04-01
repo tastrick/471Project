@@ -68,6 +68,14 @@ class JobListing extends React.Component{
                     </div>
                     
                 </div>
+                <div className = 'dates-container'>
+                    <div className = 'posted-Date-cont' title = 'job posting date'>
+                    {this.state.info.PostingDate}
+                    </div>
+                    <div className = 'due-Date-cont' title = 'application due date'>
+                    {this.state.info.ApplicationDeadline}
+                    </div>
+                </div>
             </div>
         )
     }

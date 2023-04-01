@@ -726,23 +726,23 @@ class InteractiveMap extends React.Component{
                                 }): null}
                                     
                                
-                               { !this.state.menuColapsed && this.state.selectedTopIndex==2 ? this.state.hs.map((thing,i) =>{
+                               { !this.state.menuColapsed && this.state.selectedTopIndex==2 ? this.state.schs.map((thing,i) =>{
                                     return(
-                                     <SchoolListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing}></SchoolListing>
+                                     <SchoolListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==2 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></SchoolListing>
                                     )
                                     
                                 }): null}
                                 
-                                { !this.state.menuColapsed && this.state.selectedTopIndex==3 ? this.state.hs.map((thing,i) =>{
+                                { !this.state.menuColapsed && this.state.selectedTopIndex==3 ? this.state.strs.map((thing,i) =>{
                                     return(
-                                     <StoreListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing}></StoreListing>
+                                     <StoreListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==3 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></StoreListing>
                                     )
                                     
                                 }): null}
                                 
-                                { !this.state.menuColapsed && this.state.selectedTopIndex==4 ? this.state.hs.map((thing,i) =>{
+                                { !this.state.menuColapsed && this.state.selectedTopIndex==4 ? this.state.comsu.map((thing,i) =>{
                                     return(
-                                     <CsListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing}></CsListing>
+                                     <CsListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==4 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></CsListing>
                                     )
                                     
                                 }): null}
