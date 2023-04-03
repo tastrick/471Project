@@ -10,13 +10,25 @@
     
 }
 
-.houselisting-selected{
+.houselisting-groupselect{
     position:relative;
-    height:100px;
+    height:auto;
     width: calc(100% - 11px);
     left:5px;
     margin-top: 5px;
-    background:rgb(245,105,145);
+    background:lightgrey;
+    border-radius:10px;
+    overflow:hidden;
+    
+}
+
+.houselisting-selected{
+    position:relative;
+    height:auto;
+    width: calc(100% - 11px);
+    left:5px;
+    margin-top: 5px;
+    background:salmon;
     border-radius:10px;
     overflow:hidden;
     

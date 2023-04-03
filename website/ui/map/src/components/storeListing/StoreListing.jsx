@@ -11,13 +11,15 @@ class StoreListing extends React.Component{
             selected: props.selected,
             info:props.info,
             canFavorite: props.canFavorite,
-            isFavorited: props.isFavorited
+            isFavorited: props.isFavorited,
+            groupSelect:props.groupSelect,
+            onclick: props.onClick
         }
     }
     
     render(){
         return(
-            <div className = {this.state.selected ? 'storelisting-selected':'storelisting-unselected'}>
+            <div className = {this.state.selected ? 'storelisting-selected': this.state.groupSelect ? 'storelisting-groupselect':'storelisting-unselected'} onClick = {this.state.onclick}>
             <div className = 'total-header-container'>
                 <div className = "storelisting-header" >
                     <div className = 'type-container'>

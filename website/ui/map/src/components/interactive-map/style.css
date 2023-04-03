@@ -260,7 +260,7 @@ background:transparent;
     left:5px;
     height:20%;
     margin-top:5px;
-    background:rgb(245,105,145);
+    background:salmon;
     border-radius:10px;
     overflow:hidden;
     transition:width 0.2s;
@@ -532,4 +532,10 @@ background:transparent;
  
     width:100%;
     height:100%;
+}
+.marker-selected{
+    filter:brightness(0.8) invert(.7) sepia(.9) hue-rotate(-50deg) saturate(1000%); 
+}
+.marker-groupselected{
+    filter:invert(0.5);
 }

@@ -49,7 +49,7 @@ import bc_flag from "../icons2/flags/bc.png";
 
 
 import popu from "../icons2/misc/popu.png";
-
+import info from "../icons2/misc/info.png";
 import houses from "../icons2/misc/houses.png";
 import stores from "../icons2/misc/stores.png";
 import jobs from "../icons2/misc/jobs.png";
@@ -83,8 +83,8 @@ class InteractiveMap extends React.Component{
             isMapFullScreen:false,
             isMapMenuExpanded:false,
             mapSideIcons: [houses,jobs,schools,stores, comsups,favs,add],
-            mapSelectedProvinceIcons:[popu,tax,cities],
-            mapSelectedProvincelabels:['population','taxes','cities'],
+            mapSelectedProvinceIcons:[popu,tax,cities,info],
+            mapSelectedProvincelabels:['population','taxes','cities', 'provincial supports'],
             mapProvinceSelected: [Ab,Sk,Mn,On,Qu,Nb,Ns,Nl,Pei,Bc,Nu,Yk,Nwt],
             sideIcons: ['homes','jobs','schools','stores','community supports', 'favorites','filter'],
             hasAccount:false,
@@ -110,7 +110,8 @@ class InteractiveMap extends React.Component{
            strs:[],
            comsu:[],
            userType:'guest',// this can be guest, user, or admin, guests wont be allowed to favorite or add, users wont be allowed to add and admin have all capabilities
-          selectedAmmenity:[]
+          selectedAmmenity:[0,0],
+          markerStyle:{filter:"invert(0.5)"}
            
              
            
@@ -243,7 +244,10 @@ class InteractiveMap extends React.Component{
             return "province"
         } 
     }
-    
+    handleListingClick = (e,i,type) =>{
+        console.log("inside click house",i)
+        this.setState({selectedAmmenity:[type,i]})
+    }
     get_style = () =>{
         //console.log(this.state.mouseLoc);
         var s = {position:'fixed',top:this.state.mouseLoc[1],left:this.state.mouseLoc[0],width:110,height:"auto",backgroundColor:"black", pointerEvents:"none", opacity: "50%", borderRadius:"10px", overflow:"hidden"}
@@ -283,37 +287,113 @@ class InteractiveMap extends React.Component{
         this.setState({selectedTopIndex:2});
     }
     render(){
-       const ho = new L.Icon({
+       
+       const hou = new L.Icon({
+           className:'marker-unselected',
             iconUrl: houses,
             iconRetinaUrl: houses,
             popupAnchor:  [-0, -0],
-            iconSize: [15,15],     
+            iconSize: [15,15]
         });
-       const jo = new L.Icon({
+       const hos = new L.Icon({
+           className:'marker-selected',
+            iconUrl: houses,
+            iconRetinaUrl: houses,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15]
+        });
+       const hog = new L.Icon({
+           className:'marker-groupselected',
+            iconUrl: houses,
+            iconRetinaUrl: houses,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15]
+        });
+       const jou = new L.Icon({
+           className:'marker-unselected',
             iconUrl: jobs,
             iconRetinaUrl: jobs,
             popupAnchor:  [-0, -0],
             iconSize: [15,15],     
         });
-       const sto = new L.Icon({
+       const jos = new L.Icon({
+           className:'marker-selected',
+            iconUrl: jobs,
+            iconRetinaUrl: jobs,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const jog = new L.Icon({
+           className:'marker-groupselected',
+            iconUrl: jobs,
+            iconRetinaUrl: jobs,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const stou = new L.Icon({
+           className:'marker-unselected',
             iconUrl: stores,
             iconRetinaUrl: stores,
             popupAnchor:  [-0, -0],
             iconSize: [15,15],     
         });
-       const scho = new L.Icon({
+       const stos = new L.Icon({
+           className:'marker-selected',
+            iconUrl: stores,
+            iconRetinaUrl: stores,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const stog = new L.Icon({
+           className:'marker-groupselected',
+            iconUrl: stores,
+            iconRetinaUrl: stores,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const schou = new L.Icon({
+           className:'marker-unselected',
             iconUrl: schools,
             iconRetinaUrl: schools,
             popupAnchor:  [-0, -0],
             iconSize: [15,15],     
         });
-       const coms = new L.Icon({
+        const schos = new L.Icon({
+           className:'marker-selected',
+            iconUrl: schools,
+            iconRetinaUrl: schools,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+         const schog = new L.Icon({
+           className:'marker-groupselected',
+            iconUrl: schools,
+            iconRetinaUrl: schools,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const comsu = new L.Icon({
+           className:'marker-unselected',
             iconUrl: comsups,
             iconRetinaUrl: comsups,
             popupAnchor:  [-0, -0],
             iconSize: [15,15],     
         });
-       const all = [ho,jo,scho,sto,coms];
+       const comss = new L.Icon({
+           className:'marker-selected',
+            iconUrl: comsups,
+            iconRetinaUrl: comsups,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+       const comsg = new L.Icon({
+           className:'marker-groupselected',
+            iconUrl: comsups,
+            iconRetinaUrl: comsups,
+            popupAnchor:  [-0, -0],
+            iconSize: [15,15],     
+        });
+      // const all = [ho,jo,scho,sto,coms];
         return (
             <div className = "mcontainer">
                
@@ -590,7 +670,7 @@ class InteractiveMap extends React.Component{
                        {this.state.cityLocations.map((loc,i) => {
                            if (i == this.state.hoverCityIndex){
                                 return(
-                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:1000, background:"crimson", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => {this.setState({hoverCityIndex:i})}} title = {this.state.displayedCities[i].Name}>
+                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:1000, background:"salmon", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => {this.setState({hoverCityIndex:i})}} title = {this.state.displayedCities[i].Name}>
                             <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:1000, filter: 'invert(1)'}} ></img>
                            </div>
                           
@@ -658,34 +738,80 @@ class InteractiveMap extends React.Component{
                         
                         
                                
-                               {this.state.hs.map((thing) =>{
+                               {this.state.hs.map((thing,c) =>{
                                     return(
-                                     <Marker icon={ho}  position={[thing.Longitude,thing.Latitude]}/>
+                                     <Marker  icon={this.state.selectedAmmenity[0]==0&& this.state.selectedAmmenity[1]==c ? hos : this.state.selectedTopIndex==0 ? hog : hou}  position={[thing.Longitude,thing.Latitude]} eventHandlers={{
+                                        click: (e) => {
+                                            var te = [0,c];
+                                            this.forceUpdate();
+                                       this.setState({selectedAmmenity:te});
+                                       this.setState({selectedTopIndex:0});
+                                       this.setState({menuColapsed:false})
+                                       console.log("selecting house")
+                                       this.forceUpdate();
+                                        },
+                                    }}/>
                                     )
                                     
                                 })}
                                 
-                                {this.state.js.map((thing) =>{
+                                {this.state.js.map((thing,c) =>{
                                     return(
-                                     <Marker icon={jo}  position={[thing.Longitude,thing.Latitude]}/>
+                                     <Marker icon={this.state.selectedAmmenity[0]==1&& this.state.selectedAmmenity[1]==c ? jos : this.state.selectedTopIndex==1 ? jog : jou} position={[thing.Longitude,thing.Latitude]} eventHandlers={{
+                                        click: (e) => {
+                                            var te = [1,c];
+                                       this.setState({selectedAmmenity:te});
+                                       this.setState({selectedTopIndex:1});
+                                       this.setState({menuColapsed:false})
+                                       console.log("selecting job")
+                                       this.forceUpdate();
+                                        },
+                                    }}/>
                                     )
                                     
                                 })}
-                                {this.state.schs.map((thing) =>{
+                                {this.state.schs.map((thing,c) =>{
                                     return(
-                                     <Marker icon={scho}  position={[thing.Longitude,thing.Latitude]}/>
+                                     <Marker icon={this.state.selectedAmmenity[0]==2&& this.state.selectedAmmenity[1]==c ? schos : this.state.selectedTopIndex==2 ? schog : schou}  position={[thing.Longitude,thing.Latitude]} eventHandlers={{
+                                        click: (e) => {
+                                            var te = [2,c];
+                                       this.setState({selectedAmmenity:te});
+                                       this.setState({selectedTopIndex:2});
+                                       this.setState({menuColapsed:false})
+                                       console.log("selecting school")
+                                       this.forceUpdate();
+                                        },
+                                    }}/>
                                     )
                                     
                                 })}
-                                {this.state.strs.map((thing) =>{
+                                {this.state.strs.map((thing,c) =>{
                                     return(
-                                     <Marker icon={sto}  position={[thing.Longitude,thing.Latitude]}/>
+                                     <Marker icon={this.state.selectedAmmenity[0]==3&& this.state.selectedAmmenity[1]==c ? stos : this.state.selectedTopIndex==3 ? stog : stou}  position={[thing.Longitude,thing.Latitude]} eventHandlers={{
+                                        click: (e) => {
+                                            var te = [3,c];
+                                       this.setState({selectedAmmenity:te});
+                                       this.setState({selectedTopIndex:3});
+                                       this.setState({menuColapsed:false})
+                                       console.log("selecting store")
+                                       this.forceUpdate();
+                                        },
+                                    }}/>
                                     )
                                     
                                 })}
-                                {this.state.comsu.map((thing) =>{
+                                {this.state.comsu.map((thing,c) =>{
                                     return(
-                                     <Marker icon={coms}  position={[thing.Longitude,thing.Latitude]}/>
+                                     <Marker icon={this.state.selectedAmmenity[0]==4&& this.state.selectedAmmenity[1]==c ? comss : this.state.selectedTopIndex==4 ? comsg : comsu} position={[thing.Longitude,thing.Latitude]} eventHandlers={{
+                                        click: (e) => {
+                                            var te = [4,c];
+                                       this.setState({selectedAmmenity:te});
+                                       this.setState({selectedTopIndex:4});
+                                       this.setState({menuColapsed:false})
+                                       console.log("selecting compsums")
+                                       this.forceUpdate();
+                                        },
+                                    }}/>
                                     )
                                     
                                 })}
@@ -712,15 +838,16 @@ class InteractiveMap extends React.Component{
                                 
                                 </div>
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==0 ? this.state.hs.map((thing,i) =>{
+                                    console.log("rerendering housees",this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i )
                                     return(
-                                     <HouseListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></HouseListing>
+                                     <HouseListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,0)}></HouseListing>
                                     )
                                     
                                 }): null}
                                    
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==1 ? this.state.js.map((thing,i) =>{
                                     return(
-                                     <JobListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==1 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></JobListing>
+                                     <JobListing key={this.state.selectedAmmenity}  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==1 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,1)}></JobListing>
                                     )
                                     
                                 }): null}
@@ -728,21 +855,21 @@ class InteractiveMap extends React.Component{
                                
                                { !this.state.menuColapsed && this.state.selectedTopIndex==2 ? this.state.schs.map((thing,i) =>{
                                     return(
-                                     <SchoolListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==2 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></SchoolListing>
+                                     <SchoolListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==2 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,2)}></SchoolListing>
                                     )
                                     
                                 }): null}
                                 
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==3 ? this.state.strs.map((thing,i) =>{
                                     return(
-                                     <StoreListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==3 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></StoreListing>
+                                     <StoreListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==3 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,3)}></StoreListing>
                                     )
                                     
                                 }): null}
                                 
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==4 ? this.state.comsu.map((thing,i) =>{
                                     return(
-                                     <CsListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==4 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false}></CsListing>
+                                     <CsListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==4 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,4)}></CsListing>
                                     )
                                     
                                 }): null}

@@ -9,13 +9,24 @@
     overflow:hidden;
     
 }
-.schoollisting-selected{
+.schoollisting-groupselect{
     position:relative;
     height:auto;
     width: calc(100% - 11px);
     left:5px;
     margin-top: 5px;
     background:lightgrey;
+    border-radius:10px;
+    overflow:hidden;
+    
+}
+.schoollisting-selected{
+    position:relative;
+    height:auto;
+    width: calc(100% - 11px);
+    left:5px;
+    margin-top: 5px;
+    background:salmon;
     border-radius:10px;
     overflow:hidden;
     

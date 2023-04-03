@@ -12,13 +12,15 @@ class SchoolListing extends React.Component{
             info:props.info,
             canFavorite: props.canFavorite,
             isFavorited: props.isFavorited,
-            gradeType:['primary', 'secondary', 'post-secondary']
+            gradeType:['primary', 'secondary', 'post-secondary'],
+            groupSelect:props.groupSelect,
+            onclick: props.onClick
         }
     }
     
     render(){
         return(
-            <div className = {this.state.selected ? 'schoollisting-selected':'schoollisting-unselected'}>
+            <div className = {this.state.selected ? 'schoollisting-selected':this.state.groupSelect ? 'schoollisting-groupselect':'schoollisting-unselected'} onClick = {this.state.onclick}>
             <div className = 'total-header-container'>
                 <div className = "schoollisting-header" >
                     <div className = 'type-container'>

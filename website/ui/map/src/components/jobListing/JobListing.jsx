@@ -11,13 +11,15 @@ class JobListing extends React.Component{
             selected: props.selected,
             info:props.info,
             canFavorite: props.canFavorite,
-            isFavorited: props.isFavorited
+            isFavorited: props.isFavorited,
+            groupSelect:props.groupSelect,
+            onclick: props.onClick
         }
     }
     
     render(){
         return(
-            <div className = {this.state.selected ? 'joblisting-selected':'joblisting-unselected'}>
+            <div className = {this.state.selected ? 'joblisting-selected': this.state.groupSelect ? 'joblisting-groupselect':'joblisting-unselected'} onClick = {this.state.onclick}>
             <div className = 'total-header-container'>
                 <div className = "joblisting-header" >
                     <div className = 'type-container'>

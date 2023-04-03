@@ -12,13 +12,17 @@ class HouseListing extends React.Component{
             selected: props.selected,
             info:props.info,
             canFavorite: props.canFavorite,
-            isFavorited: props.isFavorited
+            isFavorited: props.isFavorited,
+            groupSelect:props.groupSelect,
+            onclick: props.onClick
         }
+       console.log('from component: ',this.state.selected,this.state.groupSelect )
     }
     
     render(){
+        
         return(
-            <div className = {this.state.selected ? 'houselisting-selected':'houselisting-unselected'}>
+            <div className = {this.state.selected ? 'houselisting-selected': this.state.groupSelect ? 'houselisting-groupselect':'houselisting-unselected'} onClick = {this.state.onclick}>
                 <div className = "houselisting-header" >
                     <div className = 'type-container'>
                         {this.state.info.HouseType}
