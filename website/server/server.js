@@ -56,7 +56,7 @@ io.on('connection',(socket)=>{
     //console.log('User Online# '+connectCounter);
     socket.on('getBounds', (data) => {
         let strProv = provs[data];
-        let sqlquery2 = 'SELECT * FROM bounds AS b WHERE b.name = '+'\''+strProv+'\'';
+        let sqlquery2 = 'SELECT * FROM Bounds AS b WHERE b.name = '+'\''+strProv+'\'';
         con.query(sqlquery2, (err,result) => {
             if (err) throw err;
             console.log(result);
@@ -67,7 +67,7 @@ io.on('connection',(socket)=>{
     })
     socket.on('getpops', (data) => {
         //this will need to be changed if names are not unique
-        let sql = 'SELECT gl.population FROM generallocation AS gl WHERE gl.name = '+'\''+data+'\''
+        let sql = 'SELECT gl.population FROM GeneralLocation AS gl WHERE gl.name = '+'\''+data+'\''
         con.query(sql, (err,result) => {
             if (err) throw err;
             console.log(result);
@@ -78,7 +78,7 @@ io.on('connection',(socket)=>{
     socket.on('getAllAmmenities', (data) => {
         
         var res = [];
-        let sql = 'SELECT * FROM house AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+        let sql = 'SELECT * FROM House AS h, CityLocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
          con.query(sql, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -86,28 +86,28 @@ io.on('connection',(socket)=>{
             //console.log('after adding: ', res)
              
         });
-         sql = 'SELECT * FROM job AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         sql = 'SELECT * FROM Job AS h, CityLocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
          con.query(sql, (err,result) => {
             if (err) throw err;
             //console.log(result);
             res.push(result);
              
         });
-         sql = 'SELECT * FROM school AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         sql = 'SELECT * FROM School AS h, CityLocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
          con.query(sql, (err,result) => {
             if (err) throw err;
             //console.log(result);
             res.push(result);
              
         });
-         sql = 'SELECT * FROM store AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         sql = 'SELECT * FROM Store AS h, CityLocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
          con.query(sql, (err,result) => {
             if (err) throw err;
             //console.log(result);
             res.push(result);
              
         });
-         sql = 'SELECT * FROM communitysupport AS h, citylocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
+         sql = 'SELECT * FROM CommunitySupport AS h, CityLocation AS cl WHERE cl.IDNumber = h.idnumber AND  h.cname = '+'\''+data+'\'' ;
          con.query(sql, (err,result) => {
             if (err) throw err;
         
@@ -120,7 +120,7 @@ io.on('connection',(socket)=>{
     })
     socket.on('getCityNumsfromCity', (data) => {
         //let strProv = provs[data];
-        let sql = 'SELECT COUNT(h.idnumber), COUNT(j.idnumber), COUNT(s.idnumber),COUNT(sc.idnumber),COUNT(c.idnumber) FROM house AS h, job AS j, store AS s, school AS sc,  communitysupport AS c WHERE h.cname=j.cname AND h.cname = s.cname AND h.cname = sc.cname AND h.cname = c.cname AND h.cname = '+'\''+data+'\''
+        let sql = 'SELECT COUNT(h.idnumber), COUNT(j.idnumber), COUNT(s.idnumber),COUNT(sc.idnumber),COUNT(c.idnumber) FROM House AS h, Job AS j, Store AS s, School AS sc,  CommunitySupport AS c WHERE h.cname=j.cname AND h.cname = s.cname AND h.cname = sc.cname AND h.cname = c.cname AND h.cname = '+'\''+data+'\''
         con.query(sql, (err,result) => {
             if (err) throw err;
             console.log("sending numbers back: ",result);
@@ -134,7 +134,7 @@ io.on('connection',(socket)=>{
         console.log('returning cities for: ', data);
         
         console.log(strProv)
-        let sqlquery = 'SELECT * FROM city AS c WHERE c.PTname = '+'\''+strProv+'\'';
+        let sqlquery = 'SELECT * FROM City AS c WHERE c.PTname = '+'\''+strProv+'\'';
         con.query(sqlquery, (err,result) => {
             if (err) throw err;
             console.log(result);
