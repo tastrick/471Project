@@ -1,1 +1,14 @@
-id,minimum grade,maximum grade,blank,City name
+"Name";"Longitude";"Latitude";"HealthCareInfo";"CostRating"
+"Alberta";-115.0;55.0;"";0
+"British Columbia";-127.648;53.7267;"";0
+"Manitoba";-98.7391;56.4152;"";0
+"New Brunswick";-66.1597;46.4984;"";0
+"Newfoundland & Labrador";-57.6604;53.1355;"";0
+"Northwest Territories";-114.372;62.454;"";0
+"Nova Scotia";-63.0;45.0;"";0
+"Nunavut";-86.799;70.4533;"";0
+"Ontario";-85.0;50.0;"";0
+"Prince Edward Island";-63.0;46.25;"";0
+"Quebec";-71.254;46.8299;"";0
+"Saskatchewan";-106.0;55.0;"";0
+"Yukon";-135.0;64.0;"";0
