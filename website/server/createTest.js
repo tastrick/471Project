@@ -4,9 +4,9 @@ const mysql = require('mysql2');
 
 
 const con = mysql.createConnection({
-    host:'localhost',
+    host:'canadianammenities.cjvwv8uwmfuy.us-east-2.rds.amazonaws.com',
     user: 'root',
-    password: '1012',
+    password: 'xkOROcz8J0YcRBEcWXhw',
     database: 'CanadianAmmenities'
 });
 
@@ -61,25 +61,25 @@ con.connect((err) => {
     console.log("connected to database");
 });
 
-//let sql = 'CREATE DATABASE CanadianAmmenities';
-//con.query(sql, (err,result) => {
+// let sql = 'CREATE DATABASE CanadianAmmenities';
+// con.query(sql, (err,result) => {
 //    if (err) throw err;
 //    console.log('database created...');
-//});
+// });
 
 
-//for (var i = 0; i < commands.length; i++){
+// for (var i = 0; i < commands.length; i++){
 //    let sqlcommand = commands[i];
 //    con.query(sqlcommand, (err,result) => {
 //        if (err) throw err;
- //       console.log('creating table',i);
- //   });
-//}
+//        console.log('creating table',i);
+//    });
+// }
 
-//let c = 'CREATE TABLE Bounds(Name varchar(255), longmin float, longmax float, latmin float, latmax float, xoffset int, yoffset int, PRIMARY KEY(Name), FOREIGN KEY (Name)  REFERENCES ProvinceTerritory(Name))'
+// let c = 'CREATE TABLE Bounds(Name varchar(255), longmin float, longmax float, latmin float, latmax float, xoffset int, yoffset int, PRIMARY KEY(Name), FOREIGN KEY (Name)  REFERENCES ProvinceTerritory(Name))'
 
-//let c = 'INSERT INTO Utility (UtilityID) VALUES (0)'
-//let c = 'DELETE FROM city WHERE city.name = \'Moose Jaw \''
+// let c = 'INSERT INTO Utility (UtilityID) VALUES (0)'
+let c = 'DELETE FROM city WHERE city.name = \'Moose Jaw \''
 
 //let c = ''
 //let c = 'INSERT INTO city(Name, Longitude, Latitude, HealthCareInfo , CostRating,PTName, PTLongitude,PTLatitude) VALUES (\'Moose Jaw\', -105.551941, 50.393333, null, null, \'Saskatchewan\', -106,55)'
@@ -91,7 +91,7 @@ con.connect((err) => {
 
 //let c = 'UPDATE school SET Name = \'Saskpoly Tech\''
 
-let c = 'ALTER TABLE school DROP COLUMN Name'
+// let c = 'ALTER TABLE school DROP COLUMN Name'
 con.query(c, (err,result) => {
         if (err) throw err;
         console.log('creating table bounding',result);

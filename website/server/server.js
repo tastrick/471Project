@@ -23,9 +23,9 @@ var io = new Server(server, {
 var users = [];
 //start server for whiteboard
 const con = mysql.createConnection({
-    host:'localhost',
+    host:'canadianammenities.cjvwv8uwmfuy.us-east-2.rds.amazonaws.com',
     user: 'root',
-    password: '1012',
+    password: 'xkOROcz8J0YcRBEcWXhw',
     database: 'CanadianAmmenities'
 });
 con.connect((err) => {
