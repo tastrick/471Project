@@ -144,7 +144,22 @@ io.on('connection',(socket)=>{
         
        
     })
-    
+    socket.on('signUp', (data) =>{
+        let user = data.username;
+        let pass = data.password;
+
+        let sqlquery = `INSERT INTO User (Username, Password) VALUES ("${user}","${pass}")`;
+
+        con.query(sqlquery, (err,result) => {
+            if (err) throw err;
+            console.log(result);
+        });
+
+        console.log("SOCKET USER: ", user);
+        console.log("SOCKET PASS: ", pass);
+    });
+
+
     socket.on('getUsers',() =>{
         console.log("sending users")
         io.emit('recieve-users',users)

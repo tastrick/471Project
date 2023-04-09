@@ -15,6 +15,7 @@ class Container extends React.Component{
         this.id = '';
         this.users = React.createRef();
         this.onlineState = false;
+        this.mapRef = React.createRef();
         this.state = {
             login:false
         }
@@ -60,6 +61,11 @@ class Container extends React.Component{
         //console.log("inside login");
         
     }
+    handleLoginSuccess = () => {
+        //console.log("Login: SUCCESS");
+        this.mapRef.current.loginSuccess();
+    }
+
     handleExitLogin = () =>{
         this.setState({login:false});
         //console.log("inside login");
@@ -73,20 +79,20 @@ class Container extends React.Component{
                     <div className = "home-container">
                     </div>
                     <div className ={ this.state.login ? "sign-in-container-clicked" : "sign-in-container"}  onClick = {this.handleLogin}>
-                    <div className = "icon-container">
-                    <img src= {signin}></img>
-                    </div>
-                    <div className = "text-container">
-                    Sign-in
-                    </div>
+                        <div className = "icon-container">
+                        <img src= {signin}></img>
+                        </div>
+                        <div className = "text-container">
+                        Sign-in
+                        </div>
                     </div>
                 </div>
                 {this.state.login ? 
-                    <LogIn exitOnClick = {this.handleExitLogin}></LogIn>
+                    <LogIn exitOnClick = {this.handleExitLogin} loginSucess = {this.handleLoginSuccess} socket={this.socket}></LogIn>
                
                     :  <div className = "noLogin"></div>
                 }
-                <Map socket = {this.socket}></Map>
+                <Map socket = {this.socket} ref={this.mapRef}></Map>
             </div>
          
         )
