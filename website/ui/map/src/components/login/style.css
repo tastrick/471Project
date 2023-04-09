@@ -30,15 +30,43 @@
 }
 
 .exit-container{
-    
-     position:relative;
+    position:relative;
     width:35px;
     height:35px;
     top:-17px;
     left: calc(100% - 35px - 5px);
-   background: url(../icons2/login/exit.png) no-repeat ;
-  background-position: 0px 0px;
-  background-size: 70% 60%;
+    background: url(../icons2/login/exit.png) no-repeat ;
+    background-position: 0px 0px;
+    background-size: 70% 60%;
+}
+.message-exit-container{
+    position:relative;
+    width:35px;
+    height:35px;
+    left: calc(100% - 35px - 5px);
+    background: url(../icons2/login/exit.png) no-repeat ;
+    background-position: 0px 0px;
+    background-size: 70% 60%;
+}
+.message-success{
+    color: green;
+    text-align: center;
+    margin: auto;
+    margin-top: 15%;
+    width: 80%;
+}
+.message-fail{
+    color: crimson;
+    text-align: center;
+    margin: auto;
+    margin-top: 15%;
+    width: 80%;
+}
+.message-footer{
+    text-align: center;
+    margin: auto;
+    margin-top: 15%;
+    width: 80%;
 }
 
 .exit-container:hover{
@@ -61,7 +89,7 @@
     height:10%;
     text-align:center;
     font-size:32px;
-    letter-spacing: 20px; 
+    letter-spacing: .25em; 
     font-weight:bold;
 }
 .credentials-container{
