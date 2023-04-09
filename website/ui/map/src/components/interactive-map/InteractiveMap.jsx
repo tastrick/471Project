@@ -287,9 +287,15 @@ class InteractiveMap extends React.Component{
         this.setState({selectedTopIndex:2});
     }
 
-    loginSuccess = () => {
-        this.setState({userType:'user'});
-        //console.log("USER TYPE: ", this.state.userType);
+    loginSuccess = (data) => {
+        if(data.isAdmin){
+            this.setState({userType:'admin'});
+        } else{
+            this.setState({userType:'user'});
+        }
+    }
+    logoutSuccess = () => {
+        this.setState({userType:'guest'});
     }
 
     render(){

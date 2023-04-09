@@ -34,14 +34,10 @@ class LogIn extends React.Component {
 		this.setState({ password: "", username: "" });
 	};
 	handleSignUpAttempt = () => {
-		console.log("USERNAME: ", this.state.username);
-		console.log("PASSWORD: ", this.state.password);
-
 		this.socket.emit("signUp", {
 			username: this.state.username,
 			password: this.state.password
 		});
-
         this.setState({main: false, message: "success"});
 	};
 	handleLogInAttempt = () => {
@@ -51,11 +47,8 @@ class LogIn extends React.Component {
 		});
 	};
     handleLogInSuccess = (data) => {
-        //let user = data.Username;
-        //let pass = data.Password;
-
-        //console.log("SUCCESS!!!! USER/PASS/ADMIN", user, pass);
-        console.log(data);
+        this.runLoginSuccess(data);
+        this.runExitSeq();
     };
     handleLogInFail = () => {
         this.setState({main: false, message: "fail"});

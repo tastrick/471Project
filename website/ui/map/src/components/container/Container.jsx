@@ -17,7 +17,10 @@ class Container extends React.Component{
         this.onlineState = false;
         this.mapRef = React.createRef();
         this.state = {
-            login:false
+            showLogin:false,
+            login: false,
+            admin: false,
+            username: ""
         }
 
       
@@ -57,41 +60,53 @@ class Container extends React.Component{
             
     }
     handleLogin = () =>{
-        this.setState({login:true});
-        //console.log("inside login");
-        
+        this.setState({showLogin:true});
     }
-    handleLoginSuccess = () => {
-        //console.log("Login: SUCCESS");
-        this.mapRef.current.loginSuccess();
+    handleLoginSuccess = (data) => {
+        this.setState({username: data.username, login: true});
+        if(data.isAdmin){
+            this.setState({admin: true});
+        }
+        this.mapRef.current.loginSuccess(data);
     }
-
+    handleSignOut = () => {
+        this.setState({login: false, admin: false, showLogin: false});
+        this.mapRef.current.logoutSuccess();
+    }
     handleExitLogin = () =>{
-        this.setState({login:false});
-        //console.log("inside login");
-        
+        this.setState({showLogin:false});
     }
     
     render(){
         return (
             <div className = "container" >
-                 <div className = "home-bar-container">
-                    <div className = "home-container">
-                    </div>
-                    <div className ={ this.state.login ? "sign-in-container-clicked" : "sign-in-container"}  onClick = {this.handleLogin}>
-                        <div className = "icon-container">
-                        <img src= {signin}></img>
+                {!this.state.login ? 
+                    <div className = "home-bar-container">
+                        <div className = "home-container"></div>
+                        <div className ={ this.state.showLogin ? "sign-in-container-clicked" : "sign-in-container"}  onClick = {this.handleLogin}>
+                            <div className = "icon-container">
+                                <img src= {signin}></img>
+                            </div>
+                            <div className = "text-container">
+                                Sign-in
+                            </div>
                         </div>
-                        <div className = "text-container">
-                        Sign-in
+                    </div> 
+                : 
+                    <div className = "home-bar-container">
+                        <div className = "home-container"></div>
+                        <div className ={this.state.admin ? "admin-container" : "user-container"}  onClick = {this.handleSignOut}>
+                            <div className = "signout-text-container">
+                                {this.state.username}
+                                <p>Sign out</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                {this.state.login ? 
+                    </div>}
+                {this.state.showLogin ? 
                     <LogIn exitOnClick = {this.handleExitLogin} loginSucess = {this.handleLoginSuccess} socket={this.socket}></LogIn>
-               
-                    :  <div className = "noLogin"></div>
-                }
+                :  
+                    <div className = "noLogin"></div> }
+
                 <Map socket = {this.socket} ref={this.mapRef}></Map>
             </div>
          

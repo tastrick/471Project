@@ -50,6 +50,38 @@
     z-index:1000;
     filter:invert(1);
 }
+.user-container{
+    position:relative;
+    top:10px;
+    width:125px;
+    height:50px;
+    left: calc(100% - 175px);
+    background-color: #70db70;
+    display:flex;
+    border-radius:60px;
+    border:1px solid black;
+    transition:filter 0.2s;
+    z-index:10000;
+}
+.admin-container{
+    position:relative;
+    top:10px;
+    width:125px;
+    height:50px;
+    left: calc(100% - 175px);
+    background-color: #ff4d4d;
+    display:flex;
+    border-radius:60px;
+    border:1px solid black;
+    transition:filter 0.2s;
+    z-index:10000;
+}
+.admin-container:hover{
+    background-color:#b30000;
+}
+.user-container:hover{
+    background-color:#248f24;
+}
 .sign-in-container:hover{
     filter:invert(1);
 }
@@ -80,4 +112,20 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     vertical-align:middle;
+}
+
+.signout-text-container{
+    position:relative;
+    margin: auto;
+    margin-top: 7.5%;
+    line-height: 75%;
+    word-wrap: break-word;
+    width:auto;
+    background: transparent;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-size: .75em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    vertical-align:middle;
+    text-align: center;
 }
