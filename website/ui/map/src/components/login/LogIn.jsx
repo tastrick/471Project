@@ -6,6 +6,7 @@ class LogIn extends React.Component {
 	constructor(props) {
 		super(props);
         this.socket = props.socket;
+        this.socket = props.socket;
 		this.state = {
 			username: "",
 			password: "",
