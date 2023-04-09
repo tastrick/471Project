@@ -5,6 +5,7 @@ import { socket } from "../container/socket";
 class LogIn extends React.Component {
 	constructor(props) {
 		super(props);
+        this.socket = props.socket;
 		this.state = {
 			username: "",
 			password: "",
@@ -13,10 +14,11 @@ class LogIn extends React.Component {
             main: true, // true: Log-In/Sign-Up, false: Either Fail or Success Screen
             message: "" // message-success: Sign-Up Successs Message, message-fail: Log-In Fail Message
 		};
-		this.socket = props.socket;
 		this.flag = false;
 		this.runLoginSuccess = props.loginSucess;
 		this.runExitSeq = props.exitOnClick;
+        this.socket.on('logInFail', this.handleLogInFail);
+        this.socket.on('logInSuccess', this.handleLogInSuccess);
 	}
 
 	handleVisibleClick = (e) => {
@@ -31,21 +33,33 @@ class LogIn extends React.Component {
 			: this.setState({ signUp: true });
 		this.setState({ password: "", username: "" });
 	};
-	handleSignUp = () => {
+	handleSignUpAttempt = () => {
 		console.log("USERNAME: ", this.state.username);
 		console.log("PASSWORD: ", this.state.password);
 
 		this.socket.emit("signUp", {
 			username: this.state.username,
-			password: this.state.password,
+			password: this.state.password
 		});
 
         this.setState({main: false, message: "success"});
 	};
-	handleLogIn = () => {
-        this.setState({main: false, message: "fail"});
-		//this.runExitSeq();
+	handleLogInAttempt = () => {
+        this.socket.emit("logIn", {
+			username: this.state.username,
+			password: this.state.password
+		});
 	};
+    handleLogInSuccess = (data) => {
+        //let user = data.Username;
+        //let pass = data.Password;
+
+        //console.log("SUCCESS!!!! USER/PASS/ADMIN", user, pass);
+        console.log(data);
+    };
+    handleLogInFail = () => {
+        this.setState({main: false, message: "fail"});
+    };
 	handleForgotPassword = () => {};
 
 	render() {
@@ -95,7 +109,7 @@ class LogIn extends React.Component {
                             </div>
                             <div className="button-container">
                                 <div className="enter-container">
-                                    <button className="submit" onClick={!this.state.signUp ? this.handleLogIn : this.handleSignUp}>
+                                    <button className="submit" onClick={!this.state.signUp ? this.handleLogInAttempt : this.handleSignUpAttempt}>
                                         {!this.state.signUp ? "LOGIN" : "REGISTER"}
                                     </button>
                                 </div>
