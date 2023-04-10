@@ -10,9 +10,9 @@ const con = mysql.createConnection({
     database: 'CanadianAmmenities'
 });
 
-let commands = ['CREATE TABLE User (ID varchar(255),Username varchar(255) NOT NULL,Password varchar(255) NOT NULL, PRIMARY KEY (ID))',
+let commands = ['CREATE TABLE User (ID int,Username varchar(255) NOT NULL,Password varchar(255) NOT NULL, PRIMARY KEY (ID))',
 
-'CREATE TABLE Admin (ID varchar(255), PRIMARY KEY (ID), FOREIGN KEY (ID) REFERENCES User(ID))',
+'CREATE TABLE Admin int, PRIMARY KEY (ID), FOREIGN KEY (ID) REFERENCES User(ID))',
 
 'CREATE TABLE GeneralLocation (Name varchar(255), Longitude float, Latitude float, Population int, AccessabilityRating int, PRIMARY KEY (Name, Longitude, Latitude))',
 
