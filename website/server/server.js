@@ -80,15 +80,17 @@ io.on('connection',(socket)=>{
         
         let sql1 = ''
         let sql2 = ''
+        let r = Math.random().toString(36).substr(2, 3) + "-" + Math.random().toString(36).substr(2, 3) + "-" + Math.random().toString(36).substr(2, 4);
         if (data.ammenityType==0){//house
-            console.log('requesting add ammenity', data)
+           //console.log('requesting add ammenity', data)
             //city location sql
-            let r = Math.random().toString(36).substr(2, 3) + "-" + Math.random().toString(36).substr(2, 3) + "-" + Math.random().toString(36).substr(2, 4);
             sql1 = 'INSERT INTO CityLocation VALUES ('+'\''+r+'\''+','+'\''+0.0+'\''+','+'\''+0.0+'\''+','+'\''+data.type+'\''+','+'\''+data.lat+'\''+','+'\''+data.long+'\''+','+'\''+'\''+','+'\''+'\''+','+'\''+data.link+'\')'
             //house sql
             sql2 = 'INSERT INTO House VALUES('+'\''+r+'\''+','+'\''+data.squareFootage+'\''+','+'\''+data.description+'\''+','+'\''+data.rent+'\''+','+'\''+data.type+'\''+','+'\''+data.bedn+'\''+','+'\''+data.bathn+'\''+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
         }else if(data.ammenityType==1){//job
-            
+            sql1 = 'INSERT INTO CityLocation VALUES ('+'\''+r+'\''+','+'\''+0.0+'\''+','+'\''+0.0+'\''+','+'\''+data.type+'\''+','+'\''+data.lat+'\''+','+'\''+data.long+'\''+','+'\''+'\''+','+'\''+'\''+','+'\''+data.link+'\')'
+            //house sql
+            sql2 = 'INSERT INTO Job  VALUES('+'\''+r+'\''+','+'\''+data.type+'\''+','+'\''+data.time+'\''+','+'\''+data.start+'\''+','+'\''+data.remote+'\''+','+'\''+data.description+'\''+','+'\''+data.salary+'\''+','+'\''+data.due+'\''+','+'\''+data.employer+'\''+','+'0'+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
         }else if(data.ammenityType==2){//school
             
         }else if(data.ammenityType==3){//store
@@ -216,7 +218,8 @@ io.on('connection',(socket)=>{
             sql = 'DELETE FROM House WHERE House.idnumber = '+'\''+data.id+'\''
             console.log('attempting delete in server', data)
         }else if(data.ammenityType==1){//job
-            
+            sql = 'DELETE FROM Job WHERE Job.idnumber = '+'\''+data.id+'\''
+            console.log('attempting delete in server', data)
         }else if(data.ammenityType==2){//school
             
         }else if(data.ammenityType==3){//store

@@ -19,11 +19,6 @@ class AddHome extends React.Component{
         this.changeToNotAdding =  props.handleAddExit
     }
     handleSubmitClick = (e) =>{
-        var all = {
-            type:this.state.type,
-            rent: this.state.rent,
-            
-        }
         this.addingAmen(this.state);
         this.changeToNotAdding()
     }
@@ -101,21 +96,7 @@ class AddHome extends React.Component{
                             </div>
                             </div>
                         </div>
-                       <div className = 'first-row-container'>
-                       <div className = 'house-type-container'>
-                        <div className = 'house-type-text'>longitude:</div>
-                        <div className = 'house-value-enter'>
-                             <input className = 'house-value' value = {this.state.lat} onChange = {(e) => this.handleOnChange(e,4)}></input>
-                             </div>
-                       </div>
-                       <div className = 'house-rent-container'>
-                        <div className = 'house-type-text'>Latitude:</div>
-                        <div className = 'house-value2-enter'>
-                             <input className = 'house-value' value = {this.state.long} onChange = {(e) => this.handleOnChange(e,5)}></input>
-                             </div>
-                       </div>
-                       
-                       </div>
+                      
                        
                        <div className = 'first-row-container'>
                             <div className = 'house-type-container'>
@@ -133,6 +114,21 @@ class AddHome extends React.Component{
                                     </div>
                             </div>
                         
+                       
+                       </div>
+                        <div className = 'first-row-container'>
+                       <div className = 'house-type-container'>
+                        <div className = 'house-type-text'>longitude:</div>
+                        <div className = 'house-value-enter'>
+                             <input className = 'house-value' value = {this.state.lat} onChange = {(e) => this.handleOnChange(e,4)}></input>
+                             </div>
+                       </div>
+                       <div className = 'house-rent-container'>
+                        <div className = 'house-type-text'>Latitude:</div>
+                        <div className = 'house-value2-enter'>
+                             <input className = 'house-value' value = {this.state.long} onChange = {(e) => this.handleOnChange(e,5)}></input>
+                             </div>
+                       </div>
                        
                        </div>
                        <div className = 'desc-row-container'>

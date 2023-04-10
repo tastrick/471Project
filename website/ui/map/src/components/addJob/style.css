@@ -1,0 +1,14 @@
+.inperson{
+    position:relative;
+    height:calc(100% - 2px);
+    width:calc(100% - 43px);
+    letter-spacing:7px;
+    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    text-transform:capitalize;
+}
+.job-in-container{
+    position:relative;
+    width:calc(50% - 10px);
+    
+    
+}

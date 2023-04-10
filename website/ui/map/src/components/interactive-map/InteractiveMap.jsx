@@ -265,14 +265,26 @@ class InteractiveMap extends React.Component{
                 cityLong: this.state.mapInfo[0],
                 cityLat: this.state.mapInfo[1]
             }
-            
-        //var mapStuff = [];
-        //mapStuff.push(this.state.displayedCities[this.state.displayedCity].Longitude);
-       // mapStuff.push(this.state.displayedCities[i].Latitude);
-       // this.setState({mapInfo:mapStuff});
+      
             
         }else if(this.state.selectedTopIndex ==1){//job
-            
+            var info = {
+                ammenityType:1,
+                type:ammenityInfo.type,
+                salary:ammenityInfo.salary,
+                time:ammenityInfo.time,
+                employer:ammenityInfo.employer,
+                lat:ammenityInfo.lat,
+                long:ammenityInfo.long,
+                remote: ammenityInfo.remote,
+                link:ammenityInfo.link,
+                description: ammenityInfo.des,
+                start:ammenityInfo.start,
+                due:ammenityInfo.due,
+                city: this.state.displayedCities[this.state.displayedCity].Name,
+                cityLong: this.state.mapInfo[0],
+                cityLat: this.state.mapInfo[1]
+            }
         }else if(this.state.selectedTopIndex ==2){//school
             
         }else if(this.state.selectedTopIndex ==3){//store
@@ -335,7 +347,7 @@ class InteractiveMap extends React.Component{
         console.log("deleteing listing: ",first,second);
         e.stopPropagation();
         if (second == 0){//house
-            console.log('attempting to delete house: ', this.state.hs[first])
+            //console.log('attempting to delete house: ', this.state.hs[first])
             var info = {ammenityType:0,id:this.state.hs[first].IDNumber}
             
             this.socket.emit('deleteAmmenity', info);
@@ -344,6 +356,8 @@ class InteractiveMap extends React.Component{
             })})
            
         }else if (second == 1){//job
+             var info = {ammenityType:1,id:this.state.js[first].IDNumber}
+            this.socket.emit('deleteAmmenity', info);
             this.setState({js: this.state.js.filter(function(hou,i) { 
             return i !== first 
             })})
@@ -1001,10 +1015,10 @@ class InteractiveMap extends React.Component{
                            
                     }
                       {this.state.selectedTopIndex== 0 &&this.state.adding ? <AddHome icon = {deleteListing} handleAddExit = {this.handleAddExit} onSubmit = {this.handleAddingAmmenity}></AddHome>
-                        :   this.state.selectedTopIndex == 1 &&this.state.adding? <AddJob icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddJob>
-                        :   this.state.selectedTopIndex == 2 &&this.state.adding? <AddSchool icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddSchool>
-                        :   this.state.selectedTopIndex == 3 &&this.state.adding? <AddStore icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddStore>
-                        :   this.state.selectedTopIndex == 4 &&this.state.adding? <AddComSup icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddComSup>:null
+                        :   this.state.selectedTopIndex == 1 &&this.state.adding? <AddJob icon = {deleteListing} handleAddExit = {this.handleAddExit} onSubmit = {this.handleAddingAmmenity}></AddJob>
+                        :   this.state.selectedTopIndex == 2 &&this.state.adding? <AddSchool icon = {deleteListing} handleAddExit = {this.handleAddExit} onSubmit = {this.handleAddingAmmenity}></AddSchool>
+                        :   this.state.selectedTopIndex == 3 &&this.state.adding? <AddStore icon = {deleteListing} handleAddExit = {this.handleAddExit} onSubmit = {this.handleAddingAmmenity}></AddStore>
+                        :   this.state.selectedTopIndex == 4 &&this.state.adding? <AddComSup icon = {deleteListing} handleAddExit = {this.handleAddExit} onSubmit = {this.handleAddingAmmenity}></AddComSup>:null
                             }
                 </div>
                 
