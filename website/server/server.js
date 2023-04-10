@@ -252,7 +252,55 @@ io.on('connection',(socket)=>{
         
        
     })
-    
+    socket.on('signUp', (data) =>{
+        let user = data.username;
+        let pass = data.password;
+
+        let sqlquery = `INSERT INTO User (Username, Password) VALUES ("${user}","${pass}")`;
+
+        con.query(sqlquery, (err,result) => {
+            if (err) throw err;
+            console.log(result);
+        });
+    });
+    socket.on('logIn', (data, res) => {
+        let user = data.username;
+        let pass = data.password;
+        let sqlquery = `SELECT * FROM User WHERE Username="${user}" AND Password="${pass}"`;
+
+        con.query(sqlquery, (err,result) => {
+            if (err) throw err;
+
+            if (result.length > 0){
+                console.log(result);
+                console.log("SUCID: ", result[0].ID);
+                let sqlquery2 = `SELECT * FROM Admin WHERE ID="${result[0].ID}"`;
+                let isAdmin = false;
+
+                con.query(sqlquery2, (err2, res2) => {
+                    if(err2) throw err2;
+                    if (res2.length > 0){
+                        socket.emit('logInSuccess',{
+                            username: result[0].Username,
+                            password: result[0].Password,
+                            id: result[0].ID,
+                            isAdmin: true
+                        });
+                    } else {
+                        socket.emit('logInSuccess',{
+                            username: result[0].Username,
+                            password: result[0].Password,
+                            id: result[0].ID,
+                            isAdmin: false
+                        });
+                    }
+                })
+            } else {
+                socket.emit('logInFail');
+            }
+        });
+    });
+
     socket.on('getUsers',() =>{
         console.log("sending users")
         io.emit('recieve-users',users)

@@ -410,6 +410,18 @@ class InteractiveMap extends React.Component{
        // this.setState({selectedIndex:-1});
         this.setState({selectedTopIndex:2});
     }
+
+    loginSuccess = (data) => {
+        if(data.isAdmin){
+            this.setState({userType:'admin'});
+        } else{
+            this.setState({userType:'user'});
+        }
+    }
+    logoutSuccess = () => {
+        this.setState({userType:'guest'});
+    }
+
     render(){
        
        const hou = new L.Icon({
