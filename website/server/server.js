@@ -97,6 +97,9 @@ io.on('connection',(socket)=>{
             sql2 = 'INSERT INTO School  VALUES('+'\''+r+'\''+','+'\''+data.minGrade+'\''+','+'\''+data.maxGrade+'\''+','+'0'+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
             
         }else if(data.ammenityType==3){//store
+            sql1 = 'INSERT INTO CityLocation VALUES ('+'\''+r+'\''+','+'\''+0.0+'\''+','+'\''+0.0+'\''+','+'\''+data.type+'\''+','+'\''+data.lat+'\''+','+'\''+data.long+'\''+','+'\''+'\''+','+'\''+'\''+','+'\''+data.link+'\')'
+            //house sql
+            sql2 = 'INSERT INTO Store VALUES('+'\''+r+'\''+','+'\''+data.merch+'\''+','+'0'+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
             
         }else if(data.ammenityType==4){//community support
             
@@ -226,6 +229,7 @@ io.on('connection',(socket)=>{
         }else if(data.ammenityType==2){//school
             sql = 'DELETE FROM School WHERE School.idnumber = '+'\''+data.id+'\''
         }else if(data.ammenityType==3){//store
+            sql = 'DELETE FROM Store WHERE Store.idnumber = '+'\''+data.id+'\''
             
         }else if(data.ammenityType==4){//community support
             

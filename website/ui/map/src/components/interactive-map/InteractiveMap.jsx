@@ -300,6 +300,17 @@ class InteractiveMap extends React.Component{
             }
             
         }else if(this.state.selectedTopIndex ==3){//store
+            var info = {
+                ammenityType:3,
+                type:ammenityInfo.type,
+                lat:ammenityInfo.lat,
+                long:ammenityInfo.long,
+                merch: ammenityInfo.merch,
+                link:ammenityInfo.link,
+                city: this.state.displayedCities[this.state.displayedCity].Name,
+                cityLong: this.state.mapInfo[0],
+                cityLat: this.state.mapInfo[1]
+            }
             
         }else if(this.state.selectedTopIndex==4){//community support
             
@@ -381,6 +392,8 @@ class InteractiveMap extends React.Component{
             })})
             
         }else if (second == 3){//stores
+            var info = {ammenityType:3,id:this.state.strs[first].IDNumber}
+            this.socket.emit('deleteAmmenity', info);
             this.setState({strs: this.state.strs.filter(function(hou,i) { 
             return i !== first 
             })})
@@ -424,18 +437,6 @@ class InteractiveMap extends React.Component{
        // this.setState({selectedIndex:-1});
         this.setState({selectedTopIndex:2});
     }
-
-    loginSuccess = (data) => {
-        if(data.isAdmin){
-            this.setState({userType:'admin'});
-        } else{
-            this.setState({userType:'user'});
-        }
-    }
-    logoutSuccess = () => {
-        this.setState({userType:'guest'});
-    }
-
     render(){
        
        const hou = new L.Icon({
