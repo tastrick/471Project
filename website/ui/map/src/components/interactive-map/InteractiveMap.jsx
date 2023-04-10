@@ -286,6 +286,18 @@ class InteractiveMap extends React.Component{
                 cityLat: this.state.mapInfo[1]
             }
         }else if(this.state.selectedTopIndex ==2){//school
+            var info = {
+                ammenityType:2,
+                type:ammenityInfo.type,
+                lat:ammenityInfo.lat,
+                long:ammenityInfo.long,
+                minGrade: ammenityInfo.minGrade,
+                link:ammenityInfo.link,
+                maxGrade: ammenityInfo.maxGrade,
+                city: this.state.displayedCities[this.state.displayedCity].Name,
+                cityLong: this.state.mapInfo[0],
+                cityLat: this.state.mapInfo[1]
+            }
             
         }else if(this.state.selectedTopIndex ==3){//store
             
@@ -362,6 +374,8 @@ class InteractiveMap extends React.Component{
             return i !== first 
             })})
         }else if (second == 2){//schools
+            var info = {ammenityType:2,id:this.state.schs[first].IDNumber}
+            this.socket.emit('deleteAmmenity', info);
             this.setState({schs: this.state.schs.filter(function(hou,i) { 
             return i !== first 
             })})

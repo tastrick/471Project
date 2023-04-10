@@ -92,6 +92,9 @@ io.on('connection',(socket)=>{
             //house sql
             sql2 = 'INSERT INTO Job  VALUES('+'\''+r+'\''+','+'\''+data.type+'\''+','+'\''+data.time+'\''+','+'\''+data.start+'\''+','+'\''+data.remote+'\''+','+'\''+data.description+'\''+','+'\''+data.salary+'\''+','+'\''+data.due+'\''+','+'\''+data.employer+'\''+','+'0'+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
         }else if(data.ammenityType==2){//school
+            sql1 = 'INSERT INTO CityLocation VALUES ('+'\''+r+'\''+','+'\''+0.0+'\''+','+'\''+0.0+'\''+','+'\''+data.type+'\''+','+'\''+data.lat+'\''+','+'\''+data.long+'\''+','+'\''+'\''+','+'\''+'\''+','+'\''+data.link+'\')'
+            //house sql
+            sql2 = 'INSERT INTO School  VALUES('+'\''+r+'\''+','+'\''+data.minGrade+'\''+','+'\''+data.maxGrade+'\''+','+'0'+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
             
         }else if(data.ammenityType==3){//store
             
@@ -216,12 +219,12 @@ io.on('connection',(socket)=>{
         let sql = '';
         if (data.ammenityType == 0){//house
             sql = 'DELETE FROM House WHERE House.idnumber = '+'\''+data.id+'\''
-            console.log('attempting delete in server', data)
+            //console.log('attempting delete in server', data)
         }else if(data.ammenityType==1){//job
             sql = 'DELETE FROM Job WHERE Job.idnumber = '+'\''+data.id+'\''
-            console.log('attempting delete in server', data)
+            //console.log('attempting delete in server', data)
         }else if(data.ammenityType==2){//school
-            
+            sql = 'DELETE FROM School WHERE School.idnumber = '+'\''+data.id+'\''
         }else if(data.ammenityType==3){//store
             
         }else if(data.ammenityType==4){//community support
