@@ -75,6 +75,45 @@ io.on('connection',(socket)=>{
              
         });
     })
+    socket.on('addAmmenity', (data) =>{
+        //adding ammenities means adding to city location and actuall ammenity table
+        
+        let sql1 = ''
+        let sql2 = ''
+        if (data.ammenityType==0){//house
+            console.log('requesting add ammenity', data)
+            //city location sql
+            let r = Math.random().toString(36).substr(2, 3) + "-" + Math.random().toString(36).substr(2, 3) + "-" + Math.random().toString(36).substr(2, 4);
+            sql1 = 'INSERT INTO CityLocation VALUES ('+'\''+r+'\''+','+'\''+0.0+'\''+','+'\''+0.0+'\''+','+'\''+data.type+'\''+','+'\''+data.lat+'\''+','+'\''+data.long+'\''+','+'\''+'\''+','+'\''+'\''+','+'\''+data.link+'\')'
+            //house sql
+            sql2 = 'INSERT INTO House VALUES('+'\''+r+'\''+','+'\''+data.squareFootage+'\''+','+'\''+data.description+'\''+','+'\''+data.rent+'\''+','+'\''+data.type+'\''+','+'\''+data.bedn+'\''+','+'\''+data.bathn+'\''+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
+        }else if(data.ammenityType==1){//job
+            
+        }else if(data.ammenityType==2){//school
+            
+        }else if(data.ammenityType==3){//store
+            
+        }else if(data.ammenityType==4){//community support
+            
+        }
+        
+         con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('adding city location successful ')
+             
+        });
+         
+          con.query(sql2, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+              console.log('adding ammenity to school successful: ');
+            //console.log('after adding: ', res)
+             
+        });
+    })
     socket.on('getAllAmmenities', (data) => {
         
         var res = [];
@@ -120,14 +159,80 @@ io.on('connection',(socket)=>{
     })
     socket.on('getCityNumsfromCity', (data) => {
         //let strProv = provs[data];
-        let sql = 'SELECT COUNT(h.idnumber), COUNT(j.idnumber), COUNT(s.idnumber),COUNT(sc.idnumber),COUNT(c.idnumber) FROM House AS h, Job AS j, Store AS s, School AS sc,  CommunitySupport AS c WHERE h.cname=j.cname AND h.cname = s.cname AND h.cname = sc.cname AND h.cname = c.cname AND h.cname = '+'\''+data+'\''
-        con.query(sql, (err,result) => {
+        //let sql = 'SELECT COUNT(h.idnumber), COUNT(j.idnumber), COUNT(s.idnumber),COUNT(sc.idnumber),COUNT(c.idnumber) FROM House AS h, Job AS j, Store AS s, School AS sc,  CommunitySupport AS c HAVING h.cname=j.cname AND h.cname = s.cname AND h.cname = sc.cname AND h.cname = c.cname AND h.cname = '+'\''+data+'\''
+        
+        let sql = 'SELECT COUNT(*), COUNT(*), COUNT(*),COUNT(*),COUNT(*) FROM House, Job , Store , School ,  CommunitySupport HAVING cname = '+'\''+data+'\''
+        
+        let sql1 ='SELECT COUNT(*) FROM House AS h WHERE h.cname = '+'\''+data+'\''
+        let sql2 ='SELECT COUNT(*) FROM Job AS h WHERE h.cname = '+'\''+data+'\''
+        let sql3 ='SELECT COUNT(*) FROM Store AS h WHERE h.cname = '+'\''+data+'\''
+        let sql4 ='SELECT COUNT(*) FROM School AS h WHERE h.cname = '+'\''+data+'\''
+        let sql5 ='SELECT COUNT(*) FROM CommunitySupport AS h WHERE h.cname = '+'\''+data+'\''
+        var success = 0;
+        var res = []
+        con.query(sql1, (err,result) => {
             if (err) throw err;
-            console.log("sending numbers back: ",result);
-            socket.emit('sendingCityNums', result);
+            //console.log("successful query: ",result);
+            res.push(result[0]);
              
         });
+        
+         con.query(sql2, (err,result) => {
+            if (err) throw err;
+            //console.log("successful query: ",result);
+            res.push(result[0]);
+             
+        });
+        
+          con.query(sql3, (err,result) => {
+            if (err) throw err;
+            //console.log("successful query: ",result);
+            res.push(result[0]);
+             
+        });
+           con.query(sql4, (err,result) => {
+            if (err) throw err;
+            //console.log("successful query: ",result);
+            res.push(result[0]);
+             
+        });
+        con.query(sql5, (err,result) => {
+            if (err) throw err;
+            //console.log("successful query: ",result);
+            res.push(result[0]);
+           // var final_result = [];
+           
+            
+            console.log('sending back info: ',res)
+            socket.emit('sendingCityNums', res)
+        });
+        
+        //console.log("sending numbers back: ",res);
+        
     } )
+    socket.on('deleteAmmenity', (data) =>{
+        let sql = '';
+        if (data.ammenityType == 0){//house
+            sql = 'DELETE FROM House WHERE House.idnumber = '+'\''+data.id+'\''
+            console.log('attempting delete in server', data)
+        }else if(data.ammenityType==1){//job
+            
+        }else if(data.ammenityType==2){//school
+            
+        }else if(data.ammenityType==3){//store
+            
+        }else if(data.ammenityType==4){//community support
+            
+        }
+        
+        con.query(sql, (err,result) => {
+            if (err) throw err;
+            console.log("successful delete query: ",result);
+            //console.log('sending back info: ',res)
+            //socket.emit('sendingCityNums', res)
+        });
+        
+    })
     socket.on('getCities', (data) =>{
         let strProv = provs[data];
         

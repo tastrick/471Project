@@ -18,7 +18,8 @@ class Container extends React.Component{
         this.state = {
             login:false
         }
-
+        
+        
       
     }
     componentDidMount(){
@@ -28,6 +29,7 @@ class Container extends React.Component{
             this.id = this.idRef.current
             //console.log(this.id)
         });
+        //this.mapRef.current.setId()
 
     }
     componentWillUnmount(){
@@ -82,11 +84,11 @@ class Container extends React.Component{
                     </div>
                 </div>
                 {this.state.login ? 
-                    <LogIn exitOnClick = {this.handleExitLogin}></LogIn>
+                    <LogIn exitOnClick = {this.handleExitLogin} ></LogIn>
                
                     :  <div className = "noLogin"></div>
                 }
-                <Map socket = {this.socket}></Map>
+                <Map socket = {this.socket} ></Map>
             </div>
          
         )

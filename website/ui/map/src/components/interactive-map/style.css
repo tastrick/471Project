@@ -184,11 +184,39 @@ path{
     
    
 }
+.edit-container{
+    position:relative;
+    height:20px;
+    width:100%;
+    top: -13px;
+    background:transparent;
+    display:flex;
+    
+   
+}
+.delete-listing-container{
+    position:relative;
+    height:100%;
+    width:20px;
+    background:transparent;
+    left:-12px;
+    transition: filter 0.2s;
+    
+}
+
+.delete-listing-container:hover{
+    filter:invert(50%);
+}
+
+.delete-listing-container img{
+   height:15px;
+   width:15px;
+}
+
 .add-container{
     position:relative;
     height:20px;
     width:20px;
-    top: -13px;
     left: calc(100% - 30px);
     background:transparent;
     transition: filter 0.2s;
