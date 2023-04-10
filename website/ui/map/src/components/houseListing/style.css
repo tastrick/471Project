@@ -109,7 +109,7 @@
     width:15px;
     height:15px;
     left:180px;
-    filter:brightness(0.8) invert(.7) sepia(.9) hue-rotate(-50deg) saturate(1000%); 
+    filter:brightness(0.8) invert(.7) sepia(.9) hue-rotate(-50deg) saturate(2000%); 
 }
 
 
