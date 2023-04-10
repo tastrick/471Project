@@ -313,7 +313,17 @@ class InteractiveMap extends React.Component{
             }
             
         }else if(this.state.selectedTopIndex==4){//community support
-            
+            var info = {
+                ammenityType:4,
+                type:ammenityInfo.type,
+                lat:ammenityInfo.lat,
+                long:ammenityInfo.long,
+                offering: ammenityInfo.offering,
+                link:ammenityInfo.link,
+                city: this.state.displayedCities[this.state.displayedCity].Name,
+                cityLong: this.state.mapInfo[0],
+                cityLat: this.state.mapInfo[1]
+            }
         }
         console.log('sending server:',info)
         this.socket.emit('addAmmenity',info);
@@ -398,6 +408,8 @@ class InteractiveMap extends React.Component{
             return i !== first 
             })})
         }else if (second == 4){//com sups
+            var info = {ammenityType:4,id:this.state.comsu[first].IDNumber}
+            this.socket.emit('deleteAmmenity', info);
              this.setState({comsu: this.state.comsu.filter(function(hou,i) { 
             return i !== first 
             })})

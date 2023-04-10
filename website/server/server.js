@@ -102,7 +102,9 @@ io.on('connection',(socket)=>{
             sql2 = 'INSERT INTO Store VALUES('+'\''+r+'\''+','+'\''+data.merch+'\''+','+'0'+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
             
         }else if(data.ammenityType==4){//community support
-            
+            sql1 = 'INSERT INTO CityLocation VALUES ('+'\''+r+'\''+','+'\''+0.0+'\''+','+'\''+0.0+'\''+','+'\''+data.type+'\''+','+'\''+data.lat+'\''+','+'\''+data.long+'\''+','+'\''+'\''+','+'\''+'\''+','+'\''+data.link+'\')'
+            //house sql
+            sql2 = 'INSERT INTO CommunitySupport VALUES('+'\''+r+'\''+','+'\''+data.type+'\''+','+'\''+data.offering+'\''+','+'0'+','+'\''+data.city+'\''+','+'\''+data.cityLong+'\''+','+'\''+data.cityLat+'\')'
         }
         
          con.query(sql1, (err,result) => {
@@ -232,7 +234,7 @@ io.on('connection',(socket)=>{
             sql = 'DELETE FROM Store WHERE Store.idnumber = '+'\''+data.id+'\''
             
         }else if(data.ammenityType==4){//community support
-            
+            sql = 'DELETE FROM CommunitySupport WHERE CommunitySupport.idnumber = '+'\''+data.id+'\''
         }
         
         con.query(sql, (err,result) => {
