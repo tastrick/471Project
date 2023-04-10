@@ -1,104 +1,133 @@
 import React from "react";
 import "./style.css";
+import { socket } from "../container/socket";
 
-class LogIn extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-           fakePassword:"",
-            realPassword:"",
-            password:"",
-            passwordVisible: false
-        }
-        this.flag = false;
-        this.runExitSeq = props.exitOnClick;
-    }
-   
-     handleVisibleClick = (e) =>{
-        this.setState({passwordVisible:false})
-        this.setState({password:this.state.fakePassword})
-    }
-    handleInvisibleClick = (e) => {
-        this.setState({passwordVisible:true})
-        this.setState({password:this.state.realPassword})
-    }
-    handlePassword = (e)=>{
-        if (!this.flag){
-            var s = this.state.realPassword
-            var s2 = this.state.fakePassword
-        // console.log(e)
-            var toadd = e.target.value.charAt(e.target.value.length-1)
-            s+=toadd
-            s2+="*"
-            this.setState({realPassword:s})
-            this.setState({fakePassword:s2})
-            
-            if (this.state.passwordVisible){
-                this.setState({password:s})
-            }else{
-                this.setState({password:s2})
-        }}
-        
-    }
-    handleSignUp = () =>{
-        
-    }
-    handleForgotPassword = () => {
-        
-    }
-    handlePasswordChange = (e) =>{
-        
-        console.log("yep")
-        if (e.keyCode == 8){
-            this.flag = true
-            var s = this.state.realPassword
-            var s1 = this.state.fakePassword
-            var s2 = this.state.password
-            s = s.substring(0,s.length-1)
-            s1 = s1.substring(0,s1.length-1)
-            s2 = s2.substring(0,s2.length-1)
-            this.setState({password:s2})
-            this.setState({realPassword:s})
-            this.setState({fakePassword:s1})
-        }else{
-            this.flag = false
-        }
-    }
-    render(){
-        return(
-            <div className = "login-container">
-                <div className = "window-container">
-                    <div className = "logo-container">
-                    MAP
-                    </div>
-                    <div className = "exit-container" onClick = {this.runExitSeq}></div>
-                    <div className = "credentials-container">
-                        <div className = "username-container">
-                        <div className = "username-logo"></div>
-                            <input type = "text" className = "username" placeholder = "Email" ></input>
-                            <div className = "placeholder"></div>
+class LogIn extends React.Component {
+	constructor(props) {
+		super(props);
+        this.socket = props.socket;
+		this.state = {
+			username: "",
+			password: "",
+			passwordVisible: false,
+			signUp: false,
+            main: true, // true: Log-In/Sign-Up, false: Either Fail or Success Screen
+            message: "" // message-success: Sign-Up Successs Message, message-fail: Log-In Fail Message
+		};
+		this.flag = false;
+		this.runLoginSuccess = props.loginSucess;
+		this.runExitSeq = props.exitOnClick;
+        this.socket.on('logInFail', this.handleLogInFail);
+        this.socket.on('logInSuccess', this.handleLogInSuccess);
+	}
+
+	handleVisibleClick = (e) => {
+		this.setState({ passwordVisible: false });
+	};
+	handleInvisibleClick = (e) => {
+		this.setState({ passwordVisible: true });
+	};
+	toggleSignUp = () => {
+		this.state.signUp
+			? this.setState({ signUp: false })
+			: this.setState({ signUp: true });
+		this.setState({ password: "", username: "" });
+	};
+	handleSignUpAttempt = () => {
+		this.socket.emit("signUp", {
+			username: this.state.username,
+			password: this.state.password
+		});
+        this.setState({main: false, message: "success"});
+	};
+	handleLogInAttempt = () => {
+        this.socket.emit("logIn", {
+			username: this.state.username,
+			password: this.state.password
+		});
+	};
+    handleLogInSuccess = (data) => {
+        this.runLoginSuccess(data);
+        this.runExitSeq();
+    };
+    handleLogInFail = () => {
+        this.setState({main: false, message: "fail"});
+    };
+	handleForgotPassword = () => {};
+
+	render() {
+		return (
+			<div className="login-container">
+				<div className="window-container">
+
+                    {this.state.main ? 
+                        <div>
+                            <div className="logo-container">
+                                {!this.state.signUp ? "Log In" : "Sign Up"}
+                            </div>
+                            <div className="exit-container" onClick={this.runExitSeq}></div>
+                            <div className="credentials-container">
+                                <div className="username-container">
+                                    <div className="username-logo"></div>
+                                    <input
+                                        type="text"
+                                        className="username"
+                                        placeholder="Username"
+                                        onChange={(e) => this.setState({ username: e.target.value })}
+                                        value={this.state.username}
+                                    ></input>
+                                    <div className="placeholder"></div>
+                                </div>
+                                <div className="password-container">
+                                    <div className="password-logo"></div>
+                                    <input
+                                        type={this.state.passwordVisible ? "text" : "password"}
+                                        className="password"
+                                        placeholder="Password"
+                                        onChange={(e) => this.setState({ password: e.target.value })}
+                                        value={this.state.password}
+                                    ></input>
+
+                                    {this.state.passwordVisible ? 
+                                        ( <div className="openeye" onClick={this.handleVisibleClick} ></div>
+                                    ) : 
+                                        ( <div className="closedeye" onClick={this.handleInvisibleClick}></div> )}
+                                </div>
+                                <a className="sign-up-container" href="#" onClick={this.toggleSignUp}>
+                                    {!this.state.signUp ? "Sign Up" : "Log In"}
+                                </a>
+                                <a className="forgot-container" href="#" onClick={this.handleForgotPassword}>
+                                    Forgot password ?
+                                </a>
+                            </div>
+                            <div className="button-container">
+                                <div className="enter-container">
+                                    <button className="submit" onClick={!this.state.signUp ? this.handleLogInAttempt : this.handleSignUpAttempt}>
+                                        {!this.state.signUp ? "LOGIN" : "REGISTER"}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div className = "password-container">
-                        <div className = 'password-logo'></div>
-                            <input type = "text" className = "password" placeholder = "Password" onKeyDown = {this.handlePasswordChange} onChange = {this.handlePassword}   value = {this.state.password}>
-                            </input>
-                             {this.state.passwordVisible ? <div className = "openeye" onClick = {this.handleVisibleClick}></div> : <div className = "closedeye" onClick = {this.handleInvisibleClick}></div>}
-                                
-                        </div>
-                        <a className = "sign-up-container" href = "" onClick = {this.handleSignUp}>Sign up</a>
-                    <a className = "forgot-container" href = "" onClick = {this.handleForgotPassword}>Forgot password ?</a>
-                    </div>
-                    <div className = "button-container">
-                    <div className = "enter-container">
-                        <button className = "submit"> LOGIN</button>
-                    </div>
-                    {/*<div className = "or">OR</div>*/}
-                  
-                    </div>
-            </div>
-            </div>
-    )
+                    : 
+                        <div>
+                            {this.state.message === "success" ? 
+                                <div>
+                                    <div className="message-exit-container" onClick={this.runExitSeq}></div>
+                                    <h1 className="message-success"> Account Created Successfully!</h1>
+                                    <h2 className="message-footer"> Username: {this.state.username}</h2>
+                                </div>
+                            : 
+                                <div>
+                                    <div className="message-exit-container" onClick={this.runExitSeq}></div>
+                                    <h1 className="message-fail"> Login Failed!</h1>
+                                    <h2 className="message-footer"> Could not verify credentials</h2>
+                                </div>}
+                        </div>}
+                    
+				</div>
+			</div>
+		);
+	}
 }
-    
-}
-export default LogIn
+
+export default LogIn;
