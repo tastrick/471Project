@@ -22,7 +22,8 @@ class Container extends React.Component{
             admin: false,
             username: ""
         }
-
+        
+        
       
     }
     componentDidMount(){
@@ -32,6 +33,7 @@ class Container extends React.Component{
             this.id = this.idRef.current
             //console.log(this.id)
         });
+        //this.mapRef.current.setId()
 
     }
     componentWillUnmount(){

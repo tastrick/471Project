@@ -14,15 +14,33 @@ class HouseListing extends React.Component{
             canFavorite: props.canFavorite,
             isFavorited: props.isFavorited,
             groupSelect:props.groupSelect,
-            onclick: props.onClick
+            onclick: props.onClick,
+            editingState:false,
+            deleteIcon:props.icon,
+            
         }
-       console.log('from component: ',this.state.selected,this.state.groupSelect )
+      console.log("new: ", this.state.editingState)
+      this.delete = props.deleteListing
     }
-    
+    componentWillReceiveProps(nextProps) {
+        this.setState({ editingState: nextProps.flag });  
+        this.setState({ selected: nextProps.selected });
+        this.setState({ info: nextProps.info });
+    }
+    updateEditingState(newState){
+        this.setState({editingState:newState});
+        
+    }
     render(){
         
         return(
             <div className = {this.state.selected ? 'houselisting-selected': this.state.groupSelect ? 'houselisting-groupselect':'houselisting-unselected'} onClick = {this.state.onclick}>
+                <div className = {this.state.editingState ? 'hediting':'hnot-editing'}>
+                    <div className = 'hdelete-listing-container' onClick = {this.delete}>
+                    <img src = {this.state.deleteIcon}></img>
+                    </div>
+                
+                </div>
                 <div className = "houselisting-header" >
                     <div className = 'type-container'>
                         {this.state.info.HouseType}

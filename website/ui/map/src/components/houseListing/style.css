@@ -33,7 +33,39 @@
     overflow:hidden;
     
 }
-
+.hediting{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgb(0,0,0,0.5);
+    z-index:1000;
+}
+.hnot-editing{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:transparent;
+    z-index:-2;
+    content:'';
+}
+.hdelete-listing-container{
+    position:relative;
+    height:30px;
+    width:30px;
+    left:3px;
+    background:transparent;
+    z-index:1000;
+    border-radius:50%;
+    transition: filter 0.2s;
+}
+.hdelete-listing-container img{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+.hdelete-listing-container:hover{
+    filter:invert(50%);
+}
 .hprice-container{
     position:relative;
     width:100px;

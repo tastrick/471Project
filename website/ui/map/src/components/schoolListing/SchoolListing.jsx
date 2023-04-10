@@ -14,13 +14,31 @@ class SchoolListing extends React.Component{
             isFavorited: props.isFavorited,
             gradeType:['primary', 'secondary', 'post-secondary'],
             groupSelect:props.groupSelect,
-            onclick: props.onClick
+            onclick: props.onClick,
+            editingState:false,
+            deleteIcon:props.icon,
+            deleteListing:props.deleteListing
         }
+    }componentWillReceiveProps(nextProps) {
+        this.setState({ editingState: nextProps.flag });  
+        this.setState({ selected: nextProps.selected });
+        this.setState({ info: nextProps.info });
+    }
+    
+    updateEditingState(newState){
+        this.setState({editingState:newState});
+        
     }
     
     render(){
         return(
             <div className = {this.state.selected ? 'schoollisting-selected':this.state.groupSelect ? 'schoollisting-groupselect':'schoollisting-unselected'} onClick = {this.state.onclick}>
+            <div className = {this.state.editingState ? 'hediting':'hnot-editing'}>
+                    <div className = 'hdelete-listing-container' onClick = {this.state.deleteListing}>
+                    <img src = {this.state.deleteIcon}></img>
+                    </div>
+                
+                </div>
             <div className = 'total-header-container'>
                 <div className = "schoollisting-header" >
                     <div className = 'type-container'>

@@ -31,6 +31,12 @@ import SchoolListing from "../schoolListing/SchoolListing";
 import StoreListing from "../storeListing/StoreListing";
 import CsListing from "../csListing/CsListing";
 
+import AddHome from "../addHome/AddHome";
+import AddJob from "../addJob/AddJob";
+import AddSchool from "../addSchool/AddSchool";
+import AddStore from "../addStore/AddStore";
+import AddComSup from "../addComSup/AddComSup";
+
 import L from 'leaflet';
 
 import ab_flag from '../icons2/flags/ab.png';
@@ -58,6 +64,8 @@ import comsups from "../icons2/misc/comsups.png";
 import cities from "../icons2/misc/cities.png";
 import cityloc from "../icons2/misc/cityloc.png";
 import favs from "../icons2/misc/fav.png";
+import edit from "../icons2/misc/edit.png";
+import deleteListing from "../icons2/misc/delete.png";
 
 import fs from "../icons2/misc/fullScreen.png";
 import ufs from "../icons2/misc/unfullScreen.png";
@@ -109,9 +117,12 @@ class InteractiveMap extends React.Component{
            schs:[],
            strs:[],
            comsu:[],
-           userType:'guest',// this can be guest, user, or admin, guests wont be allowed to favorite or add, users wont be allowed to add and admin have all capabilities
+           userType:'admin',// this can be guest, user, or admin, guests wont be allowed to favorite or add, users wont be allowed to add and admin have all capabilities
           selectedAmmenity:[0,0],
-          markerStyle:{filter:"invert(0.5)"}
+          markerStyle:{filter:"invert(0.5)"},
+          editingListings:false,
+          adding:false,
+          displayedCity:-1
            
              
            
@@ -122,6 +133,7 @@ class InteractiveMap extends React.Component{
         this.socket.on('sendingCityNums', this.handleNums);
         this.socket.on('sendingPops', this.handlePops);
         this.socket.on('sendingAllAmmenities', this.handleAmmenities);
+        this.listingRef = React.createRef();
     }
     componentDidMount() {
       window.addEventListener("resize", this.handleResize);
@@ -158,11 +170,15 @@ class InteractiveMap extends React.Component{
         //console.log("recieved nums: ", data)
         //var keys = Object.keys(data);
        let t = []
-        for (let k in data[0]) {
-            t.push(data[0][k]);
+        for (let k in data) {
+            for (let k2 in data[k]){
+                //console.log("data out:",data[k][k2])
+                t.push(data[k][k2]);
+            }
+            
         }
         
-       // console.log("recieved nums: ",data);
+        console.log("recieved nums: ",data);
         var temp = this.state.cityNums;
         temp.push(t);
         console.log("length: ",temp.length);
@@ -180,7 +196,7 @@ class InteractiveMap extends React.Component{
         console.log("recieved cities: ", data);
         this.setState({displayedCities:data});
         console.log("province info: ", this.state.selectedIndex)
-        if (this.state.selectedIndex != -1){
+        if (this.state.selectedIndex != -1 && this.state.canadaOrmap){
             var div = document.getElementById(this.state.provincialInfo[this.state.selectedIndex].name);
             var bounding = div.childNodes[0].getBoundingClientRect();
             console.log("bounding box for prov: ",bounding);
@@ -231,6 +247,43 @@ class InteractiveMap extends React.Component{
         
         
     }
+    handleAddingAmmenity = (ammenityInfo) =>{
+       // console.log('sending ammenity request', ammenityInfo)
+        if (this.state.selectedTopIndex==0){//house
+            var info = {
+                ammenityType:0,
+                type:ammenityInfo.type,
+                rent:ammenityInfo.rent,
+                bedn:ammenityInfo.bedn,
+                bathn:ammenityInfo.bathn,
+                lat:ammenityInfo.lat,
+                long:ammenityInfo.long,
+                squareFootage: ammenityInfo.size,
+                link:ammenityInfo.link,
+                description: ammenityInfo.des,
+                city: this.state.displayedCities[this.state.displayedCity].Name,
+                cityLong: this.state.mapInfo[0],
+                cityLat: this.state.mapInfo[1]
+            }
+            
+        //var mapStuff = [];
+        //mapStuff.push(this.state.displayedCities[this.state.displayedCity].Longitude);
+       // mapStuff.push(this.state.displayedCities[i].Latitude);
+       // this.setState({mapInfo:mapStuff});
+            
+        }else if(this.state.selectedTopIndex ==1){//job
+            
+        }else if(this.state.selectedTopIndex ==2){//school
+            
+        }else if(this.state.selectedTopIndex ==3){//store
+            
+        }else if(this.state.selectedTopIndex==4){//community support
+            
+        }
+        console.log('sending server:',info)
+        this.socket.emit('addAmmenity',info);
+        this.socket.emit('getAllAmmenities',this.state.displayedCities[this.state.displayedCity].Name);
+    }
     getString = (Obj) =>{
         return Object.keys(Obj)[0]
     }
@@ -248,6 +301,23 @@ class InteractiveMap extends React.Component{
         console.log("inside click house",i)
         this.setState({selectedAmmenity:[type,i]})
     }
+    handleEditListingClick = (e) =>{
+        
+        if (this.state.editingListings){
+            this.setState({editingListings:false});
+            console.log('editing false')
+            //this.listingRef.current.updateEditingState(false);
+        }else{
+            this.setState({editingListings:true});
+            console.log('editing true')
+            //this.listingRef.current.updateEditingState(true);
+        }
+        var t = this.state.selectedAmmenity
+        this.setState({selectedAmmenity:-1});
+        this.setState({selectedAmmenity:t});
+     
+    }
+    
     get_style = () =>{
         //console.log(this.state.mouseLoc);
         var s = {position:'fixed',top:this.state.mouseLoc[1],left:this.state.mouseLoc[0],width:110,height:"auto",backgroundColor:"black", pointerEvents:"none", opacity: "50%", borderRadius:"10px", overflow:"hidden"}
@@ -256,6 +326,45 @@ class InteractiveMap extends React.Component{
     updateMouse = (e) =>{
         
          this.setState({mouseLoc: [ e.clientX+5,e.clientY+5 ]});
+    }
+    handleClickAmmenity = (e) =>{
+        this.setState({adding:true});
+        //console.log("here")
+    }
+    deleteListing = (e,first,second) =>{
+        console.log("deleteing listing: ",first,second);
+        e.stopPropagation();
+        if (second == 0){//house
+            console.log('attempting to delete house: ', this.state.hs[first])
+            var info = {ammenityType:0,id:this.state.hs[first].IDNumber}
+            
+            this.socket.emit('deleteAmmenity', info);
+            this.setState({hs: this.state.hs.filter(function(hou,i) { 
+            return i !== first 
+            })})
+           
+        }else if (second == 1){//job
+            this.setState({js: this.state.js.filter(function(hou,i) { 
+            return i !== first 
+            })})
+        }else if (second == 2){//schools
+            this.setState({schs: this.state.schs.filter(function(hou,i) { 
+            return i !== first 
+            })})
+            
+        }else if (second == 3){//stores
+            this.setState({strs: this.state.strs.filter(function(hou,i) { 
+            return i !== first 
+            })})
+        }else if (second == 4){//com sups
+             this.setState({comsu: this.state.comsu.filter(function(hou,i) { 
+            return i !== first 
+            })})
+        }
+    }
+    handleAddExit = () =>{
+        this.setState({adding:false});
+        console.log("exiting adding")
     }
     handleMouseClickOnProvince = (e,i) => {
         this.setState({selectedIndex:i});
@@ -269,6 +378,7 @@ class InteractiveMap extends React.Component{
         //this.setState({selectedTopIndex:-1});
     }
     handleExploreClick = (e,i) =>{
+        this.setState({displayedCity:i});
         this.socket.emit('getAllAmmenities',this.state.displayedCities[i].Name);
         var mapStuff = [];
         mapStuff.push(this.state.displayedCities[i].Longitude);
@@ -728,7 +838,9 @@ class InteractiveMap extends React.Component{
                                 </div>)
                             }else{
                             return(
-                            <div className = "button-background" onClick = {(e) =>{console.log('switching top to: ',i); this.setState({selectedTopIndex:i}); console.log("here"); this.setState({menuColapsed:false})}}>
+                            <div className = "button-background" onClick = {(e) =>{console.log('switching top to: ',i);
+                                this.setState({editingListings:false});
+                                this.setState({selectedTopIndex:i}); console.log("here"); this.setState({menuColapsed:false})}}>
                                 <div className = "icon-container-menu">
                                 <img src = {icon}></img>
                                 </div>
@@ -842,24 +954,30 @@ class InteractiveMap extends React.Component{
                                 <div className = "side-menu-header">
                                 <div className = 'title2'>
                                  {this.state.sideIcons[this.state.selectedTopIndex]}
-                                </div>
-                                <div className = 'add-container' title = {'add '+this.state.sideIcons[this.state.selectedTopIndex]}>
-                                <img src = {add}></img>
-                                </div>
+                                </div>{
+                                    this.state.userType=='admin' ? <div className = 'edit-container'>
+                                    <div className = 'add-container' title = {'add '+this.state.sideIcons[this.state.selectedTopIndex]} onClick = {(e) => this.handleClickAmmenity(e)}>
+                                    <img src = {add}></img>
+                                    </div>
+                                    <div className = 'delete-listing-container' onClick = {(e) => this.handleEditListingClick(e)}>
+                                        <img src = {edit}></img>
+                                    </div>
+                                </div> : <div className = 'edit-container'></div>
+                                }
                                 
                                 
                                 </div>
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==0 ? this.state.hs.map((thing,i) =>{
                                     console.log("rerendering housees",this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i )
                                     return(
-                                     <HouseListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,0)}></HouseListing>
+                                     <HouseListing  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,0)}  flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.deleteListing(e,i,0)}></HouseListing>
                                     )
                                     
                                 }): null}
                                    
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==1 ? this.state.js.map((thing,i) =>{
                                     return(
-                                     <JobListing key={this.state.selectedAmmenity}  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==1 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,1)}></JobListing>
+                                     <JobListing   socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==1 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,1)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.deleteListing(e,i,1)}></JobListing>
                                     )
                                     
                                 }): null}
@@ -867,31 +985,39 @@ class InteractiveMap extends React.Component{
                                
                                { !this.state.menuColapsed && this.state.selectedTopIndex==2 ? this.state.schs.map((thing,i) =>{
                                     return(
-                                     <SchoolListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==2 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,2)}></SchoolListing>
+                                     <SchoolListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==2 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,2)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.deleteListing(e,i,2)}></SchoolListing>
                                     )
                                     
                                 }): null}
                                 
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==3 ? this.state.strs.map((thing,i) =>{
                                     return(
-                                     <StoreListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==3 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,3)}></StoreListing>
+                                     <StoreListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==3 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,3)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.deleteListing(e,i,3)}></StoreListing>
                                     )
                                     
                                 }): null}
                                 
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==4 ? this.state.comsu.map((thing,i) =>{
                                     return(
-                                     <CsListing key={this.state.selectedAmmenity} socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==4 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,4)}></CsListing>
+                                     <CsListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==4 && this.state.selectedAmmenity[1]==i ? true: false} info = {thing} favoriteState = {false} isFavorited = {false} groupSelect = {true} onClick = {(e) => this.handleListingClick(e,i,4)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.deleteListing(e,i,4)}></CsListing>
                                     )
                                     
                                 }): null}
                                
                                 
-                                
+                               
+                            
                                 
                             </div>:<div className = "side-menu-container-closed"></div>
                             
+                           
                     }
+                      {this.state.selectedTopIndex== 0 &&this.state.adding ? <AddHome icon = {deleteListing} handleAddExit = {this.handleAddExit} onSubmit = {this.handleAddingAmmenity}></AddHome>
+                        :   this.state.selectedTopIndex == 1 &&this.state.adding? <AddJob icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddJob>
+                        :   this.state.selectedTopIndex == 2 &&this.state.adding? <AddSchool icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddSchool>
+                        :   this.state.selectedTopIndex == 3 &&this.state.adding? <AddStore icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddStore>
+                        :   this.state.selectedTopIndex == 4 &&this.state.adding? <AddComSup icon = {deleteListing} handleAddExit = {this.handleAddExit}></AddComSup>:null
+                            }
                 </div>
                 
                     
