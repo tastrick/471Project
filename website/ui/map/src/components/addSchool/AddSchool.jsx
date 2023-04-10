@@ -40,7 +40,7 @@ class AddSchool extends React.Component{
          <div className = 'adding-ammenity-container'>
          <div className = 'add-window'>
                     <div className = 'adding-header'>
-                        <div className = 'add-window-exit' onClick = {this.state.changeToNotAdding}>
+                        <div className = 'add-window-exit' onClick = {this.changeToNotAdding}>
                         <img src = {this.icon}></img>
                         </div>
                         <div className = 'add-window-title'>
