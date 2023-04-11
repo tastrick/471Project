@@ -258,6 +258,25 @@ background:transparent;
     transition: width 0.2s;
     
 }
+.editing{
+    position:absolute;
+    background:rgb(0,0,0,0.65);
+    height:100%;
+    width:100%;;
+    z-index:10000;
+    
+}
+.exitIcon-container:hover{
+    filter:invert(50%);
+}
+.exitIcon-container{
+    position:absolute;
+    height:30px;
+    width:30px;
+    background:transparent;
+    z-index:10001;
+    transition: filter 0.2s;
+}
 .menu-container-selected{
     position:relative;
     top:calc(114px + 10px);

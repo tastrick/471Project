@@ -43,6 +43,7 @@ con.connect((err) => {
 //        if (err) throw err;
 //        console.log('All cities:',result);
 //});
+
 io.on('connection',(socket)=>{
     //socket.emit('recieve-id',socket.id)
     
@@ -72,6 +73,99 @@ io.on('connection',(socket)=>{
             if (err) throw err;
             console.log(result);
             socket.emit('sendingPops', result);
+            
+        });
+    })
+    socket.on ('deleteCity', (data) =>{
+        let sql1 = 'DELETE FROM House WHERE House.cname = '+'\''+data+'\''
+         con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully removed all houses in city')
+             
+        });
+         sql1 = 'DELETE FROM Job WHERE Job.cname = '+'\''+data+'\''
+         con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully removed all Jobs in city')
+             
+        });
+         sql1 = 'DELETE FROM Store WHERE Store.cname = '+'\''+data+'\''
+         con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully removed all stores in city')
+             
+        });
+         sql1 = 'DELETE FROM School WHERE School.cname = '+'\''+data+'\''
+         con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully removed all schools in city')
+             
+        });
+         sql1 = 'DELETE FROM CommunitySupport WHERE CommunitySupport.cname = '+'\''+data+'\''
+         con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully removed all comsup in city')
+             
+        });
+        sql1 = 'DELETE FROM City WHERE City.name = '+'\''+data+'\''
+        con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully removed city')
+             
+        });
+        sql1 = 'DELETE FROM GeneralLocation WHERE GeneralLocation.name = '+'\''+data+'\''
+        con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully removed general location')
+             
+        });
+    })
+    socket.on('addCity', (data) =>{
+        let sql1 = 'INSERT INTO GeneralLocation VALUES ('+'\''+data.name+'\''+','+'\''+data.long+'\''+','+'\''+data.lat+'\''+','+'\''+data.pop+'\''+','+'\''+0+'\')'
+        
+        let sql2 = 'INSERT INTO City VALUES('+'\''+data.name+'\''+','+'\''+data.long+'\''+','+'\''+data.lat+'\''+','+'\''+'\''+','+'\''+0+'\''+','+'\''+data.pname+'\''+','+'\''+data.plong+'\''+','+'\''+data.plat+'\')'
+        
+        //console.log('call to add city',data)
+         con.query(sql1, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('adding general location successful ')
+             
+        });
+         con.query(sql2, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('adding c successful ')
+             
+        });
+        
+        
+        //let strProv = provs[data];
+        
+        //console.log('returning cities for: ', data);
+        
+        //console.log(strProv)
+        let sqlquery = 'SELECT * FROM City AS c WHERE c.PTname = '+'\''+data.pname+'\'';
+       con.query(sqlquery, (err,result) => {
+            if (err) throw err;
+            console.log(result);
+             socket.emit('sendingCities', result);
              
         });
     })
@@ -221,29 +315,37 @@ io.on('connection',(socket)=>{
         
     } )
     socket.on('deleteAmmenity', (data) =>{
-        let sql = '';
+        let sql1 = '';
+        let sql2 = '';
         if (data.ammenityType == 0){//house
-            sql = 'DELETE FROM House WHERE House.idnumber = '+'\''+data.id+'\''
+            sql1 = 'DELETE FROM House WHERE House.idnumber = '+'\''+data.id+'\''
+            
             //console.log('attempting delete in server', data)
         }else if(data.ammenityType==1){//job
-            sql = 'DELETE FROM Job WHERE Job.idnumber = '+'\''+data.id+'\''
+            sql1 = 'DELETE FROM Job WHERE Job.idnumber = '+'\''+data.id+'\''
             //console.log('attempting delete in server', data)
         }else if(data.ammenityType==2){//school
-            sql = 'DELETE FROM School WHERE School.idnumber = '+'\''+data.id+'\''
+            sql1 = 'DELETE FROM School WHERE School.idnumber = '+'\''+data.id+'\''
         }else if(data.ammenityType==3){//store
-            sql = 'DELETE FROM Store WHERE Store.idnumber = '+'\''+data.id+'\''
+            sql1 = 'DELETE FROM Store WHERE Store.idnumber = '+'\''+data.id+'\''
             
         }else if(data.ammenityType==4){//community support
-            sql = 'DELETE FROM CommunitySupport WHERE CommunitySupport.idnumber = '+'\''+data.id+'\''
+            sql1 = 'DELETE FROM CommunitySupport WHERE CommunitySupport.idnumber = '+'\''+data.id+'\''
         }
+         sql2 = 'DELETE FROM CityLocation WHERE CityLocation.idnumber = ' +'\''+data.id+'\''
         
-        con.query(sql, (err,result) => {
+        con.query(sql1, (err,result) => {
             if (err) throw err;
             console.log("successful delete query: ",result);
             //console.log('sending back info: ',res)
             //socket.emit('sendingCityNums', res)
         });
-        
+        con.query(sql2, (err,result) => {
+            if (err) throw err;
+            console.log("successful city location delete: ",result);
+            //console.log('sending back info: ',res)
+            //socket.emit('sendingCityNums', res)
+        });
     })
     socket.on('getCities', (data) =>{
         let strProv = provs[data];

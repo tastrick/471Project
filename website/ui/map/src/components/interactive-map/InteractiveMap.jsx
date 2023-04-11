@@ -32,6 +32,8 @@ import StoreListing from "../storeListing/StoreListing";
 import CsListing from "../csListing/CsListing";
 
 import AddHome from "../addHome/AddHome";
+
+import AddCity from "../addCity/AddCity";
 import AddJob from "../addJob/AddJob";
 import AddSchool from "../addSchool/AddSchool";
 import AddStore from "../addStore/AddStore";
@@ -122,7 +124,9 @@ class InteractiveMap extends React.Component{
           markerStyle:{filter:"invert(0.5)"},
           editingListings:false,
           adding:false,
-          displayedCity:-1
+          displayedCity:-1,
+          editCity:false,
+          addingCity:false
            
              
            
@@ -148,9 +152,9 @@ class InteractiveMap extends React.Component{
         this.setState({schs:data[2]});
         this.setState({strs:data[3]});
         this.setState({comsu:data[4]});
-        console.log(data[0][0])
+       // console.log(data[0][0])
         this.setState({allCityAmmenities:data});
-        console.log("all of it :",this.state.allCityAmmenities)
+       // console.log("all of it :",this.state.allCityAmmenities)
         this.test = data;
     }
     handleResize = (WindowSize, event) => {
@@ -163,7 +167,7 @@ class InteractiveMap extends React.Component{
     handlePops = (data) =>{
         var tr = this.state.cityPops
         tr.push(data[0].population);
-        console.log("recieved pops: ",data[0].population)
+       // console.log("recieved pops: ",data[0].population)
         this.setState({cityPops:tr});
     }
     handleNums = (data) =>{
@@ -178,10 +182,10 @@ class InteractiveMap extends React.Component{
             
         }
         
-        console.log("recieved nums: ",data);
+       // console.log("recieved nums: ",data);
         var temp = this.state.cityNums;
         temp.push(t);
-        console.log("length: ",temp.length);
+      //  console.log("length: ",temp.length);
         this.setState({cityNums:temp});
     }
     handleBounds = (data) =>{
@@ -189,17 +193,17 @@ class InteractiveMap extends React.Component{
         var off = [data[0].xoffset, data[0].yoffset]
         this.setState({bounds:b});
         this.setState({offsets:off});
-        console.log("recieving bounds: ", b)
+       // console.log("recieving bounds: ", b)
     }
     handleCitiesInProvince = (data) =>{
         
-        console.log("recieved cities: ", data);
+        //console.log("recieved cities: ", data);
         this.setState({displayedCities:data});
-        console.log("province info: ", this.state.selectedIndex)
+        //console.log("province info: ", this.state.selectedIndex)
         if (this.state.selectedIndex != -1 && this.state.canadaOrmap){
             var div = document.getElementById(this.state.provincialInfo[this.state.selectedIndex].name);
             var bounding = div.childNodes[0].getBoundingClientRect();
-            console.log("bounding box for prov: ",bounding);
+            //console.log("bounding box for prov: ",bounding);
             var xmin = bounding.x;
             var ymin = bounding.y;
             var xmax = bounding.x+bounding.width;
@@ -214,22 +218,23 @@ class InteractiveMap extends React.Component{
             var pixperlong = xrange/longrange;
             var pixperlat = yrange/latrange;
             var tempcitylocations = [];
-            console.log("testing bounds: ", this.state.bounds)
+            //console.log("testing bounds: ", this.state.bounds)
             for (var cnt = 0; cnt< data.length; cnt++){
                 //console.log("testing:", data[cnt])
                 var deltalong = Math.abs(data[cnt].Longitude - this.state.bounds[0]);
                 var deltalat = Math.abs(data[cnt].Latitude - this.state.bounds[3]);
-                console.log("delt long and lat: ", deltalong, deltalat)
+                //console.log("delt long and lat: ", deltalong, deltalat)
                 var cityx = xmin + deltalong*pixperlong;
                 var cityy = ymin + deltalat*pixperlat;
-                console.log(cityx,cityy);
+                //console.log(cityx,cityy);
                 tempcitylocations.push([cityx-this.state.offsets[0],cityy-this.state.offsets[1]]);
+                console.log('sending for city info')
                 this.socket.emit('getCityNumsfromCity',data[cnt].Name);
                 this.socket.emit('getpops',data[cnt].Name);
                 
             }
             this.setState({cityLocations:tempcitylocations});
-            
+            //this.forceUpdate()
             
         }
        // var testdiv = document.getElementById();
@@ -325,14 +330,25 @@ class InteractiveMap extends React.Component{
                 cityLat: this.state.mapInfo[1]
             }
         }
-        console.log('sending server:',info)
+        //console.log('sending server:',info)
         this.socket.emit('addAmmenity',info);
         this.socket.emit('getAllAmmenities',this.state.displayedCities[this.state.displayedCity].Name);
     }
     getString = (Obj) =>{
         return Object.keys(Obj)[0]
     }
-     
+     removeCity = (e,index) =>{
+         console.log('wanting to delete:', this.state.displayedCities[index].Name)
+         this.socket.emit('deleteCity',this.state.displayedCities[index].Name);
+         this.socket.emit('getCities',this.state.selectedIndex)
+         //this.socket.emit('getCities',this.state.selectedIndex);
+         //this.socket.emit('getBounds',this.state.selectedIndex)
+         this.setState({hoverCityIndex:-1});
+        this.setState({selectedTopIndex:2});
+        this.setState({menuColapsed:false});
+        this.setState({cityNums:[]});
+        this.setState({cityPops:[]});
+    }
     get_province_name=(n)=>{
         if (this.state.selectedIndex == n){
                 return ("province-selected")
@@ -345,6 +361,36 @@ class InteractiveMap extends React.Component{
     handleListingClick = (e,i,type) =>{
         console.log("inside click house",i)
         this.setState({selectedAmmenity:[type,i]})
+    }
+    handleAddCity = (e) =>{// when add button clicked as admin
+        this.setState({addingCity:true});
+    }
+    handleEditCityClick = (e) =>{
+        if (this.state.editCity){
+            this.setState({editCity:false});
+        }else{
+            this.setState({editCity:true});
+        }
+    }
+    handleAddingCity = (info) =>{
+       
+        var tosend = {
+            name:info.name,
+            lat:info.lat,
+            long:info.long,
+            pop:info.pop,
+            plat:this.state.displayedCities[0].PTLatitude,
+            plong:this.state.displayedCities[0].PTLongitude,
+            pname:this.state.displayedCities[0].PTName
+        }
+         var c = this.socket.emit('addCity',tosend);
+         this.socket.emit('getCities',this.state.selectedIndex);
+         //this.socket.emit('getBounds',this.state.selectedIndex)
+         this.setState({hoverCityIndex:-1});
+        this.setState({selectedTopIndex:2});
+        this.setState({menuColapsed:false});
+        this.setState({cityNums:[]});
+        this.setState({cityPops:[]});
     }
     handleEditListingClick = (e) =>{
         
@@ -417,6 +463,7 @@ class InteractiveMap extends React.Component{
     }
     handleAddExit = () =>{
         this.setState({adding:false});
+        this.setState({addingCity:false});
         console.log("exiting adding")
     }
     handleMouseClickOnProvince = (e,i) => {
@@ -629,13 +676,31 @@ class InteractiveMap extends React.Component{
                                 <div className = 'title2'>
                                  {this.state.mapSelectedProvincelabels[this.state.selectedTopIndex]}
                                 </div>
-                                 <div className = 'add-container'></div>
+                                {
+                                    this.state.userType=='admin' && this.state.selectedTopIndex==2 ? <div className = 'edit-container'>
+                                    <div className = 'add-container' title = 'add city' onClick = {(e) => this.handleAddCity(e)}>
+                                    <img src = {add}></img>
+                                    </div>
+                                    <div className = 'delete-listing-container' onClick = {(e) => this.handleEditCityClick(e)}>
+                                        <img src = {edit}></img>
+                                    </div>
+                                </div> : <div className = 'edit-container'></div>
+                                }
                                
                                 </div>
                                 {this.state.selectedTopIndex==2 ? this.state.displayedCities.map((cityInfo,cn) => {
                                     if (cn == this.state.hoverCityIndex){
                                          return(
-                                        <div className="cityInfoContainer-selected">
+                                        
+                                        <div className="cityInfoContainer-selected" >
+                                        
+                                        {this.state.editCity ? <div className = 'editing'>
+                                            <div className = 'exitIcon-container' onClick ={(e) => this.removeCity(e,cn)}>
+                                            <img src = {deleteListing}></img>
+                                            </div>
+                                        
+                                            </div>:null}
+                                        
                                             <div className = "cityNameContainer">
                                                 <div className = "cityname">
                                                 {this.state.displayedCities[cn].Name}
@@ -694,11 +759,21 @@ class InteractiveMap extends React.Component{
                                             
                                             </div>
                                         </div>
-                                        
+                                       
                                     )
                                     }else{
                                         return(
-                                            <div className="cityInfoContainer-unselected">
+                                            
+                                            <div className="cityInfoContainer-unselected" onClick = {(e) => {this.setState({hoverCityIndex:cn})}}>
+                                            
+                                            {this.state.editCity ? <div className = 'editing'>
+                                                <div className = 'exitIcon-container' onClick ={(e) => this.removeCity(e,cn)}>
+                                                <img src = {deleteListing}></img>
+                                                </div>
+                                                
+                                                </div>:null}
+                                            
+                                            
                                                 <div className = "cityNameContainer">
                                                     <div className = "cityname">
                                                     {this.state.displayedCities[cn].Name}
@@ -847,6 +922,7 @@ class InteractiveMap extends React.Component{
                             }
                             
                           })}
+                          {this.state.addingCity ? <AddCity icon = {deleteListing} handleAddExit = {this.handleAddExit} onSubmit = {this.handleAddingCity}></AddCity>:null}
                       
                 </div>: 
                 
@@ -996,7 +1072,7 @@ class InteractiveMap extends React.Component{
                                 <div className = 'title2'>
                                  {this.state.sideIcons[this.state.selectedTopIndex]}
                                 </div>{
-                                    this.state.userType=='admin' ? <div className = 'edit-container'>
+                                    this.state.userType=='admin' && this.state.selectedTopIndex!=5 ? <div className = 'edit-container'>
                                     <div className = 'add-container' title = {'add '+this.state.sideIcons[this.state.selectedTopIndex]} onClick = {(e) => this.handleClickAmmenity(e)}>
                                     <img src = {add}></img>
                                     </div>
