@@ -161,13 +161,7 @@ io.on('connection',(socket)=>{
         //console.log('returning cities for: ', data);
         
         //console.log(strProv)
-        let sqlquery = 'SELECT * FROM City AS c WHERE c.PTname = '+'\''+data.pname+'\'';
-       con.query(sqlquery, (err,result) => {
-            if (err) throw err;
-            console.log(result);
-             socket.emit('sendingCities', result);
-             
-        });
+    
     })
     socket.on('addAmmenity', (data) =>{
         //adding ammenities means adding to city location and actuall ammenity table

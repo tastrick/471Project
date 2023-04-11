@@ -5,7 +5,7 @@ class AddStore extends React.Component{
         super(props);
         this.state = {
              type:'',
-             merch:'',
+             merch:'food',
              link:'',
              lat:'',
              long:'',
