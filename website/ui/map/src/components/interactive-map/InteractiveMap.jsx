@@ -1085,6 +1085,7 @@ class InteractiveMap extends React.Component{
                                 
                                 
                                 </div>
+                                <div className = 'all-menu-contents'>
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==0 ? this.state.hs.map((thing,i) =>{
                                     console.log("rerendering housees",this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i )
                                     return(
@@ -1121,7 +1122,7 @@ class InteractiveMap extends React.Component{
                                     )
                                     
                                 }): null}
-                               
+                               </div>
                                 
                                
                             
