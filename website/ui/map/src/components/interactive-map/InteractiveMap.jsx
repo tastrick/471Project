@@ -119,7 +119,7 @@ class InteractiveMap extends React.Component{
            schs:[],
            strs:[],
            comsu:[],
-           userType:'admin',// this can be guest, user, or admin, guests wont be allowed to favorite or add, users wont be allowed to add and admin have all capabilities
+           userType:'guest',// this can be guest, user, or admin, guests wont be allowed to favorite or add, users wont be allowed to add and admin have all capabilities
           selectedAmmenity:[0,0],
           markerStyle:{filter:"invert(0.5)"},
           editingListings:false,
@@ -156,6 +156,17 @@ class InteractiveMap extends React.Component{
         this.setState({allCityAmmenities:data});
        // console.log("all of it :",this.state.allCityAmmenities)
         this.test = data;
+    }
+    loginSuccess = (data) => {
+        if(data.isAdmin){
+            this.setState({userType:'admin'});
+            console.log('changing to admin')
+        } else{
+            this.setState({userType:'user'});
+        }
+    }
+    logoutSuccess = () => {
+        this.setState({userType:'guest'});
     }
     handleResize = (WindowSize, event) => {
         if (this.state.selectedIndex!=-1){
