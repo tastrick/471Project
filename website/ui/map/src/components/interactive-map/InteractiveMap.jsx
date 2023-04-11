@@ -614,7 +614,7 @@ class InteractiveMap extends React.Component{
                 {this.state.selectedIndex!=-1 ? 
                     <div className = "place-holder">
                         {this.state.selectedTopIndex!=-1 && !this.state.menuColapsed ? 
-                            <div className = "menu-container-selected" onClick = {(e) =>{if (this.state.menuColapsed){ this.setState({menuColapsed:false})}else{
+                            <div className = "menu-container-selected" onClick = {(e) =>{if (this.state.menuColapsed){ this.setState({menuColapsed:false}); }else{
                                 this.setState({menuColapsed:true})
                             }}}>
                             <img src = {ham} ></img>
@@ -933,7 +933,12 @@ class InteractiveMap extends React.Component{
                                 this.setState({menuColapsed:true})
                             }}}>
                             <img src = {ham} ></img>
-                        </div>: <div className = "menu-container" onClick = {(e) =>{if (this.state.menuColapsed){ this.setState({menuColapsed:false})}else{
+                        </div>: <div className = "menu-container" onClick = {(e) =>{if (this.state.menuColapsed){
+                            
+                            this.setState({menuColapsed:false})
+                            if (this.state.selectedTopIndex==-1){this.setState({selectedTopIndex:0})}
+                        
+                        }else{
                                 this.setState({menuColapsed:true})
                             }}}>
                             <img src = {ham}></img>
