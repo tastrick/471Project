@@ -134,6 +134,16 @@ io.on('connection',(socket)=>{
              
         });
     })
+    socket.on('deleteFavorite', (data) =>{
+        let sql = 'DELETE FROM FavoritesCL WHERE FavoritesCL.ID = '+'\''+data.userid+'\''+' AND FavoritesCL.IDNumber = '+'\''+data.ammenityid+'\''
+        con.query(sql, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('deleteing favorite successfull')
+             
+        });
+    })
     socket.on('addCity', (data) =>{
         let sql1 = 'INSERT INTO GeneralLocation VALUES ('+'\''+data.name+'\''+','+'\''+data.long+'\''+','+'\''+data.lat+'\''+','+'\''+data.pop+'\''+','+'\''+0+'\')'
         
@@ -209,6 +219,27 @@ io.on('connection',(socket)=>{
             //res.push(result);
               console.log('adding ammenity to school successful: ');
             //console.log('after adding: ', res)
+             
+        });
+    })
+    socket.on ('getFavorites',(data) =>{
+        let sql = 'SELECT * FROM FavoritesCL WHERE FavoritesCL.ID = '+'\''+data.id+'\''
+        con.query(sql, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfull grabbing favorites for user: ', result,data)
+            socket.emit('sendingFavorites', result)
+             
+        });
+    })
+    socket.on('addFavoriteCL',(data) =>{
+        let sql = 'INSERT INTO FavoritesCL VALUES ('+'\''+data.userid+'\''+','+'\''+data.ammenityid+'\')'
+        con.query(sql, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log('successfully added favorite')
              
         });
     })

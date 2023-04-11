@@ -15,13 +15,18 @@ class CsListing extends React.Component{
             onclick: props.onClick,
             editingState:false,
             deleteIcon:props.icon,
+            f:props.favs
             
         }
         this.delete = props.deleteListing
+        this.addFav = props.addFav
     }componentWillReceiveProps(nextProps) {
         this.setState({ editingState: nextProps.flag });  
         this.setState({ selected: nextProps.selected });
         this.setState({ info: nextProps.info });
+        this.setState({isFavorited: nextProps.isFavorited})
+        this.setState({canFavorite: nextProps.canFavorite})
+        this.setState({f:nextProps.favs})
     }
     updateEditingState(newState){
         this.setState({editingState:newState});
@@ -42,13 +47,7 @@ class CsListing extends React.Component{
                         {this.state.info.Organizers}
                     </div>
                 </div>
-                 <div className =  {this.state.canFavorite && this.state.isFavorited ? 'jfavorited-container': this.state.canFavorite ? 'jfavorite-container': 'jcantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {(e) => {
-                         if (this.state.canFavorite){
-                             this.setState({isFavorited:true});
-                             
-                             //user add to favorites
-                        }
-                    }}>
+                 <div className =  {this.state.canFavorite && this.state.isFavorited ? 'jfavorited-container': this.state.canFavorite ? 'jfavorite-container': 'jcantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {this.addFav}>
                                 <img className = 'favs-im' src = {favs}></img>
                     </div>
                 </div>

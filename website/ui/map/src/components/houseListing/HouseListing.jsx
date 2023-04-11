@@ -17,15 +17,23 @@ class HouseListing extends React.Component{
             onclick: props.onClick,
             editingState:false,
             deleteIcon:props.icon,
+            inCity: props.inCity,
+            f:props.favs,
+           
             
         }
       console.log("new: ", this.state.editingState)
       this.delete = props.deleteListing
+      this.addFav = props.addFav
     }
     componentWillReceiveProps(nextProps) {
         this.setState({ editingState: nextProps.flag });  
         this.setState({ selected: nextProps.selected });
         this.setState({ info: nextProps.info });
+        this.setState({isFavorited: nextProps.isFavorited})
+        this.setState({canFavorite: nextProps.canFavorite})
+        this.setState({f:nextProps.favs})
+        
     }
     updateEditingState(newState){
         this.setState({editingState:newState});
@@ -46,13 +54,7 @@ class HouseListing extends React.Component{
                         {this.state.info.HouseType}
                     </div>
                     
-                     <div className =  {this.state.canFavorite && this.state.isFavorited ? 'favorited-container': this.state.canFavorite ? 'favorite-container': 'cantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {(e) => {
-                         if (this.state.canFavorite){
-                             this.setState({isFavorited:true});
-                             
-                             //user add to favorites
-                        }
-                    }}>
+                     <div className =  {this.state.canFavorite && this.state.isFavorited ? 'favorited-container': this.state.canFavorite ? 'favorite-container': 'cantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {this.addFav}>
                                 <img className = 'favs-im' src = {favs}></img>
                     </div>
                     <div className = 'hprice-container'>${this.state.info.Rent}</div>
