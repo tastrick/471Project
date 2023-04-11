@@ -688,6 +688,7 @@ class InteractiveMap extends React.Component{
                                 }
                                
                                 </div>
+                                <div className = 'all-menu-contents'>
                                 {this.state.selectedTopIndex==2 ? this.state.displayedCities.map((cityInfo,cn) => {
                                     if (cn == this.state.hoverCityIndex){
                                          return(
@@ -838,7 +839,7 @@ class InteractiveMap extends React.Component{
                                    
                                    
                                 }
-                                ): null}
+                                ): null}</div>
                             </div>:<div className = "side-menu-container-closed"></div>
                             
                         }

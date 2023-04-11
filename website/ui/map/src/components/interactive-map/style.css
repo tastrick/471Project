@@ -171,10 +171,16 @@ path{
     z-index:100000;
     transition: width 0.2s;
     overflow:hidden;
-    overflow-y:scroll;
+   
     
 }
-
+.all-menu-contents{
+position:relative;
+height:calc(100% - 60px);
+background:transparent;
+ overflow-y:scroll;
+ top:5px
+}
 .side-menu-header{
     position:relative;
     width:100%;
@@ -292,7 +298,7 @@ background:transparent;
     position:relative;
     width:calc(100% - 11px);
     left:5px;
-    height:20%;
+    height:auto;
     margin-top:5px;
     background:lightgray;
     border-radius:10px;
@@ -305,7 +311,7 @@ background:transparent;
     position:relative;
     width:calc(100% - 11px);
     left:5px;
-    height:20%;
+    height:auto;
     margin-top:5px;
     background:salmon;
     border-radius:10px;
@@ -347,7 +353,7 @@ background:transparent;
     position:relative;
     width:90%;
     left:10px;
-    height:75%;
+    height:116px;
     background:transparent;
     top:10px;
 }
