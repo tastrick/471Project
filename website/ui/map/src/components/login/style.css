@@ -33,7 +33,7 @@
     position:relative;
     width:35px;
     height:35px;
-    top:-17px;
+    top:-30px;
     left: calc(100% - 35px - 5px);
     background: url(../icons2/login/exit.png) no-repeat ;
     background-position: 0px 0px;
@@ -74,7 +74,7 @@
      position:relative;
     width:35px;
     height:35px;
-    top:-17px;
+    top:-30px;
     left: calc(100% - 35px - 5px);
    background: url(../icons2/login/exit.png) no-repeat ;
   background-position: 0px 0px;

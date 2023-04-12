@@ -141,6 +141,8 @@ class InteractiveMap extends React.Component{
         this.socket.on('sendingAllAmmenities', this.handleAmmenities);
         this.socket.on('sendingFavorites', this.handleFavorites);
         this.listingRef = React.createRef();
+        
+        this.setHomeState = props.setHome 
     }
     componentDidMount() {
       window.addEventListener("resize", this.handleResize);
@@ -526,6 +528,10 @@ class InteractiveMap extends React.Component{
         this.setState({cityPops:[]});
         //this.setState({selectedTopIndex:-1});
     }
+    setMapState = (e) =>{
+        console.log('in interactive map home click')
+        this.setState({canadaOrmap:true});
+    }
     arraysEqual(a, b) {// not my function grabbed from https://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
         if (a === b) return true;
         if (a == null || b == null) return false;
@@ -553,6 +559,8 @@ class InteractiveMap extends React.Component{
        // this.setState({selectedIndex:-1});
         this.setState({selectedTopIndex:-1});
         this.setState({menuColapsed:true})
+        this.setHomeState()
+        
         
     }
     isFavorited = (first,second) =>{
@@ -745,9 +753,7 @@ class InteractiveMap extends React.Component{
                         </div>
                         }
                         
-                        <div className = "home-container">
                         
-                        </div>
                         <div className = "top-menu-options">
                         {this.state. mapSelectedProvinceIcons.map((icon,i) => {
                             if (i == this.state.selectedTopIndex){
@@ -1064,9 +1070,7 @@ class InteractiveMap extends React.Component{
                             <img src = {ham}></img>
                         </div>
                         }
-                     <div className = "home-container" onClick = {(e) => this.handleHomeClick(e)}>
-                    <img src = {home}></img>
-                    </div>
+                     
                   <div className = "top-menu-options">
                         {this.state.mapSideIcons.map((icon,i) => {
                             if (i == this.state.selectedTopIndex){
