@@ -32,7 +32,7 @@
 .province{
     position:absolute;
     left:5%;
-    top:200px;
+    top:20%;
     width:89%;
     height:89%;
     
@@ -43,7 +43,7 @@
 
 .province-selected{
     position:absolute;
-    top:200px;
+    top:20%;
     left:5%;
     width:89%;
     height:89%;
@@ -58,7 +58,7 @@
 }
 .province-hover{
     position:absolute;
-   top:200px;
+   top:20%;
     left:5%;
     width:89%;
     height:89%;
