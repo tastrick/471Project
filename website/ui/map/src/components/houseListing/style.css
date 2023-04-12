@@ -192,3 +192,8 @@ img{
     letter-spacing:3px;
     left:10px;
 }
+.type-container:link{
+    color:black;
+    text-decoration: none;
+}
+.type-container:visited { text-decoration: none; color:black;}

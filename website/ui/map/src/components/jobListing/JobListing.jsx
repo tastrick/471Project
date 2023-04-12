@@ -45,9 +45,9 @@ class JobListing extends React.Component{
                 </div>
             <div className = 'total-header-container'>
                 <div className = "joblisting-header" >
-                    <div className = 'type-container'>
+                    <a href = {this.state.info.Link} className = 'type-container' >
                         {this.state.info.Industry}
-                    </div>
+                    </a>
                     
                     
                     

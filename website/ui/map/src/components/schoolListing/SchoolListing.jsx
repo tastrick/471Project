@@ -46,9 +46,9 @@ class SchoolListing extends React.Component{
                 </div>
             <div className = 'total-header-container'>
                 <div className = "schoollisting-header" >
-                    <div className = 'type-container'>
+                    <a href = {this.state.info.Link} className = 'type-container' >
                         {this.state.info.Name}
-                    </div>
+                    </a>
                     
                     
                     

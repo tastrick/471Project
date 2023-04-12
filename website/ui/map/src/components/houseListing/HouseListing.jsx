@@ -22,7 +22,7 @@ class HouseListing extends React.Component{
            
             
         }
-      console.log("new: ", this.state.editingState)
+      console.log("new: ", this.state.editingState,this.state.info.Link)
       this.delete = props.deleteListing
       this.addFav = props.addFav
     }
@@ -51,9 +51,9 @@ class HouseListing extends React.Component{
                 
                 </div>
                 <div className = "houselisting-header" >
-                    <div className = 'type-container'>
+                    <a href = {this.state.info.Link} className = 'type-container' >
                         {this.state.info.HouseType}
-                    </div>
+                    </a>
                     
                      <div className =  {this.state.canFavorite && this.state.isFavorited ? 'favorited-container': this.state.canFavorite ? 'favorite-container': 'cantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {this.addFav}>
                                 <img className = 'favs-im' src = {favs}></img>

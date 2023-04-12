@@ -43,9 +43,9 @@ class CsListing extends React.Component{
                 </div>
              <div className = 'total-header-container'>
                 <div className = "cslisting-header" >
-                    <div className = 'type-container'>
+                    <a href = {this.state.info.Link} className = 'type-container' >
                         {this.state.info.Organizers}
-                    </div>
+                    </a>
                 </div>
                  <div className =  {this.state.canFavorite && this.state.isFavorited ? 'jfavorited-container': this.state.canFavorite ? 'jfavorite-container': 'jcantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {this.addFav}>
                                 <img className = 'favs-im' src = {favs}></img>
