@@ -82,6 +82,8 @@ class Container extends React.Component{
     render(){
         return (
             <div className = "container" >
+
+                {/* Log in  */}
                 {!this.state.login ? 
                     <div className = "home-bar-container">
                         <div className = "home-container"></div>
@@ -108,7 +110,8 @@ class Container extends React.Component{
                     <LogIn exitOnClick = {this.handleExitLogin} loginSucess = {this.handleLoginSuccess} socket={this.socket}></LogIn>
                 :  
                     <div className = "noLogin"></div> }
-
+                
+                {/* Interactive Map */}
                 <Map socket = {this.socket} ref={this.mapRef}></Map>
             </div>
          
