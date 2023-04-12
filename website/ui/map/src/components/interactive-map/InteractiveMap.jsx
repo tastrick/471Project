@@ -93,8 +93,8 @@ class InteractiveMap extends React.Component{
             isMapFullScreen:false,
             isMapMenuExpanded:false,
             mapSideIcons: [houses,jobs,schools,stores, comsups,favs,add],
-            mapSelectedProvinceIcons:[popu,tax,cities,info],
-            mapSelectedProvincelabels:['population','taxes','cities', 'provincial supports'],
+            mapSelectedProvinceIcons:[cities],
+            mapSelectedProvincelabels:['cities',],
             mapProvinceSelected: [Ab,Sk,Mn,On,Qu,Nb,Ns,Nl,Pei,Bc,Nu,Yk,Nwt],
             sideIcons: ['homes','jobs','schools','stores','community supports', 'favorites','filter'],
             hasAccount:false,
@@ -522,7 +522,7 @@ class InteractiveMap extends React.Component{
         this.socket.emit('getBounds',i)
         this.socket.emit('getCities',i)
         this.setState({hoverCityIndex:-1});
-        this.setState({selectedTopIndex:2});
+        this.setState({selectedTopIndex:0});
         this.setState({menuColapsed:false});
         this.setState({cityNums:[]});
         this.setState({cityPops:[]});
@@ -622,7 +622,7 @@ class InteractiveMap extends React.Component{
         this.setState({mapInfo:[]});
         this.setState({canadaOrmap:true});
        // this.setState({selectedIndex:-1});
-        this.setState({selectedTopIndex:2});
+        this.setState({selectedTopIndex:0});
     }
     render(){
        
@@ -803,7 +803,7 @@ class InteractiveMap extends React.Component{
                                  {this.state.mapSelectedProvincelabels[this.state.selectedTopIndex]}
                                 </div>
                                 {
-                                    this.state.userType=='admin' && this.state.selectedTopIndex==2 ? <div className = 'edit-container'>
+                                    this.state.userType=='admin' && this.state.selectedTopIndex==0 ? <div className = 'edit-container'>
                                     <div className = 'add-container' title = 'add city' onClick = {(e) => this.handleAddCity(e)}>
                                     <img src = {add}></img>
                                     </div>
@@ -815,7 +815,7 @@ class InteractiveMap extends React.Component{
                                
                                 </div>
                                 <div className = 'all-menu-contents'>
-                                {this.state.selectedTopIndex==2 ? this.state.displayedCities.map((cityInfo,cn) => {
+                                {this.state.selectedTopIndex==0 ? this.state.displayedCities.map((cityInfo,cn) => {
                                     if (cn == this.state.hoverCityIndex){
                                          return(
                                         
@@ -1043,7 +1043,7 @@ class InteractiveMap extends React.Component{
                             )
                             }else{
                                 return(
-                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:1000, background:"gray", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => {this.setState({hoverCityIndex:i}); this.setState({selectedTopIndex:2}); this.setState({menuColapsed:false})}}  title = {this.state.displayedCities[i].Name}>
+                           <div className = 'citiesContainer' style ={{position:'fixed', top: loc[1], left: loc[0],height:'15px', width: '15px', zIndex:1000, background:"gray", borderRadius:"50%", border: "1px solid white"}} onClick={(e) => {this.setState({hoverCityIndex:i}); this.setState({selectedTopIndex:0}); this.setState({menuColapsed:false})}}  title = {this.state.displayedCities[i].Name}>
                             <img src = {cities} style ={{position:'fixed', top: loc[1]+2, left: loc[0]+2.5,height:'11px', width: '12px', zIndex:1000, filter: 'invert(1)'}} ></img>
                            </div>)
                             }
