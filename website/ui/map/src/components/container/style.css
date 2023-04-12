@@ -17,7 +17,7 @@
     height:100%;
     width:auto;
     background:transparent;
-    left:calc(100% - 30px - 160px);
+    left:calc(100% - 30px - 170px);
     display:flex;
 }
 .home-from-map{

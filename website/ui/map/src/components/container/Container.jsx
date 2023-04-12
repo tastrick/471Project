@@ -112,8 +112,8 @@ class Container extends React.Component{
                     <div className = "home-bar-container">
                         <div className = "home-container"></div>
                         <div className = 'top-right'>
-                        <div className = 'home-from-map'>
-                        
+                        <div className = 'home-from-map' onClick = {(e) => {this.mapRef.current.setMapState(e); this.setState({displayHome:false})}}>
+                        {this.state.displayHome ? <img src = {home}></img>: null}
                         </div>
                         <div className ={this.state.admin ? "admin-container" : "user-container"}  onClick = {this.handleSignOut}>
                             <div className = "signout-text-container">
