@@ -41,7 +41,7 @@ class HouseListing extends React.Component{
         
     }
     render(){
-        
+
         return(
             <div className = {this.state.selected ? 'houselisting-selected': this.state.groupSelect ? 'houselisting-groupselect':'houselisting-unselected'} onClick = {this.state.onclick}>
                 <div className = {this.state.editingState ? 'hediting':'hnot-editing'}>
@@ -50,15 +50,18 @@ class HouseListing extends React.Component{
                     </div>
                 
                 </div>
-                <div className = "houselisting-header" >
+                <div className = 'total-header-container'>
+                <div className = "storelisting-header" >
                     <a href = {this.state.info.Link} className = 'type-container' >
                         {this.state.info.HouseType}
                     </a>
-                    
-                     <div className =  {this.state.canFavorite && this.state.isFavorited ? 'favorited-container': this.state.canFavorite ? 'favorite-container': 'cantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {this.addFav}>
+                     <div className = 'hprice-container'>${this.state.info.Rent}</div>
+                    </div>
+                     <div className =  {this.state.canFavorite && this.state.isFavorited ? 'jfavorited-container': this.state.canFavorite ? 'jfavorite-container': 'jcantfavorite-container'} title = {!this.state.canFavorite ? 'sign in to favorite': null} onClick = {this.addFav}>
                                 <img className = 'favs-im' src = {favs}></img>
                     </div>
-                    <div className = 'hprice-container'>${this.state.info.Rent}</div>
+                   
+                
                 </div>
                 <div className = 'houselisting-body'>
                     <div className = 'number-baths'>
