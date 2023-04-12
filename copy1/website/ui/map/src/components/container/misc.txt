@@ -1,0 +1,450 @@
+.settings-container{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:45%;
+    overflow:hidden;
+    border-radius:50%;
+    transition: transform 0.5s;
+   
+}
+
+.settings-container::after{
+    content:'';
+    width:100%;
+    height:100%;
+    top:-70px;
+    left:0;
+    background: linear-gradient(-45deg, #ff00d4, #00ddff);
+    position:absolute;
+    transition: 0.5s;
+}
+.settings-container:hover::after{
+    top:0;
+    
+}
+.settings-container:hover .settings{
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+}
+
+.settings-container:hover{
+    transform: translateY(-5px);
+}
+.settings{
+    width:60px;
+    height:60px;
+    box-shadow: 0 0 20px 10px rgba(0,0,0,0.05);
+    border-radius:50%;
+    position: relative;
+    z-index: 10;
+    transition: filter 0.5s;
+}
+
+
+
+.button-container{
+    display: flex;
+    align-items: center;
+    position:fixed;
+    width:100%;
+    height:10%;
+    background:white;
+    bottom:0;
+    
+}
+.color-selector-container{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:20%;
+}
+
+
+
+.button-container #active{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:40%;
+    overflow:hidden;
+    border-radius:50%;
+    transition: transform 0.5s;
+    
+}
+
+.button-container #active::after{
+    content:'';
+    width:100%;
+    height:100%;
+    top:-70px;
+    left:0;
+    background: linear-gradient(-45deg, #ff00d4, #00ddff);
+    position:absolute;
+    transition: 0.5s;
+    
+}
+
+
+
+.settings-container{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:45%;
+    overflow:hidden;
+    border-radius:50%;
+    transition: transform 0.5s;
+   
+}
+
+.settings-container::after{
+    content:'';
+    width:100%;
+    height:100%;
+    top:-70px;
+    left:0;
+    background: linear-gradient(-45deg, #ff00d4, #00ddff);
+    position:absolute;
+    transition: 0.5s;
+}
+.settings-container:hover::after{
+    top:0;
+    
+}
+.settings-container:hover .settings{
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+}
+
+.settings-container:hover{
+    transform: translateY(-5px);
+}
+.settings{
+    width:60px;
+    height:60px;
+    box-shadow: 0 0 20px 10px rgba(0,0,0,0.05);
+    border-radius:50%;
+    position: relative;
+    z-index: 10;
+    transition: filter 0.5s;
+}
+
+.select-container{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:40%;
+    overflow:hidden;
+    border-radius:50%;
+    transition: transform 0.5s;
+}
+
+.select-container::after{
+    content:'';
+    width:100%;
+    height:100%;
+    top:-70px;
+    left:0;
+    background: linear-gradient(-45deg, #ff00d4, #00ddff);
+    position:absolute;
+    transition: 0.5s;
+}
+.select-container:hover::after{
+    top:0;
+    
+}
+.select-container:hover .select{
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+}
+.select-container:hover{
+    transform: translateY(-5px);
+}
+.select{
+    
+    width:60px;
+    height:60px;
+    box-shadow: 0 0 20px 10px rgba(0,0,0,0.05);
+    border-radius:50%;
+    position: relative;
+    z-index: 10;
+    transition: filter 0.5s;
+}
+
+.grab-container{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:35%;
+    overflow:hidden;
+    border-radius:50%;
+    transition: transform 0.5s;
+}
+.grab-container::after{
+    content:'';
+    width:100%;
+    height:100%;
+    top:-70px;
+    left:0;
+    background: linear-gradient(-45deg, #ff00d4, #00ddff);
+    position:absolute;
+    transition: 0.5s;
+}
+
+.grab-container:hover::after{
+    top:0;
+    
+}
+
+.grab-container:hover .grab{
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+}
+
+.grab-container:hover{
+    transform: translateY(-5px);
+}
+.grab{
+    
+    width:60px;
+    height:60px;
+    box-shadow: 0 0 20px 10px rgba(0,0,0,0.05);
+    border-radius:50%;
+    position: relative;
+    z-index: 10;
+    transition: filter 0.5s;
+}
+.erase-container{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:30%;
+    overflow:hidden;
+    border-radius:50%;
+    transition: transform 0.5s;
+}
+
+.erase{
+    
+    width:60px;
+    height:60px;
+    box-shadow: 0 0 20px 10px rgba(0,0,0,0.05);
+    border-radius:50%;
+    position: relative;
+    z-index: 10;
+    transition: filter 0.5s;
+    
+}
+
+.erase-container::after{
+    content:'';
+    width:100%;
+    height:100%;
+    top:-70px;
+    left:0;
+    background: linear-gradient(-45deg, #ff00d4, #00ddff);
+    position:absolute;
+    transition: 0.5s;
+}
+
+.erase-container:hover::after{
+    top:0;
+    
+}
+
+.erase-container:hover .erase{
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+}
+
+.erase-container:hover{
+    transform: translateY(-5px);
+}
+
+
+.draw{
+    
+    width:60px;
+    height:60px;
+    box-shadow: 0 0 20px 10px rgba(0,0,0,0.05);
+    border-radius:50%;
+    position: relative;
+    z-index: 10;
+    transition: filter 0.5s;
+}
+.draw-container{
+    position: relative;
+    background:white;
+    width:60px;
+    height:60px;
+    left:25%;
+    overflow:hidden;
+    border-radius:50%;
+    transition: transform 0.5s;
+    
+}
+.draw-container::after{
+    content:'';
+    width:100%;
+    height:100%;
+    top:-70px;
+    left:0;
+    background: linear-gradient(-45deg, #ff00d4, #00ddff);
+    position:absolute;
+    transition: 0.5s;
+}
+.draw-container:hover::after{
+    top:0;
+    
+}
+
+.draw-container:hover .draw{
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+}
+
+.draw-container:hover{
+    transform: translateY(-5px);
+}
+            
+            
+            
+            
+            
+        /*
+            var canvas = document.querySelector('#board');
+            this.ctx = canvas.getContext('2d');
+            var ctx = this.ctx;
+            var sketch = document.querySelector('#sketch');
+            var sketch_style = getComputedStyle(sketch);
+            canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+            canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+
+            var mouse = {x: 0, y: 0};
+            var last_mouse = {x: 0, y: 0};
+
+            
+            canvas.addEventListener('mousemove', function(e) {
+                last_mouse.x = mouse.x;
+                last_mouse.y = mouse.y;
+
+                mouse.x = e.pageX - this.offsetLeft;
+                mouse.y = e.pageY - this.offsetTop;
+                
+                 
+            }, false);
+            
+        if(this.current_state=='draw' || this.current_state=='erase'){
+           
+
+           
+            ctx.lineWidth = 5;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = 'black';
+
+            canvas.addEventListener('mousedown', function(e) {
+                canvas.addEventListener('mousemove', onPaint, false);
+            }, false);
+
+            canvas.addEventListener('mouseup', function() {
+                canvas.removeEventListener('mousemove', onPaint, false);
+            }, false);
+            var root = this;
+            
+    }else if (this.current_state=="grab"){
+         canvas.addEventListener('wheel', onMouseWheel, false);
+         function onMouseWheel(event) {
+            const deltaY = event.deltaY;
+            const scaleAmount = -deltaY / 500;
+            this.scale = this.scale * (1 + scaleAmount);
+
+            // zoom the page based on where the cursor is
+            var distX = event.pageX / canvas.clientWidth;
+            var distY = event.pageY / canvas.clientHeight;
+
+            // calculate how much we need to zoom
+            const unitsZoomedX = trueWidth() * scaleAmount;
+            const unitsZoomedY = trueHeight() * scaleAmount;
+
+            const unitsAddLeft = unitsZoomedX * distX;
+            const unitsAddTop = unitsZoomedY * distY;
+
+            this.offsets[0] -= unitsAddLeft;
+            this.offsets[1] -= unitsAddTop;
+
+            redrawCanvas();
+        }
+        
+    }
+     function onPaint() {
+                ctx.beginPath();
+                ctx.moveTo(last_mouse.x, last_mouse.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.closePath();
+                ctx.stroke();
+                if (root.timeout!= undefined) clearTimeout(root.timeout);
+                
+                root.timeout = setTimeout(function(){
+                    var base64ImageData = canvas.toDataURL("image/png");
+                    root.socket.emit("canvas-data",base64ImageData);
+                },1000)
+                
+                
+            };
+        
+     function redrawCanvas() {
+            // set the canvas to the size of the window
+            canvas.width = document.body.clientWidth;
+            canvas.height = document.body.clientHeight;
+
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < this.drawings.length; i++) {
+                const line = this.drawings[i];
+                onPaint(toScreenX(line.x0), toScreenY(line.y0), toScreenX(line.x1), toScreenY(line.y1));
+            }
+        }
+    function drawLine(x0, y0, x1, y1) {
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+    function toScreenX(xTrue) {
+            return (xTrue + this.offsets[0]) * this.scale;
+        }
+        function toScreenY(yTrue) {
+            return (yTrue + this.offsets[1]) * this.scale;
+        }
+        function toTrueX(xScreen) {
+            return (xScreen / this.scale) - this.offsets[0];
+        }
+        function toTrueY(yScreen) {
+            return (yScreen / this.scale) - this.offsets[1];
+        }
+        function trueHeight() {
+            return canvas.clientHeight / this.scale;
+        }
+        function trueWidth() {
+            return canvas.clientWidth / this.scale;
+        }
+         function trueHeight() {
+            return canvas.clientHeight / this.scale;
+        }
+        function trueWidth() {
+            return canvas.clientWidth / this.scale;
+        }
+        
+    }
+    */

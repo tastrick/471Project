@@ -1,0 +1,274 @@
+:root{
+    --size: 100%;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.mcontainer{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:transparent;
+}
+.map-container{
+    position:relative;
+    top:-157px;
+    width:100%;
+    height:101%;
+    background:transparent;
+}
+.map{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+.province{
+    position:absolute;
+    left:5%;
+    top:180px;
+    width:90%;
+    height:90%;
+    
+}
+
+.province-selected{
+    position:absolute;
+    top:180px;
+    left:5%;
+    width:90%;
+    height:90%;
+    
+}
+
+.province-hover{
+    position:absolute;
+    top:180px;
+    left:5%;
+    width:90%;
+    height:90%;
+}
+
+.province-selected path{
+    fill:black;
+}
+.test{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:pink;
+    z-index:9000;
+}
+path{
+    fill: white;
+    transition: fill 0.2s; 
+}
+.province-hover path{
+    fill:lightgray;
+    transition: fill 0.2s;
+}
+
+.hover-info-header{
+    position:relative;
+    top:5px;
+    width:100%;
+    height:50%;
+    background:transparent;
+}
+
+.hover-info-header img{
+    width:100%;
+    height:100%;
+}
+
+.hover-info-bulk{
+    position:relative;
+    width:100%;
+    height:50%;
+    text-align:center;
+    font-size:12px;
+    font-family: Arial, sans-serif;
+    letter-spacing:2px;
+    color:white;
+    text-transform:Capitalize;
+    
+}
+.hover-info-pop{
+    position:relative;
+    width:100%;
+    height:50%;
+  font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+  color:gray;
+  letter-spacing:4px;
+  font-weight:bold;
+}
+
+
+.home-container{
+    position:relative;
+    top:92px;
+     width:50px;
+    height:50px;
+    left:calc(100% - 145px);
+    background:transparent;
+    z-index:2000;
+    transition:filter 0.2s;
+}
+.home-container:hover{
+ filter:invert(0.5);   
+}
+.home-container img{
+    position:relative;
+     width:70%;
+    height:70%;
+}
+.menu-container{
+    position:relative;
+    top:calc(114px + 10px);
+    width:32px;
+    height:32px;
+    left: 10px;
+    background:transparent;
+    z-index:7000;
+    border-radius:50%;
+   
+    transition:filter 0.2s;
+}
+.menu-container img{
+    position:relative;
+    width:70%;
+    height:70%;
+    top:15%;
+    left:15%;
+}
+.place-holder{
+    position:relative;
+    height:0;
+    margin:0;
+    background:red;
+}
+.menu-container:hover{
+    filter:invert(0.5);
+}
+.provinceName{
+    position:relative;
+    height:200px;
+    width:100%;
+    top:40px;
+    text-align: center;
+    
+}
+.sProvinceCont{
+    position:relative;
+    height:90%;
+    top:-12%;
+    left:10%;
+    width:80%;
+    
+}
+
+.sPopHolder{
+    position:relative;
+     height:auto;
+     top:10px;
+    width:auto;
+    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+  color:gray;
+  left:-2px;
+    font-size:20px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    text-align:center;
+    white-space: nowrap;
+      font-weight:bold;
+}
+
+.sProvName{
+    position:relative;
+    height:auto;
+    margin:0;
+    top:10px;
+    width:auto;
+    font-family: Arial, sans-serif;
+    font-size:20px;
+    letter-spacing:13px;
+    text-transform:uppercase;
+    text-align:center;
+    white-space: nowrap;
+    
+}
+.top-menu-options{
+    position:relative;
+    width:calc(100% - 200px);
+    height:35px;
+    z-index:8000;
+    top:52px;
+    left:50px;
+    background:transparent;
+    display:flex;
+}
+.button-background{
+    position:relative;
+    left:-7px;
+    margin-left:4px;
+    width:auto;
+    height:18px;
+    top:20%;
+    background:white;
+    border-radius:60px;
+    border:1px solid black;
+    display:flex;
+    transition:filter 0.2s;
+}
+.button-background:hover{
+    filter:invert(1);
+}
+
+.icon-container-menu{
+    position:relative;
+    left:5px;
+  
+    width:15px;
+    height:15px;
+    background:transparent;
+}
+
+.icon-container-menu img{
+    position:relative;
+    width:12px;
+    height:12px;
+    top:calc(100% - 17px);
+}
+.text-container-menu{
+    position:relative;
+    background:transparent;
+    width:auto;
+    top:2px;
+    height:15px;
+    left:6px;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    margin-right:12px;
+}
+.flag-container{
+    position:relative;
+    height:10%;
+    width:20%;
+    background:transparent;
+    opacity:20%;
+    justify-content: center;
+}
+.flag-container img{
+    position:relative;
+ 
+    width:100%;
+    height:100%;
+}

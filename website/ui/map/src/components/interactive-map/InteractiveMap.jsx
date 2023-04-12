@@ -531,6 +531,7 @@ class InteractiveMap extends React.Component{
     setMapState = (e) =>{
         console.log('in interactive map home click')
         this.setState({canadaOrmap:true});
+        this.setState({selectedTopIndex:0})
     }
     arraysEqual(a, b) {// not my function grabbed from https://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
         if (a === b) return true;
