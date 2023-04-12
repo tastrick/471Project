@@ -28,6 +28,7 @@ class StoreListing extends React.Component{
         this.setState({isFavorited: nextProps.isFavorited})
         this.setState({canFavorite: nextProps.canFavorite})
         this.setState({f:nextProps.favs})
+        console.log('updating thing')
     }
     updateEditingState(newState){
         this.setState({editingState:newState});

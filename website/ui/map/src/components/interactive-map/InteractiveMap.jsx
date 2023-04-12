@@ -408,7 +408,7 @@ class InteractiveMap extends React.Component{
         } 
     }
     handleListingClick = (e,i,type) =>{
-        console.log("inside click house",i)
+        console.log("inside click house",i,type, this.state.favorites)
         this.setState({selectedAmmenity:[type,i]})
     }
     handleAddCity = (e) =>{// when add button clicked as admin
@@ -566,15 +566,19 @@ class InteractiveMap extends React.Component{
             return false
         }
     }
-    addFavorite = async (e,first,second) =>{
-        console.log('in add fav', first, this.state.hs.length)
-        let re = await this.setState({selectedAmmenity:[second,first]})
+    addFavorite = (e,first,second) =>{
+        console.log('in add fav', first, second)
+        //this.setState({selectedAmmenity:[second,first]})
+        //this.setState({editingListings:false});
+        //var beforeChange = this.state.selectedTopIndex
+        //this.setState({selectedTopIndex:5});
+        //this.setState({selectedTopIndex:beforeChange})
          var tosend = {
                 userid:this.state.userInfo.id,
                 ammenityid: null
             }
          //   console.log(first,second)
-        if (second == 0){
+            if (second == 0){
                 tosend.ammenityid = this.state.hs[first].IDNumber
             }else if(second==1){
                 tosend.ammenityid = this.state.js[first].IDNumber
@@ -586,12 +590,13 @@ class InteractiveMap extends React.Component{
                 tosend.ammenityid = this.state.comsu[first].IDNumber
             }
        if (this.isFavorited(first,second)){// remove favorite
-           console.log('weehooo: ', this.state.userInfo)
+           console.log('deleteing favorite: ', first,second)
            //tosend = {userid:this.state.userInfo.id,}
            this.socket.emit('deleteFavorite', tosend)
            this.socket.emit('getFavorites',this.state.userInfo)
            
         }else{
+            console.log('adding to favs: ', [first,second])
             var te = this.state.favorites;
             te.push([first,second]);
             this.setState({favorites:te});
@@ -602,6 +607,7 @@ class InteractiveMap extends React.Component{
             this.socket.emit('addFavoriteCL', tosend);
             this.socket.emit('getFavorites',this.state.userInfo)
         }
+        //this.forceUpdate()
         
     }
     handleHomeClick = (e) =>{
@@ -756,7 +762,7 @@ class InteractiveMap extends React.Component{
                                 </div>)
                             }else{
                             return(
-                            <div className = "button-background" onClick = {(e) =>{this.setState({selectedTopIndex:i}); console.log("here")}}>
+                            <div className = "button-background" onClick = {(e) =>{this.setState({selectedTopIndex:i})}}>
                                 <div className = "icon-container-menu">
                                 <img src = {icon}></img>
                                 </div>
@@ -1246,26 +1252,31 @@ class InteractiveMap extends React.Component{
                                 }): null}
                                 
                                 { !this.state.menuColapsed && this.state.selectedTopIndex==5 ? this.state.favorites.map((thing,i) =>{
+                                    console.log('in mapping favorites', thing[0], thing[1])
                                     if (thing[1]==0){
                                         return(
-                                            <HouseListing  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==i ? true: false} info = {this.state.hs[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,i,0)}  flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,i,0)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],0)} favs = {this.state.favorites}></HouseListing>
+                                            <HouseListing key = {this.state.hs[thing[0]].IDNumber}  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==0 && this.state.selectedAmmenity[1]==thing[0] ? true: false} info = {this.state.hs[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,thing[0],0)}  flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,thing[0],0)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],0)} favs = {this.state.favorites}></HouseListing>
                                         )
                                     }else if(thing[1]==1){
                                         return(
-                                            <JobListing   socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==1 && this.state.selectedAmmenity[1]==i ? true: false} info = {this.state.js[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,i,1)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,i,1)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],1)} favs = {this.state.favorites}></JobListing>
+                                            <JobListing key = {this.state.js[thing[0]].IDNumber}   socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==1 && this.state.selectedAmmenity[1]==thing[0] ? true: false} info = {this.state.js[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,thing[0],1)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,thing[0],1)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],1)} favs = {this.state.favorites} ></JobListing>
                                     )
                                     }else if(thing[1]==2){
                                         return(
-                                        <SchoolListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==2 && this.state.selectedAmmenity[1]==i ? true: false} info = {this.state.schs[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,i,2)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,i,2)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],2)} favs = {this.state.favorites}></SchoolListing>
+                                        <SchoolListing key = {this.state.schs[thing[0]].IDNumber}  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==2 && this.state.selectedAmmenity[1]==thing[0] ? true: false} info = {this.state.schs[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) =>{this.handleListingClick(e,thing[0],2)
+                                            console.log('clicked ammenity', thing)
+                                            
+                                        }} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,thing[0],2)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],2)} favs = {this.state.favorites}></SchoolListing>
                                     )
                                         
                                     }else if(thing[1] == 3){
+                                        //console.log('from in mapping: ', thing[0],thing[1])
                                         return(
-                                        <StoreListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==3 && this.state.selectedAmmenity[1]==i ? true: false} info = {this.state.strs[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,i,3)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,i,3)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],3)} favs = {this.state.favorites}></StoreListing>
+                                        <StoreListing key = {this.state.strs[thing[0]].IDNumber}  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==3 && this.state.selectedAmmenity[1]==thing[0] ? true: false} info = {this.state.strs[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,thing[0],3)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,thing[0],3)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],3)} favs = {this.state.favorites}></StoreListing>
                                     )
                                     }else if(thing[1]==4){
                                          return(
-                                        <CsListing socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==4 && this.state.selectedAmmenity[1]==i ? true: false} info = {this.state.comsu[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,i,4)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,i,4)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],4)} favs = {this.state.favorites}></CsListing>
+                                        <CsListing key = {this.state.comsu[thing[0]].IDNumber}  socket = {this.socket} selected = {this.state.selectedAmmenity.length!=0 && this.state.selectedAmmenity[0]==4 && this.state.selectedAmmenity[1]==thing[0] ? true: false} info = {this.state.comsu[thing[0]]} canFavorite = {true} isFavorited = {true} groupSelect = {false} onClick = {(e) => this.handleListingClick(e,thing[0],4)} flag = {this.state.editingListings} icon = {deleteListing} deleteListing = {(e) => this.handleDeleteFavorite(e,thing[0],4)} inCity = {true} addFav = {(e) => this.addFavorite(e,thing[0],4)} favs = {this.state.favorites}></CsListing>
                                     )
                                     }
                                    

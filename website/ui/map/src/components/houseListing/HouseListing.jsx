@@ -34,6 +34,7 @@ class HouseListing extends React.Component{
         this.setState({canFavorite: nextProps.canFavorite})
         this.setState({f:nextProps.favs})
         
+        
     }
     updateEditingState(newState){
         this.setState({editingState:newState});
