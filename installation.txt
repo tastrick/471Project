@@ -1,0 +1,12 @@
+DEPENDENCIES:
+- node.js (https://nodejs.org/en)
+- npm (https://www.npmjs.com/)
+
+INSTALLING AND RUNNING:
+1) Open the terminal
+2) Go to the directory location of the project folder 
+3) Run "npm install" in ./website/server to install on necessary node modules
+4) Run "npm start" in ./website.server to run the server
+5) Run "npm install" in ./website/ui/map to install on necessary node modules
+6) Run "npm start" in ./website/ui/map to run the application
+7) After both the app and server are running, go to localhost:3000 on any browser to use the app if it doesn't automatically open
