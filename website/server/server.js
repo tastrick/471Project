@@ -77,9 +77,9 @@ io.on('connection',(socket)=>{
         });
     })
     socket.on ('deleteCity', (data) =>{
-        
-        let sql1 = 'DELETE FROM House WHERE House.cname = '+'\''+data+'\''
-        let sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM House NATURAL JOIN FavoritesCL AS a WHERE House.CName ='+'\''+data+'\') AS f)'
+        console.log("ATTEMPTING CITY DELETE", data)
+        let sql1 = 'DELETE FROM House WHERE House.cname = '+'\''+data.name+'\''
+        let sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM House NATURAL JOIN FavoritesCL AS a WHERE House.CName ='+'\''+data.name+'\') AS f)'
          con.query(sql4, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -98,8 +98,8 @@ io.on('connection',(socket)=>{
             console.log('successfully removed all houses in city')
              
         });
-         sql1 = 'DELETE FROM Job WHERE Job.cname = '+'\''+data+'\''
-          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM Job NATURAL JOIN FavoritesCL AS a WHERE Job.CName ='+'\''+data+'\') AS f)'
+         sql1 = 'DELETE FROM Job WHERE Job.cname = '+'\''+data.name+'\''
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM Job NATURAL JOIN FavoritesCL AS a WHERE Job.CName ='+'\''+data.name+'\') AS f)'
          con.query(sql4, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -115,7 +115,7 @@ io.on('connection',(socket)=>{
             console.log('successfully removed all Jobs in city')
              
         });
-          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM Store NATURAL JOIN FavoritesCL AS a WHERE Store.CName ='+'\''+data+'\') AS f)'
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM Store NATURAL JOIN FavoritesCL AS a WHERE Store.CName ='+'\''+data.name+'\') AS f)'
          con.query(sql4, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -124,7 +124,7 @@ io.on('connection',(socket)=>{
             
             
         });
-         sql1 = 'DELETE FROM Store WHERE Store.cname = '+'\''+data+'\''
+         sql1 = 'DELETE FROM Store WHERE Store.cname = '+'\''+data.name+'\''
          con.query(sql1, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -132,8 +132,8 @@ io.on('connection',(socket)=>{
             console.log('successfully removed all stores in city')
              
         });
-         sql1 = 'DELETE FROM School WHERE School.cname = '+'\''+data+'\''
-          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM School NATURAL JOIN FavoritesCL AS a WHERE School.CName ='+'\''+data+'\') AS f)'
+         sql1 = 'DELETE FROM School WHERE School.cname = '+'\''+data.name+'\''
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM School NATURAL JOIN FavoritesCL AS a WHERE School.CName ='+'\''+data.name+'\') AS f)'
          con.query(sql4, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -149,8 +149,8 @@ io.on('connection',(socket)=>{
             console.log('successfully removed all schools in city')
              
         });
-         sql1 = 'DELETE FROM CommunitySupport WHERE CommunitySupport.cname = '+'\''+data+'\''
-          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM CommunitySupport NATURAL JOIN FavoritesCL AS a WHERE CommunitySupport.CName ='+'\''+data+'\') AS f)'
+         sql1 = 'DELETE FROM CommunitySupport WHERE CommunitySupport.cname = '+'\''+data.name+'\''
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM CommunitySupport NATURAL JOIN FavoritesCL AS a WHERE CommunitySupport.CName ='+'\''+data.name+'\') AS f)'
          con.query(sql4, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -166,7 +166,7 @@ io.on('connection',(socket)=>{
             console.log('successfully removed all comsup in city')
              
         });
-        sql1 = 'DELETE FROM City WHERE City.name = '+'\''+data+'\''
+        sql1 = 'DELETE FROM City WHERE City.name = '+'\''+data.name+'\' AND City.Longitude ='+'\''+data.long+'\' AND City.Latitude = '+'\''+data.lat+'\''
         con.query(sql1, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -174,7 +174,7 @@ io.on('connection',(socket)=>{
             console.log('successfully removed city')
              
         });
-        sql1 = 'DELETE FROM GeneralLocation WHERE GeneralLocation.name = '+'\''+data+'\''
+        sql1 = 'DELETE FROM GeneralLocation WHERE GeneralLocation.name = '+'\''+data.name+'\' AND GeneralLocation.Longitude ='+'\''+data.long+'\' AND GeneralLocation.Latitude = '+'\''+data.lat+'\''
         con.query(sql1, (err,result) => {
             if (err) throw err;
             //console.log(result);

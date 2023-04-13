@@ -390,7 +390,9 @@ class InteractiveMap extends React.Component{
     }
      removeCity = (e,index) =>{
          console.log('wanting to delete:', this.state.displayedCities[index].Name)
-         this.socket.emit('deleteCity',this.state.displayedCities[index].Name);
+         
+         var tosent = {name:this.state.displayedCities[index].Name, long: this.state.displayedCities[index].Longitude, lat: this.state.displayedCities[index].Latitude}
+         this.socket.emit('deleteCity',tosent);
          this.socket.emit('getCities',this.state.selectedIndex)
          //this.socket.emit('getCities',this.state.selectedIndex);
          //this.socket.emit('getBounds',this.state.selectedIndex)
