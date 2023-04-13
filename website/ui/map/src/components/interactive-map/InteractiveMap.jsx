@@ -395,7 +395,7 @@ class InteractiveMap extends React.Component{
          //this.socket.emit('getCities',this.state.selectedIndex);
          //this.socket.emit('getBounds',this.state.selectedIndex)
          this.setState({hoverCityIndex:-1});
-        this.setState({selectedTopIndex:2});
+        this.setState({selectedTopIndex:0});
         this.setState({menuColapsed:false});
         this.setState({cityNums:[]});
         this.setState({cityPops:[]});
@@ -438,7 +438,7 @@ class InteractiveMap extends React.Component{
          this.socket.emit('getCities',this.state.selectedIndex);
          //this.socket.emit('getBounds',this.state.selectedIndex)
          this.setState({hoverCityIndex:-1});
-        this.setState({selectedTopIndex:2});
+        this.setState({selectedTopIndex:0});
         this.setState({menuColapsed:false});
         this.setState({cityNums:[]});
         this.setState({cityPops:[]});

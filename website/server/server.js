@@ -77,7 +77,20 @@ io.on('connection',(socket)=>{
         });
     })
     socket.on ('deleteCity', (data) =>{
+        
         let sql1 = 'DELETE FROM House WHERE House.cname = '+'\''+data+'\''
+        let sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM House NATURAL JOIN FavoritesCL AS a WHERE House.CName ='+'\''+data+'\') AS f)'
+         con.query(sql4, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log("RESULTS: ",result);
+            
+            
+        });
+       
+        //let sql1 = 'DELETE FavoritesCL , House  FROM House  INNER JOIN FavoritesCL WHERE House.IDNumber= FavoritesCL.IDNumber AND House.cname = '+'\''+data+'\''
+       
          con.query(sql1, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -86,12 +99,30 @@ io.on('connection',(socket)=>{
              
         });
          sql1 = 'DELETE FROM Job WHERE Job.cname = '+'\''+data+'\''
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM Job NATURAL JOIN FavoritesCL AS a WHERE Job.CName ='+'\''+data+'\') AS f)'
+         con.query(sql4, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log("RESULTS: ",result);
+            
+            
+        });
          con.query(sql1, (err,result) => {
             if (err) throw err;
             //console.log(result);
             //res.push(result);
             console.log('successfully removed all Jobs in city')
              
+        });
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM Store NATURAL JOIN FavoritesCL AS a WHERE Store.CName ='+'\''+data+'\') AS f)'
+         con.query(sql4, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log("RESULTS: ",result);
+            
+            
         });
          sql1 = 'DELETE FROM Store WHERE Store.cname = '+'\''+data+'\''
          con.query(sql1, (err,result) => {
@@ -102,6 +133,15 @@ io.on('connection',(socket)=>{
              
         });
          sql1 = 'DELETE FROM School WHERE School.cname = '+'\''+data+'\''
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM School NATURAL JOIN FavoritesCL AS a WHERE School.CName ='+'\''+data+'\') AS f)'
+         con.query(sql4, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log("RESULTS: ",result);
+            
+            
+        });
          con.query(sql1, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -110,6 +150,15 @@ io.on('connection',(socket)=>{
              
         });
          sql1 = 'DELETE FROM CommunitySupport WHERE CommunitySupport.cname = '+'\''+data+'\''
+          sql4 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber IN ( SELECT f.IDNumber FROM(SELECT a.IDNumber FROM CommunitySupport NATURAL JOIN FavoritesCL AS a WHERE CommunitySupport.CName ='+'\''+data+'\') AS f)'
+         con.query(sql4, (err,result) => {
+            if (err) throw err;
+            //console.log(result);
+            //res.push(result);
+            console.log("RESULTS: ",result);
+            
+            
+        });
          con.query(sql1, (err,result) => {
             if (err) throw err;
             //console.log(result);
@@ -342,6 +391,7 @@ io.on('connection',(socket)=>{
     socket.on('deleteAmmenity', (data) =>{
         let sql1 = '';
         let sql2 = '';
+        let sql3 = 'DELETE FROM FavoritesCL WHERE FavoritesCL.IDNumber = '+'\''+data.id+'\''
         if (data.ammenityType == 0){//house
             sql1 = 'DELETE FROM House WHERE House.idnumber = '+'\''+data.id+'\''
             
@@ -358,7 +408,12 @@ io.on('connection',(socket)=>{
             sql1 = 'DELETE FROM CommunitySupport WHERE CommunitySupport.idnumber = '+'\''+data.id+'\''
         }
          sql2 = 'DELETE FROM CityLocation WHERE CityLocation.idnumber = ' +'\''+data.id+'\''
-        
+         con.query(sql3, (err,result) => {
+            if (err) throw err;
+            console.log("successful city location delete: ",result);
+            //console.log('sending back info: ',res)
+            //socket.emit('sendingCityNums', res)
+        });
         con.query(sql1, (err,result) => {
             if (err) throw err;
             console.log("successful delete query: ",result);
@@ -371,6 +426,7 @@ io.on('connection',(socket)=>{
             //console.log('sending back info: ',res)
             //socket.emit('sendingCityNums', res)
         });
+        
     })
     socket.on('getCities', (data) =>{
         let strProv = provs[data];
