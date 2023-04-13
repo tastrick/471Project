@@ -96,9 +96,7 @@ class LogIn extends React.Component {
                                 <a className="sign-up-container" href="#" onClick={this.toggleSignUp}>
                                     {!this.state.signUp ? "Sign Up" : "Log In"}
                                 </a>
-                                <a className="forgot-container" href="#" onClick={this.handleForgotPassword}>
-                                    Forgot password ?
-                                </a>
+                                
                             </div>
                             <div className="button-container">
                                 <div className="enter-container">
