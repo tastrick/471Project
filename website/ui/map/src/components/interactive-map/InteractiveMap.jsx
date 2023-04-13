@@ -423,6 +423,13 @@ class InteractiveMap extends React.Component{
             this.setState({editCity:true});
         }
     }
+    getAllCityTrigger = (e) =>{
+        console.log("inside trigger")
+        this.socket.emit('getCities',this.state.selectedIndex);
+         this.setState({menuColapsed:false});
+        this.setState({cityNums:[]});
+        this.setState({cityPops:[]});
+    }
     handleAddingCity = (info) =>{
        
         var tosend = {
