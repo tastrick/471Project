@@ -55,10 +55,11 @@ class CsListing extends React.Component{
                  <div className = 'csicon-container' title = 'offerings'>
                  <img src = {offering}></img>
                  </div>
-                 <div className = 'offered-container' title = 'offerings'>
+                 <div className = 'coffered-container' title = 'offerings'>
                  {this.state.info.Offering}
                  </div>
                  </div>
+                 <div className = 'temp'></div>
             </div>
         )
     }

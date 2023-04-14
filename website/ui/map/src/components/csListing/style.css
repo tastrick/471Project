@@ -18,7 +18,7 @@
     margin-top: 5px;
     background:lightgrey;
     border-radius:10px;
-    overflow:hidden;
+   overflow:hidden;
     
 }
 
@@ -36,31 +36,22 @@
 .cslisting-header{
     position:relative;
     width:calc(100% - 40px);
-    height:auto;
+    height:100%;
     background:transparent;
     display:flex;
     
 }
 .cslisting-body{
     position:relative;
-    height:50px;
+   height:100%;
     width:100%;
     background:transparent;
     top:10px;
     display:flex;
+  
 }
 
-.offered-container{
-    position:relative;
-    width:100%;
-    height:40px;
-    left:15px;
-    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
-    text-transform:Capitalize;
-    font-size:12px;
-    font-weight:normal;
-    top:11px;
-}
+
 .csicon-container{
     position:relative;
     width:20px;
@@ -68,4 +59,22 @@
     background:transparent;
     top:5px;
     left:10px;
+}
+.coffered-container{
+    position:relative;
+    width:calc(100% - 40px);
+    height:auto;
+    background:transparent;
+    left:15px;
+    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    text-transform:Capitalize;
+    font-size:12px;
+    font-weight:normal;
+    top:11px;
+    
+   
+}
+.temp{
+    position:relative;
+    height:30px;
 }
