@@ -181,6 +181,13 @@ background:transparent;
  overflow-y:scroll;
  top:5px
 }
+.call-menu-contents{
+position:relative;
+height:calc(100% - 92px);
+background:transparent;
+ overflow-y:scroll;
+ top:5px
+}
 .side-menu-header{
     position:relative;
     width:100%;
