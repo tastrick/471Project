@@ -57,10 +57,11 @@
 
 .jfavorite-container{
     position:relative;
-    width:15px;
-    height:15px;
+    width:20px;
+    height:20px;
     left: 2px;
-    transition:filter 0.2s;
+    transition:filter 0.1s;
+    background:transparent;
 }
 
 .jfavorite-container:hover{
@@ -68,8 +69,8 @@
 }
 .jfavorited-container{
     position:relative;
-    width:15px;
-    height:15px;
+    width:20px;
+    height:20px;
     left: 2px;
     filter:brightness(0.8) invert(.7) sepia(.9) hue-rotate(-50deg) saturate(2000%); 
 }
@@ -77,8 +78,8 @@
 
 .jcantfavorite-container{
     position:relative;
-    width:15px;
-    height:15px;
+    width:20px;
+    height:20px;
     left: 2px;
     filter:invert(50%);
 }
