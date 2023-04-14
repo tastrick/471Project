@@ -52,7 +52,7 @@ class HouseListing extends React.Component{
                 </div>
                 <div className = 'total-header-container'>
                 <div className = "storelisting-header" >
-                    <a href = {this.state.info.Link} className = 'type-container' >
+                    <a href = {this.state.info.Link} target="_blank" className = 'type-container' >
                         {this.state.info.HouseType}
                     </a>
                      <div className = 'hprice-container'>${this.state.info.Rent}</div>

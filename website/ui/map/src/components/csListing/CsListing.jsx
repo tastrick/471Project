@@ -43,7 +43,7 @@ class CsListing extends React.Component{
                 </div>
              <div className = 'total-header-container'>
                 <div className = "cslisting-header" >
-                    <a href = {this.state.info.Link} className = 'type-container' >
+                    <a href = {this.state.info.Link} target="_blank" className = 'type-container' >
                         {this.state.info.Organizers}
                     </a>
                 </div>
