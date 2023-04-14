@@ -169,7 +169,7 @@ img{
 .info-container{
     position:relative;
     height:20px;
-    width:50px;
+    width:60px;
     top:-20px;
     left:40px;
     background:transparent;
@@ -177,7 +177,7 @@ img{
 .square-footage-container{
     position:relative;
     height:20px;
-    width:30%;
+    width:calc(30% + 10px);
     left:64%;
     top:-45px;
     background:transparent;
